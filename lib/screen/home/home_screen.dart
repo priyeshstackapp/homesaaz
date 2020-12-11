@@ -30,7 +30,7 @@ class HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         backgroundColor: ColorRes.primaryColor,
         actions: [
-          Image.asset(App.userIcon),
+          InkWell(child: Image.asset(App.userIcon)),
           Image.asset(App.cartIcon),
         ],
       ),
@@ -40,7 +40,13 @@ class HomeScreenState extends State<HomeScreen> {
           width: MediaQuery.of(context).size.width/1.5,
         ),
       ),
-      body: Container(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+
+          ],
+        ),
+      ),
     );
   }
 }
