@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///E:/Priyesh/HomeSaaz/homesaaz/lib/app.dart';
+import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/common_route.dart';
 
 class SplashScreen extends StatefulWidget {
