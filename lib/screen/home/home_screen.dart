@@ -42,12 +42,14 @@ class HomeScreenState extends State<HomeScreen> {
       drawer: SafeArea(
         child: Container(
           color: ColorRes.primaryColor,
-          width: MediaQuery.of(context).size.width / 1.5,
+         // width: MediaQuery.of(context).size.width / 1.5,
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 5),
+
             search(),
             SizedBox(height: 20),
 
@@ -56,6 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 14),
 
             categories(),
+            SizedBox(height: 25),
 
             //New Products
             newTrendingAndFeaturedProducts(context, App.newProductsName, model, 1),
@@ -152,9 +155,19 @@ class HomeScreenState extends State<HomeScreen> {
             itemBuilder: (BuildContext context, int index) {
               return Stack(
                 children: [
-                  Card(
-                    elevation: 5,
-                    shadowColor: Colors.white,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFFFFFF),
+                      borderRadius: BorderRadius.circular(5.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 5.5,
+                          spreadRadius: 1.5,
+                          offset: Offset(4.4, 9.0),
+                        ),
+                      ],
+                    ),
                     child: Image.asset(model.categoriesImage[index],
                         fit: BoxFit.cover),
                   ),
@@ -176,9 +189,7 @@ class HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        SizedBox(height: 25),
       ],
     );
   }
-
 }

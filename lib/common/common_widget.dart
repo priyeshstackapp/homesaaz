@@ -103,10 +103,10 @@ class CustomTextFieldShadow extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            blurRadius: 2.5,
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 5.5,
             spreadRadius: 1.5,
-            offset: Offset(0.0, 0.0),
+            offset: Offset(0.0, 9.0),
           ),
         ],
       ),
@@ -315,11 +315,7 @@ productNameShow(HomeScreenViewModel model, int i, int index) {
 
 //Top,Center,Bottom Banner
 Widget bannerShow(String images){
-  return Stack(
-    children: [
-      Image.asset(images),
-    ],
-  );
+  return Image.asset(images);
 }
 
 

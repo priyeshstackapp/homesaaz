@@ -9,4 +9,5 @@ class ColorRes {
   static Color textColor                        = Color(0xFF000000);
   static Color charcoal                         = Color(0xFF434343);
   static Color yellow                           = Color(0xFFFFDD00);
+  static Color whisper                          = Color(0xFFE4E4E4);
 }
