@@ -57,6 +57,7 @@ Widget backButton(context) {
     onTap: () => Navigator.pop(context),
     child: Image.asset(
       App.backIcon,
+      color: ColorRes.redColor,
     ),
   );
 }
@@ -143,179 +144,56 @@ class CustomTextFieldShadow extends StatelessWidget {
   }
 }
 
-
-//================================Home Screen Products Details=======================================
-Widget newTrendingAndFeaturedProducts(context,String title, HomeScreenViewModel model, int i){
-  Size media = MediaQuery.of(context).size;
-  double width = media.width;
-  double height = media.height;
+Widget productView(String imageUrl,String productName,String oldPrice,String newPrice){
   return Column(
-    children: [
-      //All Products Title
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              title,
-              style: new TextStyle(
-                  fontSize: 20,
+    children: <Widget>[
+      Image.asset(
+        imageUrl,
+        fit: BoxFit.cover,
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '$newPrice',
+                style: new TextStyle(
+                  fontSize: 15,
                   color: ColorRes.charcoal,
                   fontFamily: 'NeueFrutigerWorld',
-                  fontWeight: FontWeight.w400),
-            ),
-          ),
-          InkWell(
-            onTap: (){
-              gotoSeeAllScreen(context, title);
-            },
-            child: Container(
-              padding: EdgeInsets.only(right: 20),
-              child: Text(
-                "See all",
-                style: new TextStyle(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '$oldPrice',
+                  style: TextStyle(
                     fontSize: 14,
                     color: ColorRes.charcoal,
                     fontFamily: 'NeueFrutigerWorld',
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w200,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
               ),
+            ],
+          ),
+          Text(
+            productName,
+            style: new TextStyle(
+              color: ColorRes.charcoal,
+              fontFamily: 'NeueFrutigerWorld',
+              fontWeight: FontWeight.w400,
             ),
+            maxLines: 2,
           ),
         ],
-      ),
-      SizedBox(height: 18),
-
-      //All Products Images, price and product name
-      Container(
-        padding: EdgeInsets.only(left: 25),
-        color: ColorRes.primaryColor,
-        height: height*0.4,
-        child: ListView.builder(
-            itemCount: countShow(model, i),
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: Column(
-                  children: <Widget>[
-                    Image.asset(
-                      imageShow(model ,i,index),
-                      fit: BoxFit.cover,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              productNameAfterShow(model ,i,index),
-                              style: new TextStyle(
-                                fontSize: 15,
-                                color: ColorRes.charcoal,
-                                fontFamily: 'NeueFrutigerWorld',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                productNameBeforeShow(model ,i,index),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: ColorRes.charcoal,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: FontWeight.w200,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding:EdgeInsets.only(right:width*0.16),
-                          child: Text(
-                          productNameShow(model ,i,index),
-                            style: new TextStyle(
-                              color: ColorRes.charcoal,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            maxLines: 2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            }),
       ),
     ],
   );
 }
-
-//All product show length in List view
-countShow(HomeScreenViewModel model, int i) {
-  if(i == 1) {
-    return model.newProductName.length;
-  } else if(i == 2) {
-    return model.trendingProductsName.length;
-  }else if(i == 3){
-    return model.featuredProductsName.length;
-  }
-}
-
-//All product Images
-imageShow(HomeScreenViewModel model, int i ,int index) {
-  if(i == 1) {
-    return model.newProductName[index].productUrl;
-  } else if(i == 2) {
-    return model.trendingProductsName[index].productUrl;
-  }else if(i == 3){
-    return model.featuredProductsName[index].productUrl;
-  }
-}
-
-//All product after prices
-productNameAfterShow(HomeScreenViewModel model, int i ,int index) {
-  if(i == 1) {
-    return model.newProductName[index].productPriceAfter;
-  } else if(i == 2) {
-    return model.trendingProductsName[index].productPriceAfter;
-  }else if(i == 3){
-    return  model.featuredProductsName[index].productPriceAfter;
-  }
-}
-
-//All product before prices
-productNameBeforeShow(HomeScreenViewModel model, int i, int index) {
-  if(i == 1) {
-    return model.newProductName[index].productPriceBefore;
-  } else if(i == 2) {
-    return model.trendingProductsName[index].productPriceBefore;
-  }else if(i == 3){
-    return  model.featuredProductsName[index].productPriceBefore;
-  }
-}
-
-//All product name
-productNameShow(HomeScreenViewModel model, int i, int index) {
-  if(i == 1) {
-    return model.newProductName[index].productName;
-  } else if(i == 2) {
-    return model.trendingProductsName[index].productName;
-  }else if(i == 3){
-    return  model.featuredProductsName[index].productName;
-  }
-}
-
-//Top,Center,Bottom Banner
-Widget bannerShow(String images){
-  return Image.asset(images);
-}
-
 
 
 
