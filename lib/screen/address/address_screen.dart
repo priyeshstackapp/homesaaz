@@ -1,4 +1,4 @@
-import 'package:dotted_border/dotted_border.dart';
+// import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -185,33 +185,33 @@ class AddressScreenState extends State<AddressScreen> {
             //mainAxisAlignment: MainAxisAlignment.end,
             //crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              InkWell(
-                onTap: () {
-                  gotoCreateAddressScreen(context);
-                },
-                child: DottedBorder(
-                  color: ColorRes.red,
-                  dashPattern: [4, 4],
-                  strokeWidth: 1,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: height * 0.07,
-                    width: width * 0.9,
-                    decoration: BoxDecoration(
-                      color: ColorRes.whiteColor,
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(
-                      '+ Add Address',
-                      style: new TextStyle(
-                          fontSize: 20,
-                          color: ColorRes.textColor,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     gotoCreateAddressScreen(context);
+              //   },
+              //   child: DottedBorder(
+              //     color: ColorRes.red,
+              //     dashPattern: [4, 4],
+              //     strokeWidth: 1,
+              //     child: Container(
+              //       alignment: Alignment.center,
+              //       height: height * 0.07,
+              //       width: width * 0.9,
+              //       decoration: BoxDecoration(
+              //         color: ColorRes.whiteColor,
+              //         borderRadius: BorderRadius.circular(5.0),
+              //       ),
+              //       child: Text(
+              //         '+ Add Address',
+              //         style: new TextStyle(
+              //             fontSize: 20,
+              //             color: ColorRes.textColor,
+              //             fontFamily: 'NeueFrutigerWorld',
+              //             fontWeight: FontWeight.w500),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 10),
               InkWell(
                 onTap: () {},
@@ -220,7 +220,7 @@ class AddressScreenState extends State<AddressScreen> {
                   height: height * 0.07,
                   width: width * 0.92,
                   decoration: BoxDecoration(
-                    color: ColorRes.red,
+                    color: ColorRes.redColor,
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   child: Text(
@@ -264,7 +264,7 @@ class AddressScreenState extends State<AddressScreen> {
                 ),
                 isSelectedIndex == index
                     ? Icon(Icons.radio_button_on_outlined,
-                        color: ColorRes.red, size: 20)
+                        color: ColorRes.redColor, size: 20)
                     : Icon(Icons.radio_button_off,
                         color: ColorRes.dimGray, size: 20),
               ],

@@ -14,7 +14,11 @@ class Utils{
   }
 
   //common image style and this use only image name in all screen
-  static getAssetsHomeImg(String name) {
+  static homeImg(String name) {
     return "assets/image/home_ui/" + name + ".png";
+  }
+
+  static assetImage(String name) {
+    return "assets/image/" + name + ".png";
   }
 }

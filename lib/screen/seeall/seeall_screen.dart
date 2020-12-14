@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen_view_model.dart';
@@ -53,9 +54,14 @@ class SeeAllScreenState extends State<SeeAllScreen> {
               itemBuilder: (context, index) {
                 HomeScreenModel product = model.newProductName[index];
 
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal:20,vertical: 10),
-                  child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                return GestureDetector(
+                  onTap: (){
+                    gotoProductDetailScreen(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal:20,vertical: 10),
+                    child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                  ),
                 );
               },
             )

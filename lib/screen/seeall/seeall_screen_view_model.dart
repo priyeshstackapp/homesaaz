@@ -18,55 +18,55 @@ class SeeAllScreenViewModel{
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Product name",
-      productUrl:Utils.getAssetsHomeImg('product_name_first'),
+      productUrl:Utils.homeImg('product_name_first'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Product name",
-      productUrl:Utils.getAssetsHomeImg('product_name_second'),
+      productUrl:Utils.homeImg('product_name_second'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Woman T-Shirt",
-      productUrl:Utils.getAssetsHomeImg('product_name_third'),
+      productUrl:Utils.homeImg('product_name_third'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Product name",
-      productUrl:Utils.getAssetsHomeImg('product_name_first'),
+      productUrl:Utils.homeImg('product_name_first'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Product name",
-      productUrl:Utils.getAssetsHomeImg('product_name_second'),
+      productUrl:Utils.homeImg('product_name_second'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Woman T-Shirt",
-      productUrl:Utils.getAssetsHomeImg('product_name_third'),
+      productUrl:Utils.homeImg('product_name_third'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Product name",
-      productUrl:Utils.getAssetsHomeImg('product_name_first'),
+      productUrl:Utils.homeImg('product_name_first'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Product name",
-      productUrl:Utils.getAssetsHomeImg('product_name_second'),
+      productUrl:Utils.homeImg('product_name_second'),
     ),);
     newProductName.add(HomeScreenModel(
       productPriceAfter: "\$305",
       productPriceBefore: "\$455",
       productName: "Woman T-Shirt",
-      productUrl:Utils.getAssetsHomeImg('product_name_third'),
+      productUrl:Utils.homeImg('product_name_third'),
     ),);
   }
 

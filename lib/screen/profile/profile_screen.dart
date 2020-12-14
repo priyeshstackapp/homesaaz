@@ -188,7 +188,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
                fontSize: 15,
-               color: ColorRes.gray57,
+               color: ColorRes.dimGray,
              ),
            ),
            Padding(
@@ -222,7 +222,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
                fontSize: 15,
-               color: ColorRes.gray57,
+               color: ColorRes.dimGray,
              ),
            ),
            Padding(
@@ -256,7 +256,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
                fontSize: 15,
-               color: ColorRes.gray57,
+               color: ColorRes.dimGray,
              ),
            ),
            Padding(
@@ -290,7 +290,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
                fontSize: 15,
-               color: ColorRes.gray57,
+               color: ColorRes.dimGray,
              ),
            ),
            Padding(
@@ -324,7 +324,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
                fontSize: 15,
-               color: ColorRes.gray57,
+               color: ColorRes.dimGray,
              ),
            ),
            Padding(
@@ -358,7 +358,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
                fontSize: 15,
-               color: ColorRes.gray57,
+               color: ColorRes.dimGray,
              ),
            ),
            Padding(
@@ -396,7 +396,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                style: TextStyle(
                  fontFamily: 'NeueFrutigerWorld',
                  fontSize: 15,
-                 color: ColorRes.gray57,
+                 color: ColorRes.dimGray,
                ),
              ),
            ),

@@ -213,9 +213,14 @@ class HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     HomeScreenModel product = model.newProductName[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                    return GestureDetector(
+                      onTap: (){
+                        gotoProductDetailScreen(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                      ),
                     );
                   }),
             ),
@@ -268,9 +273,14 @@ class HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     HomeScreenModel product = model.trendingProductsName[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                    return GestureDetector(
+                      onTap: (){
+                        gotoProductDetailScreen(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                      ),
                     );
                   }),
             ),
@@ -323,9 +333,14 @@ class HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     HomeScreenModel product = model.featuredProductsName[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                    return GestureDetector(
+                      onTap: (){
+                        gotoProductDetailScreen(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                      ),
                     );
                   }),
             ),

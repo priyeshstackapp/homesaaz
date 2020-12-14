@@ -190,7 +190,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               style: TextStyle(
                 fontFamily: 'NeueFrutigerWorld',
                 fontSize: 15,
-                color: ColorRes.gray57,
+                color: ColorRes.dimGray,
               ),
             ),
             Padding(
@@ -224,7 +224,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               style: TextStyle(
                 fontFamily: 'NeueFrutigerWorld',
                 fontSize: 15,
-                color: ColorRes.gray57,
+                color: ColorRes.dimGray,
               ),
             ),
             Padding(
@@ -258,7 +258,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               style: TextStyle(
                 fontFamily: 'NeueFrutigerWorld',
                 fontSize: 15,
-                color: ColorRes.gray57,
+                color: ColorRes.dimGray,
               ),
             ),
             Padding(
@@ -292,7 +292,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               style: TextStyle(
                 fontFamily: 'NeueFrutigerWorld',
                 fontSize: 15,
-                color: ColorRes.gray57,
+                color: ColorRes.dimGray,
               ),
             ),
             Padding(
@@ -328,7 +328,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               style: TextStyle(
                 fontFamily: 'NeueFrutigerWorld',
                 fontSize: 15,
-                color: ColorRes.gray57,
+                color: ColorRes.dimGray,
               ),
             ),
             Padding(
