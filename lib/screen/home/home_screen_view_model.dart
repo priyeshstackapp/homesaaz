@@ -17,6 +17,8 @@ class HomeScreenViewModel {
     featuredProductsData();
   }
 
+  List<String> categoriesNamew = ['Furniture', 'kitchen', 'Bath & Laundry', 'Furnishing', 'Furnishing', 'Decor',];
+
   //Categories Images
   List<String> categoriesImage = [Utils.getAssetsHomeImg('cat1'), Utils.getAssetsHomeImg('cat2'), Utils.getAssetsHomeImg('cat3'), Utils.getAssetsHomeImg('cat4'), Utils.getAssetsHomeImg('cat5'), Utils.getAssetsHomeImg('cat6'),];
 
