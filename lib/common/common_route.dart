@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:homesaaz/screen/address/address_screen.dart';
+import 'package:homesaaz/screen/create_address/create_address_screen.dart';
 import 'package:homesaaz/screen/forgot/forgot_password_screen.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
+import 'package:homesaaz/screen/profile/profile_screen.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
 
@@ -55,4 +58,16 @@ replaceWithSeeAllScreen(context,title) {
 gotoSeeAllScreen(context,title) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => SeeAllScreen(title)));
+}
+gotoProfileScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+}
+gotoAddressScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => AddressScreen()));
+}
+gotoCreateAddressScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => CreateAddressScreen()));
 }

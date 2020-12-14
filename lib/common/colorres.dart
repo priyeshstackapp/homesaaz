@@ -11,4 +11,6 @@ class ColorRes {
   static Color yellow                           = Color(0xFFFFDD00);
   static Color whisper                          = Color(0xFFE4E4E4);
   static Color dimGray                          = Color(0xFF696969);
+  static Color gray57                           = Color(0xFF919191);
+  static Color red                              = Color(0xFFA41F19);
 }

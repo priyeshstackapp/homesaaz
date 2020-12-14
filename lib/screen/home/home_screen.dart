@@ -4,7 +4,6 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
-import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 
@@ -54,6 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
+
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
@@ -67,6 +67,9 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     InkWell(
+                      onTap: (){
+                        gotoProfileScreen(context);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
