@@ -261,22 +261,22 @@ Widget newTrendingAndFeaturedProducts(context,String title, HomeScreenViewModel 
 //All product show length in List view
 countShow(HomeScreenViewModel model, int i) {
   if(i == 1) {
-    return model.newProductImage.length;
+    return model.newProductName.length;
   } else if(i == 2) {
-    return model.trendingProductsImage.length;
+    return model.trendingProductsName.length;
   }else if(i == 3){
-    return model.featuredProductsImage.length;
+    return model.featuredProductsName.length;
   }
 }
 
 //All product Images
 imageShow(HomeScreenViewModel model, int i ,int index) {
   if(i == 1) {
-    return model.newProductImage[index];
+    return model.newProductName[index].productUrl;
   } else if(i == 2) {
-    return model.trendingProductsImage[index];
+    return model.trendingProductsName[index].productUrl;
   }else if(i == 3){
-    return model.featuredProductsImage[index];
+    return model.featuredProductsName[index].productUrl;
   }
 }
 
