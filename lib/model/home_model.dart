@@ -10,5 +10,4 @@ class HomeScreenModel {
   String productPriceAfter;
   String productName;
   String productUrl;
-
 }

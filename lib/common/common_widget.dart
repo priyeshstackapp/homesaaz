@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 
 Widget gradientButton(context, {String title, bool isLoading}) {
@@ -154,25 +155,22 @@ Widget newTrendingAndFeaturedProducts(context,String title, HomeScreenViewModel 
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(left: 25),
-              child: Text(
-                title,
-                style: new TextStyle(
-                    fontSize: 20,
-                    color: ColorRes.charcoal,
-                    fontFamily: 'NeueFrutigerWorld',
-                    fontWeight: FontWeight.w400),
-              ),
+          Container(
+            padding: EdgeInsets.only(left: 25),
+            child: Text(
+              title,
+              style: new TextStyle(
+                  fontSize: 20,
+                  color: ColorRes.charcoal,
+                  fontFamily: 'NeueFrutigerWorld',
+                  fontWeight: FontWeight.w400),
             ),
           ),
-          Expanded(
-            flex: 1,
+          InkWell(
+            onTap: (){
+              gotoSeeAllScreen(context, title);
+            },
             child: Container(
-              alignment: Alignment.topRight,
               padding: EdgeInsets.only(right: 20),
               child: Text(
                 "See all",

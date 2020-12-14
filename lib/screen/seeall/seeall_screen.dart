@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import 'package:homesaaz/app.dart';
+import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/model/home_model.dart';
+import 'package:homesaaz/screen/seeall/seeall_screen_view_model.dart';
+
+class SeeAllScreen extends StatefulWidget {
+  final String title;
+
+  SeeAllScreen(this.title);
+
+  @override
+  SeeAllScreenState createState() => SeeAllScreenState();
+}
+
+class SeeAllScreenState extends State<SeeAllScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  SeeAllScreenViewModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    print("Current page --> $runtimeType");
+    model ?? (model = SeeAllScreenViewModel(this));
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+          child: Image.asset(
+            App.backIcon,
+            color: ColorRes.redColor,
+          ),
+          onTap: () => Navigator.pop(context),
+        ),
+        elevation: 0,
+        backgroundColor: ColorRes.primaryColor,
+        actions: [
+          InkWell(child: Image.asset(App.userIcon)),
+          Image.asset(App.cartIcon),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Text(
+                widget.title,
+                style: TextStyle(fontSize: 32, color: ColorRes.textColor),
+              ),
+            ),
+            GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 0.8),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: model.newProductName.length,
+              itemBuilder: (context, index) {
+                HomeScreenModel product = model.newProductName[index];
+
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal:20,vertical: 10),
+                  child: Column(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          product.productUrl,
+                          fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width/2,
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                product.productPriceAfter,
+                                style: new TextStyle(
+                                  fontSize: 15,
+                                  color: ColorRes.charcoal,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  product.productPriceBefore,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: ColorRes.charcoal,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w200,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            product.productName,
+                            style: new TextStyle(
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w400,
+                            ),
+                            maxLines: 2,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
