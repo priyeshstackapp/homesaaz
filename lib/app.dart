@@ -32,6 +32,7 @@ class App{
   static const userIcon                        = rootIcon +'userIcon.png';
   static const menuIcon                        = rootIcon +'menuIcon.png';
   static const searchIcon                      = rootIcon +'searchIcon.png';
+  static const cencelIcon                      = rootIcon +'Cencel.png';
 
   static const splashImage                     = rootImage +'splash.png';
   static const appNameImage                    = rootImage +'appNameLogo.png';
