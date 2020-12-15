@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/screen/address/address_screen.dart';
+import 'package:homesaaz/screen/confirmation/confirmation_screen.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
 import 'package:homesaaz/screen/detail/product_detail.dart';
 import 'package:homesaaz/screen/forgot/forgot_password_screen.dart';
@@ -81,4 +82,8 @@ gotoAddressScreen(context) {
 gotoCreateAddressScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => CreateAddressScreen()));
+}
+gotoConfirmationScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => ConfirmationScreen()));
 }

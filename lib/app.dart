@@ -52,4 +52,5 @@ class App {
   static const product_name_third = HomeImage + 'product_name_third.png';
   static const trending_product_first = HomeImage + 'trending_product_first.png';
   static const trending_product_second = HomeImage + 'trending_product_second.png';
+  static const confirmation = HomeImage + 'confirmation.png';
 }
