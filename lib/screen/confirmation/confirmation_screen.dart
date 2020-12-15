@@ -60,7 +60,7 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
               padding: EdgeInsets.only(left: height * 0.1, right: height * 0.1),
               child: Image.asset(App.confirmation),
             ),
-            SizedBox(height: 25),
+            SizedBox(height: 30),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +68,7 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
                 Text(
                   'Confirmation',
                   style: new TextStyle(
-                      fontSize: 20,
+                      fontSize: 24,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                       fontWeight: FontWeight.w400),
@@ -78,7 +78,8 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
                   'You have successfully\ncompleted your payment procedure',
                   textAlign: TextAlign.center,
                   style: new TextStyle(
-                      fontSize: 10,
+                      fontSize: 12,
+                      height: 1.5,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                       fontWeight: FontWeight.w400),
