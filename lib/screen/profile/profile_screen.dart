@@ -22,152 +22,159 @@ class ProfileScreenState extends State<ProfileScreen> {
     double height = media.height;
     print("Current page --> $runtimeType");
     model ?? (model = ProfileScreenViewModel(this));
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: ColorRes.primaryColor,
-      appBar: AppBar(
-        leading: InkWell(
-          child: Image.asset(App.backArrow),
-          onTap: () => scaffoldKey.currentState.openDrawer(),
-        ),
-        elevation: 0,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return true;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
         backgroundColor: ColorRes.primaryColor,
-        actions: [
-          InkWell(child: Image.asset(App.userIcon)),
-          Image.asset(App.cartIcon),
-        ],
-      ),
-      drawer: Scaffold(
-        backgroundColor: ColorRes.whisper,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: height * 0.8,
-                width: width * width,
-                color: ColorRes.primaryColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Home",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+        appBar: AppBar(
+          leading: InkWell(
+            child: Image.asset(App.backArrow),
+            onTap: () => Navigator.pop(context),
+
+          ),
+          elevation: 0,
+          backgroundColor: ColorRes.primaryColor,
+          actions: [
+            InkWell(child: Image.asset(App.userIcon)),
+            Image.asset(App.cartIcon),
+          ],
+        ),
+        drawer: Scaffold(
+          backgroundColor: ColorRes.whisper,
+          body: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  height: height * 0.8,
+                  width: width * width,
+                  color: ColorRes.primaryColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Home",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        //        gotoSeeAllScreen(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Profile",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        onTap: () {
+                          gotoProfileScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Profile",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "My Cart",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "My Cart",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Favorite",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Favorite",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "My Orders",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "My Orders",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Help",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Help",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: width * 0.08, right: width * 0.1),
-                alignment: Alignment.bottomRight,
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Image.asset(
-                    App.cencelIcon,
-                    //color: Colors.black,
-                    height: 30,
-                    width: 30,
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Container(
+                  margin: EdgeInsets.only(top: width * 0.08, right: width * 0.1),
+                  alignment: Alignment.bottomRight,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Image.asset(
+                      App.cencelIcon,
+                      //color: Colors.black,
+                      height: 30,
+                      width: 30,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-              Text(
-                "Profile",
-                style: new TextStyle(
-                  fontSize: 22,
-                  color: ColorRes.charcoal,
-                  fontFamily: 'NeueFrutigerWorld',
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10),
+                Text(
+                  "Profile",
+                  style: new TextStyle(
+                    fontSize: 22,
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
-              profileDetails(),
-            ],
+                SizedBox(height: 30),
+                profileDetails(),
+              ],
+            ),
           ),
         ),
       ),

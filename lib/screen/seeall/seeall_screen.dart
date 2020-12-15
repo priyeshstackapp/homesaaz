@@ -47,7 +47,8 @@ class SeeAllScreenState extends State<SeeAllScreen> {
               ),
             ),
             GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 0.8),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 0.75),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: model.newProductName.length,
@@ -55,12 +56,14 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                 HomeScreenModel product = model.newProductName[index];
 
                 return GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     gotoProductDetailScreen(context);
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal:20,vertical: 10),
-                    child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: productView(product.productUrl, product.productName,
+                        product.productPriceBefore, product.productPriceAfter),
                   ),
                 );
               },
