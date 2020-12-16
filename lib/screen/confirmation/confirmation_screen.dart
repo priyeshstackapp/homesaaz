@@ -30,7 +30,6 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
         bottomNavigationBar: InkWell(
           onTap: () async {
             gotoHomeScreen(context);
-
           },
           child: Container(
             margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
@@ -44,7 +43,7 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
             child: Text(
               'Back to Home',
               style: new TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   color: Colors.white,
                   fontFamily: 'NeueFrutigerWorld',
                   fontWeight: FontWeight.w500),
@@ -68,7 +67,7 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
                 Text(
                   'Confirmation',
                   style: new TextStyle(
-                      fontSize: 24,
+                      fontSize: 30,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                       fontWeight: FontWeight.w400),
@@ -78,7 +77,7 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
                   'You have successfully\ncompleted your payment procedure',
                   textAlign: TextAlign.center,
                   style: new TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       height: 1.5,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',

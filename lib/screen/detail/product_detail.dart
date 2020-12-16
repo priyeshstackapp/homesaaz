@@ -14,7 +14,7 @@ class ProductDetailScreen extends StatefulWidget {
 class ProductDetailScreenState extends State<ProductDetailScreen> {
   ProductDetailViewModel model;
   CarouselController carouselController = CarouselController();
-
+  int quantity =1;
   int _current = 0;
   int _currentColor = 0;
 
@@ -25,6 +25,9 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size media = MediaQuery.of(context).size;
+    double width = media.width;
+    double height = media.height;
     print("Current page --> $runtimeType");
     model ?? (model = ProductDetailViewModel(this));
 
@@ -38,86 +41,83 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: backButton(context),
-        elevation: 0,
-        backgroundColor: ColorRes.primaryColor,
-        actions: [
-          InkWell(child: Image.asset(App.userIcon)),
-          Image.asset(App.cartIcon),
-        ],
-      ),
+      appBar: commonAppbar(context),
+
       body: SafeArea(
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
             SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+
                 height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Stack(
-                        alignment: Alignment.centerLeft,
-                        children: [
-                          CarouselSlider.builder(
-                            itemCount: model.product.productUrl.length,
-                            carouselController: carouselController,
-                            itemBuilder: (BuildContext context, int itemIndex) =>
-                                Container(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 5),
-                                child: Image.asset(
-                                  model.product.productUrl[itemIndex],
-                                  fit: BoxFit.cover,
-                                  width: MediaQuery.of(context).size.width,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            CarouselSlider.builder(
+                              itemCount: model.product.productUrl.length,
+                              carouselController: carouselController,
+                              itemBuilder: (BuildContext context, int itemIndex) =>
+                                  Container(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Image.asset(
+                                    model.product.productUrl[itemIndex],
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                ),
+                              ),
+                              options: CarouselOptions(
+                                autoPlay: false,
+                                viewportFraction: 1.0,
+                                enlargeCenterPage: false,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20, bottom: 5),
+                                child: Container(
+                                  height: 20,
+                                  child: ListView.builder(
+                                    itemCount: model.product.productUrl.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        width: 6,
+                                        height: 6,
+                                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: _current == index
+                                              ? ColorRes.redColor
+                                              : ColorRes.whiteColor,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                            options: CarouselOptions(
-                              autoPlay: false,
-                              viewportFraction: 1.0,
-                              enlargeCenterPage: false,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              },
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20, bottom: 20),
-                              child: Container(
-                                height: 20,
-                                child: ListView.builder(
-                                  itemCount: model.product.productUrl.length,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      width: 12,
-                                      height: 12,
-                                      margin: EdgeInsets.symmetric(horizontal: 2.0),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: _current == index
-                                            ? ColorRes.redColor
-                                            : ColorRes.whiteColor,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         height: 40,
                         child: ListView.builder(
                           itemCount: model.product.productUrl.length,
@@ -137,8 +137,8 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                 alignment: Alignment.center,
                                 children: [
                                   Container(
-                                    width: 70,
-                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                    width: 80,
+                                    padding: EdgeInsets.symmetric(horizontal: 7),
                                     child: Image.asset(
                                       model.product.productUrl[itemIndex],
                                       fit: BoxFit.contain,
@@ -148,7 +148,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ? Container(
                                           width: 70,
                                           padding:
-                                              EdgeInsets.symmetric(horizontal: 5),
+                                              EdgeInsets.symmetric(horizontal: 7),
                                           color:
                                               ColorRes.whiteColor.withOpacity(0.4),
                                         )
@@ -159,63 +159,125 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ),
                       ),
-                      Text(
-                        model.product.productName,
-                        style: TextStyle(fontSize: 25, color: ColorRes.textColor),
-                      ),
-                      Text(
-                        "Product Code: ${model.product.productId}",
-                        style: TextStyle(fontSize: 13, color: ColorRes.textColor),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "\$${model.product.newPrice}",
-                            style:
-                                TextStyle(fontSize: 22, color: ColorRes.redColor),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "\$${model.product.oldPrice}",
-                            style: TextStyle(fontSize: 22, color: ColorRes.dimGray),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Text(
-                        "Size: ${model.product.size}",
-                        style: TextStyle(fontSize: 13, color: ColorRes.textColor),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Description",
-                        style: TextStyle(fontSize: 16, color: ColorRes.textColor),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      // Text(model.product.description,style: TextStyle(fontSize: 18,color: ColorRes.textColor),maxLines: 5,),
-                      secondHalf.isEmpty
-                          ? new Text(firstHalf,
-                              style:
-                                  TextStyle(fontSize: 14, color: ColorRes.dimGray))
-                          : new Column(
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            Text(
+                              model.product.productName,
+                              style: TextStyle(fontSize: 25, color: ColorRes.nero),
+                            ),
+                            SizedBox(height: 3),
+                            Text(
+                              "Product Code: ${model.product.productId}",
+                              style: TextStyle(fontSize: 13, color: ColorRes.textColor.withOpacity(0.7)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left:8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "\$${model.product.newPrice}",
+                                    style:
+                                    TextStyle(fontSize: 22, color: ColorRes.redColor),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "\$${model.product.oldPrice}",
+                                    style: TextStyle(fontSize: 22, color: ColorRes.dimGray.withOpacity(0.7)),
+                                  ),
+                                  SizedBox(
+                                    width: media.width * 0.30,
+                                  ),
+                                  Container(
+                                    color: ColorRes.creamColor,
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: Icon(
+                                                Icons.add,
+                                                size: 20,
+                                                color: ColorRes.charcoal,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                quantity++;
+                                              });
+                                            }),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Text(
+                                            '${quantity}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: ColorRes.charcoal,
+                                              fontFamily: 'NeueFrutigerWorld',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: Icon(
+                                                Icons.remove,
+                                                size: 20,
+                                                color: ColorRes.charcoal,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              if (quantity != 1) {
+                                                setState(() {
+                                                  quantity--;
+                                                });
+                                              }
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Text(
+                              "Size: ${model.product.size}",
+                              style: TextStyle(fontSize: 13, color: ColorRes.textColor.withOpacity(0.7)),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Description",
+                              style: TextStyle(fontSize: 16, color: ColorRes.textColor.withOpacity(0.8)),
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            // Text(model.product.description,style: TextStyle(fontSize: 18,color: ColorRes.textColor),maxLines: 5,),
+                            secondHalf.isEmpty
+                                ? new Text(firstHalf,
+                                style:
+                                TextStyle(fontSize: 14, color: ColorRes.dimGray,height: 1.5))
+                                : new Column(
                               children: <Widget>[
                                 new Text(
                                     flag
                                         ? (firstHalf + "...")
                                         : (firstHalf + secondHalf),
                                     style: TextStyle(
-                                        fontSize: 18, color: ColorRes.dimGray)),
+                                        fontSize: 14, color: ColorRes.dimGray,height:1.5)),
                                 new GestureDetector(
                                   child: new Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -236,63 +298,83 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               ],
                             ),
-                      SizedBox(
-                        height: 20,
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "Select Color",
-                            style:
-                                TextStyle(fontSize: 18, color: ColorRes.textColor),
-                          ),
-                          Container(
-                            height: 40,
-                            child: ListView.builder(
-                              itemCount: model.product.colors.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int itemIndex) =>
-                                  GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _currentColor = itemIndex;
-                                  });
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(40),
-                                        child: Container(
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Color(int.parse(
-                                                '0xff${model.product.colors[itemIndex]}')),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 5, bottom: 10),
+                        child: Divider(height: 1, color: ColorRes.gray57),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Select Color",
+                              style:
+                                  TextStyle(fontSize: 18, color: ColorRes.textColor.withOpacity(0.8)),
+                            ),
+                            Container(
+                              height: 40,
+                              child: ListView.builder(
+                                itemCount: model.product.colors.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int itemIndex) =>
+                                    GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _currentColor = itemIndex;
+                                    });
+                                  },
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(40),
+                                          child: Container(
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              color: Color(int.parse(
+                                                  '0xff${model.product.colors[itemIndex]}')),
+                                            ),
+                                            // padding: EdgeInsets.symmetric(horizontal: 5),
                                           ),
-                                          // padding: EdgeInsets.symmetric(horizontal: 5),
                                         ),
                                       ),
-                                    ),
-                                    _currentColor != itemIndex
-                                        ? Container(
-                                            width: 40,
-                                            padding:
-                                                EdgeInsets.symmetric(horizontal: 5),
-                                            color: ColorRes.whiteColor
-                                                .withOpacity(0.4),
-                                          )
-                                        : Container()
-                                  ],
+                                      _currentColor != itemIndex
+                                          ? Container(
+                                              width: 40,
+                                              padding:
+                                                  EdgeInsets.symmetric(horizontal: 5),
+                                              color: ColorRes.whiteColor
+                                                  .withOpacity(0.4),
+                                            )
+                                          : Container()
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10, bottom: 10),
+                        child: Divider(height: 1, color: ColorRes.gray57),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -317,7 +399,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                       gotoCartScreen(context);
                     },
                     child: Container(
-                      color: ColorRes.redColor,
+                      color: ColorRes.red,
                       width: MediaQuery.of(context).size.width/2,
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(10),

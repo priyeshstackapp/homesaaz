@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/dabasehelper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'create_address_screen_view_model.dart';
@@ -85,21 +86,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: ColorRes.primaryColor,
-        appBar: AppBar(
-          leading: InkWell(
-            child: Image.asset(App.backArrow),
-            onTap: () async {
-              Navigator.pop(context);
-              return true;
-            },
-          ),
-          elevation: 0,
-          backgroundColor: ColorRes.primaryColor,
-          actions: [
-            InkWell(child: Image.asset(App.userIcon)),
-            Image.asset(App.cartIcon),
-          ],
-        ),
+        appBar: commonAppbar(context),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -112,7 +99,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                   Text(
                     "Create Address",
                     style: new TextStyle(
-                      fontSize: 22,
+                      fontSize: 30,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                     ),
@@ -154,6 +141,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 5),
                 ],
               ),
             ),
@@ -174,7 +162,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'Name',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -195,7 +183,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: 'Rakesh Patwal',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
@@ -209,7 +197,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'Address lane',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -235,7 +223,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: 'Shewrapara 958',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
@@ -249,7 +237,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'City',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -275,7 +263,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: 'Delhi',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
@@ -289,7 +277,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'Postal Code',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -316,7 +304,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: '110065',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
@@ -334,7 +322,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'Phone Number',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -356,7 +344,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: '+91 9958 314 088',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
@@ -370,7 +358,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'House No',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -397,7 +385,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: '938',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
@@ -411,7 +399,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             'Road No',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
-              fontSize: 15,
+              fontSize: 16,
               color: ColorRes.dimGray,
             ),
           ),
@@ -438,7 +426,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 hintText: '9',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 15,
+                  fontSize: 16,
                   color: ColorRes.charcoal,
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),

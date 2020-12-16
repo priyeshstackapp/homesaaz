@@ -26,49 +26,48 @@ class SeeAllScreenState extends State<SeeAllScreen> {
     model ?? (model = SeeAllScreenViewModel(this));
 
     return Scaffold(
-      appBar: AppBar(
-        leading: backButton(context),
-        elevation: 0,
-        backgroundColor: ColorRes.primaryColor,
-        actions: [
-          InkWell(child: Image.asset(App.userIcon)),
-          Image.asset(App.cartIcon),
-        ],
-      ),
+      backgroundColor: ColorRes.primaryColor,
+      appBar: commonAppbar(context),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Text(
-                widget.title,
-                style: TextStyle(fontSize: 32, color: ColorRes.textColor),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(fontSize: 30, color: ColorRes.textColor),
+                ),
               ),
-            ),
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 0.75),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: model.newProductName.length,
-              itemBuilder: (context, index) {
-                HomeScreenModel product = model.newProductName[index];
+              SizedBox(height: 20),
+              GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
 
-                return GestureDetector(
-                  onTap: () {
-                    gotoProductDetailScreen(context);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: productView(product.productUrl, product.productName,
-                        product.productPriceBefore, product.productPriceAfter),
-                  ),
-                );
-              },
-            )
-          ],
+                    crossAxisCount: 2, childAspectRatio: 0.68),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: model.newProductName.length,
+                itemBuilder: (context, index) {
+                  HomeScreenModel product = model.newProductName[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      gotoProductDetailScreen(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Container(
+                        child: productView(product.productUrl, product.productName,
+                            product.productPriceBefore, product.productPriceAfter),
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

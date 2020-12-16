@@ -30,18 +30,7 @@ class PaymentScreenState extends State<PaymentScreen> {
       },
       child: Scaffold(
         backgroundColor: ColorRes.primaryColor,
-        appBar: AppBar(
-          leading: InkWell(
-            child: Image.asset(App.backArrow),
-            onTap: () => Navigator.pop(context),
-          ),
-          elevation: 0,
-          backgroundColor: ColorRes.primaryColor,
-          actions: [
-            InkWell(child: Image.asset(App.userIcon)),
-            Image.asset(App.cartIcon),
-          ],
-        ),
+        appBar: commonAppbar(context),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -55,7 +44,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                   Text(
                     "Payment",
                     style: new TextStyle(
-                      fontSize: 22,
+                      fontSize: 30,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                     ),
@@ -65,16 +54,16 @@ class PaymentScreenState extends State<PaymentScreen> {
             ),
             SizedBox(height: 18),
 
-
             //Card
             card(),
-            SizedBox(height: height*0.05),
+            SizedBox(height: height * 0.05),
 
             //payment card Details
             paymentCard(),
 
             Padding(
-              padding: const EdgeInsets.only(top:5,bottom:10,left: 20,right: 20),
+              padding: const EdgeInsets.only(
+                  top: 5, bottom: 10, left: 20, right: 20),
               child: Divider(height: 1, color: ColorRes.gray57),
             ),
             //Total Payment
@@ -92,9 +81,7 @@ class PaymentScreenState extends State<PaymentScreen> {
 
   //Payment card
   card() {
-    Size media = MediaQuery
-        .of(context)
-        .size;
+    Size media = MediaQuery.of(context).size;
     double height = media.height;
     return Container(
       color: ColorRes.primaryColor,
@@ -137,7 +124,7 @@ class PaymentScreenState extends State<PaymentScreen> {
             child: Text(
               leftText,
               style: new TextStyle(
-                  fontSize: 13,
+                  fontSize: 17,
                   color: ColorRes.gray57,
                   fontFamily: 'NeueFrutigerWorld',
                   fontWeight: FontWeight.w400),
@@ -149,7 +136,7 @@ class PaymentScreenState extends State<PaymentScreen> {
             child: Text(
               rightText,
               style: new TextStyle(
-                  fontSize: 13,
+                  fontSize: 17,
                   color: ColorRes.charcoal,
                   fontFamily: 'NeueFrutigerWorld',
                   fontWeight: FontWeight.w400),
@@ -171,7 +158,7 @@ class PaymentScreenState extends State<PaymentScreen> {
           child: Text(
             App.total,
             style: new TextStyle(
-                fontSize: 13,
+                fontSize: 17,
                 color: ColorRes.charcoal,
                 fontFamily: 'NeueFrutigerWorld',
                 fontWeight: FontWeight.w400),
@@ -183,7 +170,7 @@ class PaymentScreenState extends State<PaymentScreen> {
           child: Text(
             '₹162.00',
             style: new TextStyle(
-                fontSize: 13,
+                fontSize: 17,
                 color: ColorRes.charcoal,
                 fontFamily: 'NeueFrutigerWorld',
                 fontWeight: FontWeight.w400),
@@ -192,7 +179,6 @@ class PaymentScreenState extends State<PaymentScreen> {
       ],
     );
   }
-
 
   //Bottom Add card and checkout button
   addCartAndCheckOut() {
@@ -220,10 +206,10 @@ class PaymentScreenState extends State<PaymentScreen> {
                 child: Text(
                   '+ Add Card',
                   style: new TextStyle(
-                      fontSize: 18,
-                      color: ColorRes.textColor,
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontWeight: FontWeight.w300,
+                    fontSize: 20,
+                    color: ColorRes.textColor,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
@@ -231,9 +217,7 @@ class PaymentScreenState extends State<PaymentScreen> {
           ),
           SizedBox(height: 10),
           InkWell(
-            onTap: () {
-              gotoPaymentScreen(context);
-            },
+            onTap: () {},
             child: Container(
               alignment: Alignment.center,
               height: height * 0.07,
@@ -245,7 +229,7 @@ class PaymentScreenState extends State<PaymentScreen> {
               child: Text(
                 'Checkout',
                 style: new TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     color: Colors.white,
                     fontFamily: 'NeueFrutigerWorld',
                     fontWeight: FontWeight.w500),

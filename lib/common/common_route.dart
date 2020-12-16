@@ -7,6 +7,7 @@ import 'package:homesaaz/screen/detail/product_detail.dart';
 import 'package:homesaaz/screen/forgot/forgot_password_screen.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
+import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
 import 'package:homesaaz/screen/payment/payment_screen.dart';
 import 'package:homesaaz/screen/profile/profile_screen.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
@@ -106,4 +107,12 @@ replaceWithPaymentScreen(context) {
 gotoPaymentScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => PaymentScreen()));
+}
+replaceWithMyOrdersScreen(context) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => MyOrdersScreen()));
+}
+gotoMyOrdersScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MyOrdersScreen()));
 }

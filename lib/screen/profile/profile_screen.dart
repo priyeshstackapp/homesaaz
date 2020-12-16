@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
+import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/profile/profile_screen_view_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -30,19 +31,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: ColorRes.primaryColor,
-        appBar: AppBar(
-          leading: InkWell(
-            child: Image.asset(App.backArrow),
-            onTap: () => Navigator.pop(context),
+        appBar: commonAppbar(context),
 
-          ),
-          elevation: 0,
-          backgroundColor: ColorRes.primaryColor,
-          actions: [
-            InkWell(child: Image.asset(App.userIcon)),
-            Image.asset(App.cartIcon),
-          ],
-        ),
         drawer: Scaffold(
           backgroundColor: ColorRes.whisper,
           body: SafeArea(
@@ -166,7 +156,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   "Profile",
                   style: new TextStyle(
-                    fontSize: 22,
+                    fontSize: 30,
                     color: ColorRes.charcoal,
                     fontFamily: 'NeueFrutigerWorld',
                   ),
@@ -194,7 +184,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              'Name',
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
-               fontSize: 15,
+               fontSize: 16,
                color: ColorRes.dimGray,
              ),
            ),
@@ -214,7 +204,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: 'Rakesh Patwal',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
@@ -228,7 +218,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              'Address lane',
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
-               fontSize: 15,
+               fontSize: 16,
                color: ColorRes.dimGray,
              ),
            ),
@@ -248,7 +238,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: 'Shewrapara 958',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
@@ -262,7 +252,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              'City',
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
-               fontSize: 15,
+               fontSize: 16,
                color: ColorRes.dimGray,
              ),
            ),
@@ -282,7 +272,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: 'Delhi',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
@@ -296,7 +286,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              'Gender',
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
-               fontSize: 15,
+               fontSize: 16,
                color: ColorRes.dimGray,
              ),
            ),
@@ -316,7 +306,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: 'Male',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
@@ -330,7 +320,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              'Email',
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
-               fontSize: 15,
+               fontSize: 16,
                color: ColorRes.dimGray,
              ),
            ),
@@ -350,7 +340,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: 'rakesh.patwal@signtific.co.in',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
@@ -364,7 +354,7 @@ class ProfileScreenState extends State<ProfileScreen> {
              'Phone Number',
              style: TextStyle(
                fontFamily: 'NeueFrutigerWorld',
-               fontSize: 15,
+               fontSize: 16,
                color: ColorRes.dimGray,
              ),
            ),
@@ -384,7 +374,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: '+91 9958 314 088',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
@@ -402,7 +392,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                'Address',
                style: TextStyle(
                  fontFamily: 'NeueFrutigerWorld',
-                 fontSize: 15,
+                 fontSize: 16,
                  color: ColorRes.dimGray,
                ),
              ),
@@ -423,7 +413,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintText: 'Georgia',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 15,
+                   fontSize: 16,
                    color: ColorRes.charcoal,
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),

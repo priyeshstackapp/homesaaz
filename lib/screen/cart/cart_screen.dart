@@ -25,16 +25,40 @@ class CartScreenState extends State<CartScreen> {
     double height = media.height;
 
     return Scaffold(
+      backgroundColor: ColorRes.primaryColor,
       appBar: commonAppbar(context),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children : [
-          ListView.builder(
-            itemCount: model.newProductName.length,
-            itemBuilder: (context, index) {
-              CartModel cartItem = model.newProductName[index];
-            return cartProductView(cartItem,this,model.newProductName);
-          },),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  "Cart",
+                  style: new TextStyle(
+                    fontSize: 30,
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                height: height*0.69,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: model.newProductName.length,
+                  itemBuilder: (context, index) {
+                    CartModel cartItem = model.newProductName[index];
+                  return cartProductView(cartItem,this,model.newProductName);
+                },),
+              ),
+            ],
+          ),
           InkWell(
             onTap: () {
 
@@ -43,7 +67,7 @@ class CartScreenState extends State<CartScreen> {
               alignment: Alignment.center,
               height: height * 0.07,
               width: width * 0.92,
-              margin: EdgeInsets.only(bottom: 30),
+              margin: EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(
                 color: ColorRes.red,
                 borderRadius: BorderRadius.circular(5.0),

@@ -54,13 +54,12 @@ class HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             "Home",
                             style: new TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
                             ),
@@ -68,7 +67,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           gotoProfileScreen(context);
                         },
                         child: Padding(
@@ -76,7 +75,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             "Profile",
                             style: new TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
                             ),
@@ -89,7 +88,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             "My Cart",
                             style: new TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
                             ),
@@ -102,7 +101,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             "Favorite",
                             style: new TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
                             ),
@@ -110,12 +109,15 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       InkWell(
+                        onTap: () {
+                          gotoMyOrdersScreen(context);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             "My Orders",
                             style: new TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
                             ),
@@ -128,7 +130,7 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             "Help",
                             style: new TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
                             ),
@@ -139,14 +141,15 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: width*0.08,right: width*0.1),
+                  margin:
+                      EdgeInsets.only(top: width * 0.08, right: width * 0.1),
                   alignment: Alignment.bottomRight,
                   child: InkWell(
                     onTap: () => Navigator.pop(context),
                     child: Image.asset(
                       App.cencelIcon,
                       //color: Colors.black,
-                      height:30,
+                      height: 30,
                       width: 30,
                     ),
                   ),
@@ -180,14 +183,14 @@ class HomeScreenState extends State<HomeScreen> {
                   child: Text(
                     'New Products',
                     style: new TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         color: ColorRes.charcoal,
                         fontFamily: 'NeueFrutigerWorld',
                         fontWeight: FontWeight.w400),
                   ),
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     gotoSeeAllScreen(context, "New Products");
                   },
                   child: Container(
@@ -208,7 +211,7 @@ class HomeScreenState extends State<HomeScreen> {
             Container(
               padding: EdgeInsets.only(left: 25),
               color: ColorRes.primaryColor,
-              height: height*0.4,
+              height: height * 0.4,
               child: ListView.builder(
                   itemCount: model.newProductName.length,
                   shrinkWrap: true,
@@ -216,16 +219,21 @@ class HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     HomeScreenModel product = model.newProductName[index];
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         gotoProductDetailScreen(context);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
-                        child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                        child: productView(
+                            product.productUrl,
+                            product.productName,
+                            product.productPriceBefore,
+                            product.productPriceAfter),
                       ),
                     );
                   }),
             ),
+            SizedBox(height: 10),
 
             //Center Banner
             Image.asset(App.banner_center),
@@ -240,14 +248,14 @@ class HomeScreenState extends State<HomeScreen> {
                   child: Text(
                     'Trending Products',
                     style: new TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         color: ColorRes.charcoal,
                         fontFamily: 'NeueFrutigerWorld',
                         fontWeight: FontWeight.w400),
                   ),
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     gotoSeeAllScreen(context, "Trending Products");
                   },
                   child: Container(
@@ -268,7 +276,7 @@ class HomeScreenState extends State<HomeScreen> {
             Container(
               padding: EdgeInsets.only(left: 25),
               color: ColorRes.primaryColor,
-              height: height*0.4,
+              height: height * 0.4,
               child: ListView.builder(
                   itemCount: model.trendingProductsName.length,
                   shrinkWrap: true,
@@ -276,16 +284,21 @@ class HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     HomeScreenModel product = model.trendingProductsName[index];
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         gotoProductDetailScreen(context);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
-                        child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                        child: productView(
+                            product.productUrl,
+                            product.productName,
+                            product.productPriceBefore,
+                            product.productPriceAfter),
                       ),
                     );
                   }),
             ),
+            SizedBox(height: 10),
 
             //Bottom Banner
             Image.asset(App.banner_bottom),
@@ -300,14 +313,14 @@ class HomeScreenState extends State<HomeScreen> {
                   child: Text(
                     'Featured Products',
                     style: new TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         color: ColorRes.charcoal,
                         fontFamily: 'NeueFrutigerWorld',
                         fontWeight: FontWeight.w400),
                   ),
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     gotoSeeAllScreen(context, "Featured Products");
                   },
                   child: Container(
@@ -328,7 +341,7 @@ class HomeScreenState extends State<HomeScreen> {
             Container(
               padding: EdgeInsets.only(left: 25),
               color: ColorRes.primaryColor,
-              height: height*0.4,
+              height: height * 0.4,
               child: ListView.builder(
                   itemCount: model.featuredProductsName.length,
                   shrinkWrap: true,
@@ -336,16 +349,21 @@ class HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     HomeScreenModel product = model.featuredProductsName[index];
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         gotoProductDetailScreen(context);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
-                        child: productView(product.productUrl, product.productName, product.productPriceBefore, product.productPriceAfter),
+                        child: productView(
+                            product.productUrl,
+                            product.productName,
+                            product.productPriceBefore,
+                            product.productPriceAfter),
                       ),
                     );
                   }),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),
@@ -383,7 +401,7 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   App.categoriesName,
                   style: new TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                       fontWeight: FontWeight.w400),

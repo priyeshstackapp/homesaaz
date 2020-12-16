@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
+import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'address_screen_view_model.dart';
@@ -77,18 +78,7 @@ class AddressScreenState extends State<AddressScreen> {
       child: Scaffold(
         key: _formKey,
         backgroundColor: ColorRes.primaryColor,
-        appBar: AppBar(
-          leading: InkWell(
-            child: Image.asset(App.backArrow),
-            onTap: () => Navigator.pop(context),
-          ),
-          elevation: 0,
-          backgroundColor: ColorRes.primaryColor,
-          actions: [
-            InkWell(child: Image.asset(App.userIcon)),
-            Image.asset(App.cartIcon),
-          ],
-        ),
+        appBar: commonAppbar(context),
         body: Column(
           children: [
             Padding(
@@ -100,7 +90,7 @@ class AddressScreenState extends State<AddressScreen> {
                   Text(
                     "Address",
                     style: new TextStyle(
-                      fontSize: 22,
+                      fontSize: 30,
                       color: ColorRes.charcoal,
                       fontFamily: 'NeueFrutigerWorld',
                     ),
@@ -210,55 +200,61 @@ class AddressScreenState extends State<AddressScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  listOfAddress[index] == null?Container():Text(
-                    //'Shewrapara, Mirpur, Delhi-1216  ' +
-                    listOfAddress[index]['address'] +
-                        ', ' +
-                        listOfAddress[index]['city'] +
-                        '-' +
-                        listOfAddress[index]['postalCode'],
-                    // data[index]['city'],
-                    style: new TextStyle(
-                      fontSize: 16,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                    ),
-                    maxLines: 2,
-                  ),
-                  listOfAddress[index] == null?Container():Text(
-                    'House no: ' + listOfAddress[index]['houseNo'],
-                    //'House no: 938',
-                    style: new TextStyle(
-                      fontSize: 16,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                    ),
-                  ),
-                  listOfAddress[index] == null?Container():Text(
-                    'Road no: ' + listOfAddress[index]['roadNo'],
-                    //'Road no: 9',
-                    style: new TextStyle(
-                      fontSize: 16,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                    ),
-                  ),
-
-
+                  listOfAddress[index] == null
+                      ? Container()
+                      : Text(
+                          //'Shewrapara, Mirpur, Delhi-1216  ' +
+                          listOfAddress[index]['address'] +
+                              ', ' +
+                              listOfAddress[index]['city'] +
+                              '-' +
+                              listOfAddress[index]['postalCode'],
+                          // data[index]['city'],
+                          style: new TextStyle(
+                            fontSize: 18,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                          ),
+                          maxLines: 2,
+                        ),
+                  listOfAddress[index] == null
+                      ? Container()
+                      : Text(
+                          'House no: ' + listOfAddress[index]['houseNo'],
+                          //'House no: 938',
+                          style: new TextStyle(
+                            fontSize: 18,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                          ),
+                        ),
+                  listOfAddress[index] == null
+                      ? Container()
+                      : Text(
+                          'Road no: ' + listOfAddress[index]['roadNo'],
+                          //'Road no: 9',
+                          style: new TextStyle(
+                            fontSize: 18,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                          ),
+                        ),
                 ],
               ),
             ),
-            listOfAddress[index] == null?Container():Flexible(
-              flex: 2,
-              child: isSelectedIndex == index
-                  ? Icon(
-                      Icons.radio_button_on_outlined,
-                      color: ColorRes.redColor,
-                      size: 20,
-                    )
-                  : Icon(Icons.radio_button_off,
-                      color: ColorRes.dimGray, size: 20),
-            )
+            listOfAddress[index] == null
+                ? Container()
+                : Flexible(
+                    flex: 2,
+                    child: isSelectedIndex == index
+                        ? Icon(
+                            Icons.radio_button_on_outlined,
+                            color: ColorRes.redColor,
+                            size: 20,
+                          )
+                        : Icon(Icons.radio_button_off,
+                            color: ColorRes.dimGray, size: 20),
+                  )
           ],
         ),
       ),

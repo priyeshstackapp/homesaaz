@@ -34,5 +34,19 @@ class CartViewModel {
       productName: "Woman T-Shirt",
       imageUrl:Utils.homeImg('product_name_third'),
     ),);
+    newProductName.add(CartModel(
+      newPrice: "\$305",
+      oldPrice: "\$455",
+      productCode: "SM12435",
+      productName: "Product name",
+      imageUrl:Utils.homeImg('product_name_second'),
+    ),);
+    newProductName.add(CartModel(
+      newPrice: "\$305",
+      oldPrice: "\$455",
+      productCode: "SM12435",
+      productName: "Woman T-Shirt",
+      imageUrl:Utils.homeImg('product_name_third'),
+    ),);
   }
 }
