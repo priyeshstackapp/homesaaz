@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
+import 'package:homesaaz/model/cart_model.dart';
+import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 
 Widget gradientButton(context, {String title, bool isLoading}) {
@@ -191,6 +193,143 @@ Widget productView(String imageUrl,String productName,String oldPrice,String new
           ),
         ],
       ),
+    ],
+  );
+}
+
+Widget cartProductView(CartModel cartItem, CartScreenState state, List<CartModel> newProductName){
+  return Stack(
+    alignment: Alignment.topRight,
+    children: [
+      Card(
+        elevation: 3,
+        margin: EdgeInsets.symmetric(horizontal:20,vertical: 10),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical:10,horizontal: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image.asset(
+                cartItem.imageUrl,
+                fit: BoxFit.cover,
+                height: 100,
+              ),
+              SizedBox(width: 20,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cartItem.productName,
+                    style: new TextStyle(
+                      color: ColorRes.charcoal,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16
+                    ),
+                  ),
+                  SizedBox(height: 5,),
+                  Text(
+                    cartItem.productCode,
+                    style: new TextStyle(
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 11
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '${cartItem.newPrice}',
+                        style: new TextStyle(
+                          fontSize: 16,
+                          color: ColorRes.redColor,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${cartItem.oldPrice}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w200,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    color: ColorRes.creamColor,
+                    child: Row(
+
+                      children: [
+                        GestureDetector(child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Icon(Icons.add,size: 20,color: ColorRes.charcoal,),
+                        ), onTap: (){
+                          state.setState(() {
+                            cartItem.quantity ++;
+                          });
+                        }),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:10),
+                          child: Text(
+                            '${cartItem.quantity}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Icon(Icons.remove,size: 20,color: ColorRes.charcoal,),
+                        ), onTap: (){
+                          if(cartItem.quantity!=1){
+                            state.setState(() {
+                              cartItem.quantity --;
+                            });
+                          }
+                        }),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      GestureDetector(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal:30,vertical: 20),
+          child: Icon(Icons.clear,size: 20,color: ColorRes.charcoal,),
+        ),
+        onTap: (){
+          state.setState(() {
+            newProductName.remove(cartItem);
+          });
+        },
+      )
+    ],
+  );
+}
+
+Widget commonAppbar(context){
+  return AppBar(
+    leading: backButton(context),
+    elevation: 0,
+    backgroundColor: ColorRes.primaryColor,
+    actions: [
+      InkWell(child: Image.asset(App.userIcon)),
+      Image.asset(App.cartIcon),
     ],
   );
 }

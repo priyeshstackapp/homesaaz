@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/screen/address/address_screen.dart';
+import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/confirmation/confirmation_screen.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
 import 'package:homesaaz/screen/detail/product_detail.dart';
@@ -87,6 +88,16 @@ gotoCreateAddressScreen(context) {
 gotoConfirmationScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => ConfirmationScreen()));
+}
+
+replaceWithCartScreen(context) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => CartScreen()));
+}
+
+gotoCartScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => CartScreen()));
 }
 replaceWithPaymentScreen(context) {
   Navigator.pushReplacement(

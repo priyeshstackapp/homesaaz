@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/detail/product_detail_view_model.dart';
 
@@ -311,14 +312,19 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  Container(
-                    color: ColorRes.redColor,
-                    width: MediaQuery.of(context).size.width/2,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "BUY NOW",
-                      style: TextStyle(fontSize: 18,color: ColorRes.whiteColor),
+                  InkWell(
+                    onTap: (){
+                      gotoCartScreen(context);
+                    },
+                    child: Container(
+                      color: ColorRes.redColor,
+                      width: MediaQuery.of(context).size.width/2,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "BUY NOW",
+                        style: TextStyle(fontSize: 18,color: ColorRes.whiteColor),
+                      ),
                     ),
                   ),
                 ],
