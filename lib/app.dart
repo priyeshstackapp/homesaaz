@@ -19,6 +19,13 @@ class App {
   static String trendingProductsName = 'Trending Products';
   static String featuredProductsName = 'Featured Products';
 
+  //Payment Screen
+  static String subtotal = 'Subtotal';
+  static String discount = 'Discount';
+  static String shipping = 'Shipping';
+  static String total = 'Total';
+
+
   // assets string
   static const rootIcon = 'assets/icon/';
   static const rootImage = 'assets/image/';
@@ -36,6 +43,7 @@ class App {
   static const splashImage = rootImage + 'splash.png';
   static const appNameImage = rootImage + 'appNameLogo.png';
   static const bannerImage = rootImage + 'banner.png';
+  static const VectorVisaCreditCard = rootImage + 'VectorVisaCreditCard.png';
   static const cat1 = HomeImage + 'cat1.png';
   static const cat2 = HomeImage + 'cat2.png';
   static const cat3 = HomeImage + 'cat3.png';

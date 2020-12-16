@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'address_screen_view_model.dart';
@@ -161,7 +162,9 @@ class AddressScreenState extends State<AddressScreen> {
                 ),
                 SizedBox(height: 10),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    gotoPaymentScreen(context);
+                  },
                   child: Container(
                     alignment: Alignment.center,
                     height: height * 0.07,

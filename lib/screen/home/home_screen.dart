@@ -43,114 +43,116 @@ class HomeScreenState extends State<HomeScreen> {
       drawer: Scaffold(
         backgroundColor: ColorRes.whisper,
         body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: height * 0.8,
-                width: width * width,
-                color: ColorRes.primaryColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: height * 0.8,
+                  width: width * width,
+                  color: ColorRes.primaryColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
 
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Home",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Home",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        gotoProfileScreen(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Profile",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        onTap: (){
+                          gotoProfileScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Profile",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "My Cart",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "My Cart",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Favorite",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Favorite",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "My Orders",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "My Orders",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "Help",
-                          style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.dimGray,
-                            fontFamily: 'NeueFrutigerWorld',
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            "Help",
+                            style: new TextStyle(
+                              fontSize: 20,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: width*0.08,right: width*0.1),
-                alignment: Alignment.bottomRight,
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Image.asset(
-                    App.cencelIcon,
-                    //color: Colors.black,
-                    height:30,
-                    width: 30,
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Container(
+                  margin: EdgeInsets.only(top: width*0.08,right: width*0.1),
+                  alignment: Alignment.bottomRight,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Image.asset(
+                      App.cencelIcon,
+                      //color: Colors.black,
+                      height:30,
+                      width: 30,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
