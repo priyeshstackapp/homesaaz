@@ -7,7 +7,9 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
+import 'package:homesaaz/screen/payment/payment_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'address_screen_view_model.dart';
 
@@ -62,7 +64,14 @@ class AddressScreenState extends State<AddressScreen> {
     });
     print(data);
   }
-
+  getItemAndNavigate(int listOfAddress, BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CheckoutScreen(itemHolder : listOfAddress)
+        )
+    );
+  }
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
@@ -98,12 +107,18 @@ class AddressScreenState extends State<AddressScreen> {
                   SizedBox(height: 20),
                   Container(
                     height: height * 0.6,
-                    child: ListView.builder(
+                    child:
+                    ListView.builder(
                       itemCount: listOfAddress.length,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return addressData(index);
+                        return GestureDetector(
+                          onTap: (){
+                            getItemAndNavigate(index, context);
+
+                          },
+                            child: addressData(index));
                       },
                     ),
                   ),

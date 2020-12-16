@@ -120,6 +120,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   child: Container(
                     width: 30,
                     child: TextFormField(
+                      maxLength: 2,
                       style: TextStyle(
                           fontSize: 16, color: ColorRes.dimGray),
                       cursorColor: ColorRes.dimGray,
@@ -132,6 +133,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: "11",
+                        counterText: "",
                         hintStyle: TextStyle(
                             color: ColorRes.dimGray, fontSize: 16),
                         focusColor: ColorRes.dimGray,
@@ -153,6 +155,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   child: Container(
                     width: 30,
                     child: TextFormField(
+                      maxLength: 2,
+
                       style: TextStyle(
                           fontSize: 16, color: ColorRes.dimGray),
                       cursorColor: ColorRes.dimGray,
@@ -162,6 +166,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: "24",
+                        counterText: "",
                         hintStyle: TextStyle(
                             color: ColorRes.dimGray, fontSize: 16),
                         focusColor: ColorRes.dimGray,
@@ -249,7 +254,10 @@ class _AddCardScreenState extends State<AddCardScreen> {
     }else if (expiryYear.text == '') {
       showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
       return false;
-    }else if (int.parse("20"+expiryYear.text.trim()) <= DateTime.now().year) {
+    }else if (int.parse("20"+ expiryYear.text.trim()) <= DateTime.now().year) {
+      showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
+      return false;
+    }else if (int.parse(expiryYear.text.trim()) > 99 || int.parse(expiryYear.text.trim()) < 1) {
       showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
       return false;
     }

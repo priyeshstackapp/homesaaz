@@ -9,6 +9,7 @@ import 'package:homesaaz/screen/payment/payment_screen_view_model.dart';
 import '../../app.dart';
 
 class PaymentScreen extends StatefulWidget {
+
   @override
   PaymentScreenState createState() => PaymentScreenState();
 }
@@ -49,6 +50,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       fontFamily: 'NeueFrutigerWorld',
                     ),
                   ),
+
                 ],
               ),
             ),
@@ -219,7 +221,9 @@ class PaymentScreenState extends State<PaymentScreen> {
           ),
           SizedBox(height: 10),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              gotoCheckoutScreen(context);
+            },
             child: Container(
               alignment: Alignment.center,
               height: height * 0.07,
