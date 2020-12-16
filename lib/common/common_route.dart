@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homesaaz/screen/add_card/add_card_screen.dart';
 import 'package:homesaaz/screen/address/address_screen.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/confirmation/confirmation_screen.dart';
@@ -107,6 +108,14 @@ replaceWithPaymentScreen(context) {
 gotoPaymentScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => PaymentScreen()));
+}
+replaceWithAddCardScreen(context) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => AddCardScreen()));
+}
+gotoAddCardScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => AddCardScreen()));
 }
 replaceWithMyOrdersScreen(context) {
   Navigator.pushReplacement(

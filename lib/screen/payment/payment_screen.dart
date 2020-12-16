@@ -190,7 +190,9 @@ class PaymentScreenState extends State<PaymentScreen> {
       child: Column(
         children: [
           InkWell(
-            onTap: () async {},
+            onTap: () async {
+              gotoAddCardScreen(context);
+            },
             child: DottedBorder(
               color: ColorRes.red,
               dashPattern: [4, 4],
