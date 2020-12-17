@@ -490,7 +490,14 @@ Widget checkoutProductView(
 
 Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
     List<MyOrdersModel> newProductName) {
-  double ratingbar = 3.5;
+
+  List<Widget> array = [];
+  var filled = Colors.amber;
+  var empty = Colors.grey;
+  for (var i = 1; i <= 5; i++) {
+    array.add(Icon(Icons.star,color: (myOrdersItem.rating < i ? empty : filled),));
+  }
+
   return Stack(
     alignment: Alignment.topRight,
     children: [
@@ -556,24 +563,10 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
                       ),
                     ],
                   ),
-
-                  RatingBar(
-                 /*   onRatingChanged: (value) {
-                      state.setState(() {
-                        ratingbar = value;
-                      });
-                    },*/
-                    filledIcon: Icons.star,
-                    emptyIcon: Icons.star,
-                    halfFilledIcon: Icons.star_half,
-                    isHalfAllowed: true,
-                    filledColor: ColorRes.darkYellow,
-                    emptyColor: ColorRes.dimGray,
-                    halfFilledColor: ColorRes.darkYellow,
-                    size: 20,
-                    initialRating:3.5,
-
-                  ),
+                  Row(
+                    children: array,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  )
                 ],
               ),
             ],

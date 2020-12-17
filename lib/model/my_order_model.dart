@@ -5,6 +5,7 @@ class MyOrdersModel {
     this.productName,
     this.imageUrl,
     this.productCode,
+    this.rating
   });
 
   String oldPrice;
@@ -12,4 +13,5 @@ class MyOrdersModel {
   String productName;
   String productCode;
   String imageUrl;
+  int rating;
 }
