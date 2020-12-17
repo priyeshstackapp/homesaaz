@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
@@ -64,14 +65,7 @@ class AddressScreenState extends State<AddressScreen> {
     });
     print(data);
   }
-  getItemAndNavigate(int listOfAddress, BuildContext context){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CheckoutScreen(itemHolder : listOfAddress)
-        )
-    );
-  }
+
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
@@ -107,18 +101,13 @@ class AddressScreenState extends State<AddressScreen> {
                   SizedBox(height: 20),
                   Container(
                     height: height * 0.6,
-                    child:
-                    ListView.builder(
+                    child: ListView.builder(
                       itemCount: listOfAddress.length,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: (){
-                            getItemAndNavigate(index, context);
-
-                          },
-                            child: addressData(index));
+                            onTap: () {}, child: addressData(index));
                       },
                     ),
                   ),
@@ -168,7 +157,8 @@ class AddressScreenState extends State<AddressScreen> {
                 SizedBox(height: 10),
                 InkWell(
                   onTap: () {
-                    gotoPaymentScreen(context);
+                    //print(listOfAddress[isSelectedIndex]);
+                   listOfAddress.length == 0 ? showToast() : gotoPaymentScreen(context, mapAddress: listOfAddress[isSelectedIndex]);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -273,6 +263,17 @@ class AddressScreenState extends State<AddressScreen> {
           ],
         ),
       ),
+    );
+  }
+   showToast() {
+    return Fluttertoast.showToast(
+        msg: "Please any select address",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: ColorRes.whiteColor,
+        textColor: ColorRes.textColor,
+        fontSize: 16.0
     );
   }
 }

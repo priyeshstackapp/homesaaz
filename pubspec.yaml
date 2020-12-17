@@ -34,6 +34,7 @@ dependencies:
   rating_bar: ^0.2.0
   shared_preferences: ^0.5.10
   carousel_slider: ^2.3.1
+  fluttertoast: ^7.1.5
 
 dev_dependencies:
   flutter_test:

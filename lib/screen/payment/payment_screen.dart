@@ -9,6 +9,9 @@ import 'package:homesaaz/screen/payment/payment_screen_view_model.dart';
 import '../../app.dart';
 
 class PaymentScreen extends StatefulWidget {
+  final Map mapAddress;
+
+  PaymentScreen({Key key, @required this.mapAddress}) : super(key: key);
 
   @override
   PaymentScreenState createState() => PaymentScreenState();
@@ -50,7 +53,6 @@ class PaymentScreenState extends State<PaymentScreen> {
                       fontFamily: 'NeueFrutigerWorld',
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -222,7 +224,7 @@ class PaymentScreenState extends State<PaymentScreen> {
           SizedBox(height: 10),
           InkWell(
             onTap: () {
-              gotoCheckoutScreen(context);
+              gotoCheckoutScreen(context, mapAddress: widget.mapAddress);
             },
             child: Container(
               alignment: Alignment.center,

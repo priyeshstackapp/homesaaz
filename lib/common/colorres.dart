@@ -14,6 +14,7 @@ class ColorRes {
   static Color dimGray                          = Color(0xFF696969);
   static Color red                              = Color(0xFFA41F19);
   static Color gray57                           = Color(0xFF919191);
-  static Color darkYellow                           = Color(0xFFF29F0F);
-  static Color nero                           = Color(0xFF2A2A2A);
+  static Color darkYellow                       = Color(0xFFF29F0F);
+  static Color nero                             = Color(0xFF2A2A2A);
+  static Color cornflowerBlue                   = Color(0xFF667EEA);
 }

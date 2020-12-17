@@ -12,7 +12,6 @@ class AddCardScreen extends StatefulWidget {
 }
 
 class _AddCardScreenState extends State<AddCardScreen> {
-
   TextEditingController cardName = TextEditingController(text: "");
   TextEditingController cardNumber = TextEditingController(text: "");
   TextEditingController expiryMonth = TextEditingController(text: "");
@@ -31,7 +30,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     Size media = MediaQuery.of(context).size;
     double width = media.width;
     double height = media.height;
@@ -51,64 +49,56 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 stops: [0.3, 0.95],
               )),
               cardNumber: number,
-              cardNetworkType: getCardTypeFrmNumber(number) == CardType.Master ? CardNetworkType.mastercard : CardNetworkType.visaBasic,
+              cardNetworkType: getCardTypeFrmNumber(number) == CardType.Master
+                  ? CardNetworkType.mastercard
+                  : CardNetworkType.visaBasic,
               cardHolderName: name,
-              validity: Validity(
-                validThruMonth: month,
-                validThruYear: year
-              ),
+              validity: Validity(validThruMonth: month, validThruYear: year),
             ),
-
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: TextFormField(
-                style: TextStyle(
-                    fontSize: 16, color: ColorRes.dimGray),
+                style: TextStyle(fontSize: 16, color: ColorRes.dimGray),
                 cursorColor: ColorRes.dimGray,
                 controller: cardName,
-                onFieldSubmitted: (String value){
+                onFieldSubmitted: (String value) {
                   FocusScope.of(context).requestFocus(numberFocusNode);
                 },
                 decoration: InputDecoration(
                   hintText: "Cardholder Name",
-                  hintStyle: TextStyle(
-                      color: ColorRes.dimGray, fontSize: 16),
+                  hintStyle: TextStyle(color: ColorRes.dimGray, fontSize: 16),
                   focusColor: ColorRes.dimGray,
                   focusedBorder: UnderlineInputBorder(
                       borderSide:
-                      BorderSide(color: ColorRes.dimGray.withOpacity(0.5))),
+                          BorderSide(color: ColorRes.dimGray.withOpacity(0.5))),
                   enabledBorder: UnderlineInputBorder(
                       borderSide:
-                      BorderSide(color: ColorRes.dimGray.withOpacity(0.3))),
+                          BorderSide(color: ColorRes.dimGray.withOpacity(0.3))),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: TextFormField(
-                style: TextStyle(
-                    fontSize: 16, color: ColorRes.dimGray),
+                style: TextStyle(fontSize: 16, color: ColorRes.dimGray),
                 cursorColor: ColorRes.dimGray,
                 controller: cardNumber,
                 focusNode: numberFocusNode,
-                onChanged: (String value){
-                  if(value.length==16)
+                onChanged: (String value) {
+                  if (value.length == 16)
                     FocusScope.of(context).requestFocus(monthFocusNode);
                 },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: "Card Number",
-                  hintStyle: TextStyle(
-                      color: ColorRes.dimGray, fontSize: 16),
+                  hintStyle: TextStyle(color: ColorRes.dimGray, fontSize: 16),
                   focusColor: ColorRes.dimGray,
                   focusedBorder: UnderlineInputBorder(
                       borderSide:
-                      BorderSide(color: ColorRes.dimGray.withOpacity(0.5))),
+                          BorderSide(color: ColorRes.dimGray.withOpacity(0.5))),
                   enabledBorder: UnderlineInputBorder(
                       borderSide:
-                      BorderSide(color: ColorRes.dimGray.withOpacity(0.3))),
+                          BorderSide(color: ColorRes.dimGray.withOpacity(0.3))),
                 ),
               ),
             ),
@@ -116,49 +106,48 @@ class _AddCardScreenState extends State<AddCardScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 10,bottom: 10, left: 30,right: 7),
+                      top: 10, bottom: 10, left: 30, right: 7),
                   child: Container(
                     width: 30,
                     child: TextFormField(
                       maxLength: 2,
-                      style: TextStyle(
-                          fontSize: 16, color: ColorRes.dimGray),
+                      style: TextStyle(fontSize: 16, color: ColorRes.dimGray),
                       cursorColor: ColorRes.dimGray,
                       controller: expiryMonth,
                       focusNode: monthFocusNode,
-                      onChanged: (String value){
-                        if(value.length==2)
+                      onChanged: (String value) {
+                        if (value.length == 2)
                           FocusScope.of(context).requestFocus(yearFocusNode);
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: "11",
                         counterText: "",
-                        hintStyle: TextStyle(
-                            color: ColorRes.dimGray, fontSize: 16),
+                        hintStyle:
+                            TextStyle(color: ColorRes.dimGray, fontSize: 16),
                         focusColor: ColorRes.dimGray,
                         focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: ColorRes.dimGray.withOpacity(0.5))),
+                            borderSide: BorderSide(
+                                color: ColorRes.dimGray.withOpacity(0.5))),
                         enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: ColorRes.dimGray.withOpacity(0.3))),
+                            borderSide: BorderSide(
+                                color: ColorRes.dimGray.withOpacity(0.3))),
                       ),
                     ),
                   ),
                 ),
-                Text("/",style: TextStyle(
-                    color: ColorRes.dimGray, fontSize: 16),),
+                Text(
+                  "/",
+                  style: TextStyle(color: ColorRes.dimGray, fontSize: 16),
+                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10,horizontal: 7),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
                   child: Container(
                     width: 30,
                     child: TextFormField(
                       maxLength: 2,
-
-                      style: TextStyle(
-                          fontSize: 16, color: ColorRes.dimGray),
+                      style: TextStyle(fontSize: 16, color: ColorRes.dimGray),
                       cursorColor: ColorRes.dimGray,
                       controller: expiryYear,
                       focusNode: yearFocusNode,
@@ -167,15 +156,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       decoration: InputDecoration(
                         hintText: "24",
                         counterText: "",
-                        hintStyle: TextStyle(
-                            color: ColorRes.dimGray, fontSize: 16),
+                        hintStyle:
+                            TextStyle(color: ColorRes.dimGray, fontSize: 16),
                         focusColor: ColorRes.dimGray,
                         focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: ColorRes.dimGray.withOpacity(0.5))),
+                            borderSide: BorderSide(
+                                color: ColorRes.dimGray.withOpacity(0.5))),
                         enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                            BorderSide(color: ColorRes.dimGray.withOpacity(0.3))),
+                            borderSide: BorderSide(
+                                color: ColorRes.dimGray.withOpacity(0.3))),
                       ),
                     ),
                   ),
@@ -184,7 +173,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ),
             InkWell(
               onTap: () {
-                if(validation()){
+                if (validation()) {
                   setState(() {
                     name = cardName.text.trim();
                     month = int.parse(expiryMonth.text.trim());
@@ -237,23 +226,32 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   bool validation() {
     if (cardName.text == '') {
-      showSnackBar(scaffoldKey,'Enter Cardholder name',isError: true);
+      showSnackBar(scaffoldKey, 'Enter Cardholder name', isError: true);
       return false;
-    }else if (cardNumber.text == '') {
-      showSnackBar(scaffoldKey,'Enter card number',isError: true);
+    } else if (cardNumber.text == '') {
+      showSnackBar(scaffoldKey, 'Enter card number', isError: true);
       return false;
-    }else if (cardNumber.text.trim().length <16 || cardNumber.text.trim().length >16) {
-      showSnackBar(scaffoldKey,'Enter valid 16 digit card number',isError: true);
+    } else if (cardNumber.text.trim().length < 16 ||
+        cardNumber.text.trim().length > 16) {
+      showSnackBar(scaffoldKey, 'Enter valid 16 digit card number',
+          isError: true);
       return false;
-    }else if (expiryMonth.text == '') {
-      showSnackBar(scaffoldKey,'Enter expiry month',isError: true);
+    } else if (expiryMonth.text == '') {
+      showSnackBar(scaffoldKey, 'Enter expiry month', isError: true);
       return false;
+
     }else if (int.parse(expiryMonth.text.trim()) > 12 || int.parse(expiryMonth.text.trim()) < 1) {
       showSnackBar(scaffoldKey,'Enter valid month',isError: true);
+
+    } else if (int.parse(expiryMonth.text.trim()) > 12 ||
+        int.parse(expiryMonth.text.trim()) < 1) {
+      showSnackBar(scaffoldKey, 'Enter expiry month', isError: true);
+
       return false;
-    }else if (expiryYear.text == '') {
-      showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
+    } else if (expiryYear.text == '') {
+      showSnackBar(scaffoldKey, 'Enter expiry year', isError: true);
       return false;
+
     }else if (int.parse("20"+ expiryYear.text.trim()) <= DateTime.now().year) {
       if(int.parse("20"+ expiryYear.text.trim()) == DateTime.now().year){
         if(int.parse(expiryMonth.text.trim()) == DateTime.now().month){
@@ -267,6 +265,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
         }
       }
       showSnackBar(scaffoldKey,'Your card is expired, Please add another card',isError: true);
+
+    } else if (int.parse("20" + expiryYear.text.trim()) <=
+        DateTime.now().year) {
+      showSnackBar(scaffoldKey, 'Enter expiry year', isError: true);
+      return false;
+    } else if (int.parse(expiryYear.text.trim()) > 99 ||
+        int.parse(expiryYear.text.trim()) < 1) {
+      showSnackBar(scaffoldKey, 'Enter expiry year', isError: true);
+
       return false;
     }
     return true;

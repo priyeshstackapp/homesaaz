@@ -106,15 +106,15 @@ replaceWithPaymentScreen(context) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => PaymentScreen()));
 }
-gotoPaymentScreen(context) {
+gotoPaymentScreen(context, {Map mapAddress}) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => PaymentScreen()));
+      context, MaterialPageRoute(builder: (context) => PaymentScreen(mapAddress: mapAddress)));
 }
 replaceWithAddCardScreen(context) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => AddCardScreen()));
 }
-gotoAddCardScreen(context) {
+gotoAddCardScreen(context ) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => AddCardScreen()));
 }
@@ -130,7 +130,7 @@ replaceWithCheckoutScreen(context) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => CheckoutScreen()));
 }
-gotoCheckoutScreen(context) {
+gotoCheckoutScreen(context,{Map mapAddress}) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => CheckoutScreen()));
+      context, MaterialPageRoute(builder: (context) => CheckoutScreen(mapAddress: mapAddress)));
 }
