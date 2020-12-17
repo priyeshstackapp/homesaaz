@@ -249,16 +249,24 @@ class _AddCardScreenState extends State<AddCardScreen> {
       showSnackBar(scaffoldKey,'Enter expiry month',isError: true);
       return false;
     }else if (int.parse(expiryMonth.text.trim()) > 12 || int.parse(expiryMonth.text.trim()) < 1) {
-      showSnackBar(scaffoldKey,'Enter expiry month',isError: true);
+      showSnackBar(scaffoldKey,'Enter valid month',isError: true);
       return false;
     }else if (expiryYear.text == '') {
       showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
       return false;
     }else if (int.parse("20"+ expiryYear.text.trim()) <= DateTime.now().year) {
-      showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
-      return false;
-    }else if (int.parse(expiryYear.text.trim()) > 99 || int.parse(expiryYear.text.trim()) < 1) {
-      showSnackBar(scaffoldKey,'Enter expiry year',isError: true);
+      if(int.parse("20"+ expiryYear.text.trim()) == DateTime.now().year){
+        if(int.parse(expiryMonth.text.trim()) == DateTime.now().month){
+          showSnackBar(scaffoldKey,'Current month card is not valid for transaction, Please add another card',isError: true);
+          return false;
+        }else if(int.parse(expiryMonth.text.trim()) < DateTime.now().month){
+          showSnackBar(scaffoldKey,'Your card is expired, Please add another card',isError: true);
+          return false;
+        }else{
+          return true;
+        }
+      }
+      showSnackBar(scaffoldKey,'Your card is expired, Please add another card',isError: true);
       return false;
     }
     return true;
