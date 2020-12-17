@@ -150,28 +150,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         maxLines: 2,
                       ),
-                widget.mapAddress == null
-                    ? Container()
-                    : Text(
-                        'House no: ' + widget.mapAddress['houseNo'],
-                        //'House no: 938',
-                        style: new TextStyle(
-                          fontSize: 18,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                        ),
-                      ),
-                widget.mapAddress == null
-                    ? Container()
-                    : Text(
-                        'Road no: ' + widget.mapAddress['roadNo'],
-                        //'Road no: 9',
-                        style: new TextStyle(
-                          fontSize: 18,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                        ),
-                      ),
               ],
             ),
           ),

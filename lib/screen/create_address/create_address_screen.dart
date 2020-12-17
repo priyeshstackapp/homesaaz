@@ -117,8 +117,8 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                           "address": _address.text,
                           "city": _city.text,
                           "postalCode": _postalCode.text,
-                          "houseNo": _houseNo.text,
-                          "roadNo": _roadNo.text,
+                          /*"houseNo": _houseNo.text,
+                          "roadNo": _roadNo.text,*/
                         });
                       }
                       _sendData(context);
@@ -353,7 +353,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           ),
           SizedBox(height: 20),
 
-          //House No
+         /* //House No
           Text(
             'House No',
             style: TextStyle(
@@ -432,8 +432,8 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
             ),
-          ),
-          SizedBox(height: 20),
+          ),*/
+         // SizedBox(height: 20),
         ],
       ),
     );
@@ -485,7 +485,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
       return null;
   }
 
-  //House No
+ /* //House No
   String validateHouseNo(String value) {
     if (value.isEmpty)
       return 'Please enter house no';
@@ -498,7 +498,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
       return 'Please enter road no';
     else
       return null;
-  }
+  }*/
 
   bool _validateInputs() {
     if (_formKey.currentState.validate()) {

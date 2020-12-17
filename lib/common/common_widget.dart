@@ -558,11 +558,11 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
                   ),
 
                   RatingBar(
-                    onRatingChanged: (value) {
+                 /*   onRatingChanged: (value) {
                       state.setState(() {
                         ratingbar = value;
                       });
-                    },
+                    },*/
                     filledIcon: Icons.star,
                     emptyIcon: Icons.star,
                     halfFilledIcon: Icons.star_half,

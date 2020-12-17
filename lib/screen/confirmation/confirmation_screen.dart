@@ -22,8 +22,10 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
     print("Current page --> $runtimeType");
     model ?? (model = ConfirmationScreenViewModel(this));
     return WillPopScope(
-      onWillPop: () async => false,
-
+      onWillPop: () async {
+        Navigator.pop(context);
+        return true;
+      },
       child: Scaffold(
         bottomNavigationBar: InkWell(
           onTap: () async {

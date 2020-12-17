@@ -86,32 +86,35 @@ class AddressScreenState extends State<AddressScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Text(
-                    "Address",
-                    style: new TextStyle(
-                      fontSize: 30,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
+              child: SingleChildScrollView(
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      "Address",
+                      style: new TextStyle(
+                        fontSize: 30,
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: height * 0.6,
-                    child: ListView.builder(
-                      itemCount: listOfAddress.length,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () {}, child: addressData(index));
-                      },
+                    SizedBox(height: 20),
+                    Container(
+                      height: height * 0.6,
+                      child: ListView.builder(
+                        itemCount: listOfAddress.length,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () {}, child: addressData(index));
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Spacer(),
@@ -222,7 +225,7 @@ class AddressScreenState extends State<AddressScreen> {
                           ),
                           maxLines: 2,
                         ),
-                  listOfAddress[index] == null
+                 /* listOfAddress[index] == null
                       ? Container()
                       : Text(
                           'House no: ' + listOfAddress[index]['houseNo'],
@@ -243,7 +246,7 @@ class AddressScreenState extends State<AddressScreen> {
                             color: ColorRes.charcoal,
                             fontFamily: 'NeueFrutigerWorld',
                           ),
-                        ),
+                        ),*/
                 ],
               ),
             ),

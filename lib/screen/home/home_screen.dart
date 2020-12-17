@@ -36,8 +36,15 @@ class HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         backgroundColor: ColorRes.primaryColor,
         actions: [
-          InkWell(child: Image.asset(App.userIcon)),
-          Image.asset(App.cartIcon),
+          InkWell(
+              onTap: (){
+                gotoProfileScreen(context);
+
+              },child: Image.asset(App.userIcon)),
+          InkWell(
+              onTap: (){
+                gotoCartScreen(context);
+              },child: Image.asset(App.cartIcon)),
         ],
       ),
       drawer: Scaffold(
@@ -83,6 +90,9 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       InkWell(
+                        onTap: (){
+                          gotoCartScreen(context);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
