@@ -493,7 +493,7 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
     List<MyOrdersModel> newProductName) {
 
   List<Widget> array = [];
-  var filled = Colors.amber;
+  var filled = ColorRes.darkYellow;
   var empty = Colors.grey;
   for (var i = 1; i <= 5; i++) {
     array.add(Icon(Icons.star,color: (myOrdersItem.rating < i ? empty : filled),));

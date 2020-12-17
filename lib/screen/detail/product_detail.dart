@@ -373,7 +373,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: Divider(height: 1, color: ColorRes.gray57),
                       ),
                       SizedBox(
-                        height: 70,
+                        height: height*0.22,
                       ),
                     ],
                   ),
