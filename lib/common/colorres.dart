@@ -17,4 +17,6 @@ class ColorRes {
   static Color darkYellow                       = Color(0xFFF29F0F);
   static Color nero                             = Color(0xFF2A2A2A);
   static Color cornflowerBlue                   = Color(0xFF667EEA);
+  static Color nightRider                       = Color(0xFF323232);
+  static Color darkRedColor58                   = Color(0xFF8B130D);
 }

@@ -384,19 +384,26 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 50,
               child: Row(
                 children: [
-                  Container(
-                    color: ColorRes.whisper,
-                    width: MediaQuery.of(context).size.width/2,
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "ADD TO CART",
-                      style: TextStyle(fontSize: 18),
+                  InkWell(
+                    onTap: (){
+                      gotoCartScreen(context);
+
+                    },
+                    child: Container(
+                      color: ColorRes.whisper,
+                      width: MediaQuery.of(context).size.width/2,
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "ADD TO CART",
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                   InkWell(
                     onTap: (){
-                      gotoCartScreen(context);
+                      gotoAddressScreen(context);
+
                     },
                     child: Container(
                       color: ColorRes.red,

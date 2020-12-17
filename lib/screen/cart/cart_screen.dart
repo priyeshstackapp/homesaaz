@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/screen/cart/cart_view_model.dart';
@@ -59,7 +60,8 @@ class CartScreenState extends State<CartScreen> {
             ],
           ),
           InkWell(
-            onTap: () {
+            onTap: (){
+              gotoAddressScreen(context);
 
             },
             child: Container(

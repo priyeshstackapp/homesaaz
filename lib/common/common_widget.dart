@@ -14,7 +14,7 @@ Widget gradientButton(context, {String title, bool isLoading}) {
     height: MediaQuery.of(context).size.height * .060,
     width: MediaQuery.of(context).size.width / 1.2,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(5),
       boxShadow: [
         BoxShadow(
           color: ColorRes.redColor.withOpacity(0.7),
@@ -59,10 +59,29 @@ showSnackBar(_scaffoldKey, String message, {bool isError = false}) {
 
 Widget backButton(context) {
   return InkWell(
-    onTap: () => Navigator.pop(context),
+    onTap: () {
+    Navigator.pop(context);
+    } ,
+    child:Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Image.asset(
+        App.left_arrow,
+        color: ColorRes.darkRedColor58,
+
+      ),
+    ),
+  );
+}
+Widget loginAndSignupbackButton(context) {
+  return InkWell(
+    onTap: () {
+      //   Navigator.pop(context);
+    } ,
     child: Image.asset(
-      App.backIcon,
-      color: ColorRes.redColor,
+      App.left_arrow,
+      color: ColorRes.dimGray.withOpacity(0.3),
+      height: 22,width: 22,
+
     ),
   );
 }
@@ -585,14 +604,29 @@ Widget commonAppbar(context) {
     actions: [
       GestureDetector(
           onTap: () {
-            gotoProfileScreen(context);
+            replaceWithProfileScreen(context);
           },
-          child: Image.asset(App.userIcon)),
+          child:  Image.asset(
+            App.user,
+            color: ColorRes.darkRedColor58,
+            height: 16,
+            width: 16,
+          ),
+      ),
       GestureDetector(
           onTap: () {
-            gotoCartScreen(context);
+            replaceWithCartScreen(context);
           },
-          child: Image.asset(App.cartIcon)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Image.asset(
+              App.shopping_cart,
+              color: ColorRes.darkRedColor58,
+              height: 16,
+              width: 16,
+            ),
+          ),
+      ),
     ],
   );
 }

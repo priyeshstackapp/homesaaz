@@ -76,6 +76,11 @@ gotoProductDetailScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => ProductDetailScreen()));
 }
+replaceWithProfileScreen(context) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+}
+
 gotoProfileScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => ProfileScreen()));

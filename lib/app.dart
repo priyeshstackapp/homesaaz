@@ -38,7 +38,11 @@ class App {
   static const menuIcon = rootIcon + 'menuIcon.png';
   static const searchIcon = rootIcon + 'searchIcon.png';
   static const cencelIcon = rootIcon + 'Cencel.png';
-  static const backArrow                      = rootIcon +'backArrow.png';
+  static const backArrow = rootIcon +'backArrow.png';
+  static const user = rootIcon +'user.png';
+  static const shopping_cart = rootIcon +'shopping_cart.png';
+  static const left_arrow = rootIcon +'left_arrow.png';
+  static const close = rootIcon +'close.png';
 
   static const splashImage = rootImage + 'splash.png';
   static const appNameImage = rootImage + 'appNameLogo.png';

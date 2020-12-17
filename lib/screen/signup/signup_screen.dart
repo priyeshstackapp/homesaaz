@@ -21,7 +21,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   bool isLoading = false;
-  bool _passwordVisible = false;
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +47,20 @@ class SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding:
                   const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                  child: backButton(context),
+                  child: loginAndSignupbackButton(context),
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 30, left: 30),
                   child: Text(
                     "Signup",
                     style: TextStyle(
-                        fontSize: 34,
-                        color: ColorRes.textColor,
+                        fontSize: 30,
+                        color: ColorRes.nightRider,
                         fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w100),
+                    ),
                   ),
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10, horizontal: 30),
@@ -71,19 +71,19 @@ class SignUpScreenState extends State<SignUpScreen> {
                         "Name",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'NeueFrutigerWorld',
-                            color: ColorRes.textColor),
+                            color: ColorRes.dimGray.withOpacity(0.7)),
                       ),
                       TextFormField(
                         style: TextStyle(
-                            fontSize: 16, color: ColorRes.textColor),
+                            fontSize: 14, color: ColorRes.textColor),
                         cursorColor: ColorRes.textColor,
                         controller: userNameCont,
                         decoration: InputDecoration(
                           hintText: "Majedul Islam Khan",
                           hintStyle: TextStyle(
-                              color: ColorRes.textColor, fontSize: 16),
+                              color: ColorRes.textColor, fontSize: 14),
                           focusColor: ColorRes.textColor,
                           focusedBorder: UnderlineInputBorder(
                               borderSide:
@@ -106,20 +106,20 @@ class SignUpScreenState extends State<SignUpScreen> {
                         "Email",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'NeueFrutigerWorld',
-                            color: Colors.grey[200]),
+                            color: ColorRes.dimGray.withOpacity(0.7)),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         style: TextStyle(
-                            fontSize: 16, color: ColorRes.textColor),
+                            fontSize: 14, color: ColorRes.textColor),
                         cursorColor: ColorRes.textColor,
                         controller: emailCont,
                         decoration: InputDecoration(
                           hintText: "Helloistiak@gmail.com",
                           hintStyle: TextStyle(
-                              color: ColorRes.textColor, fontSize: 16),
+                              color: ColorRes.textColor, fontSize: 14),
                           focusColor: ColorRes.textColor,
                           focusedBorder: UnderlineInputBorder(
                               borderSide:
@@ -142,13 +142,14 @@ class SignUpScreenState extends State<SignUpScreen> {
                         "Password",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'NeueFrutigerWorld',
-                            color: ColorRes.textColor),
+                            color: ColorRes.dimGray.withOpacity(0.7)),
+
                       ),
                       TextFormField(
                         style: TextStyle(
-                            fontSize: 16, color: ColorRes.textColor),
+                            fontSize: 14, color: ColorRes.textColor),
                         cursorColor: ColorRes.textColor,
                         controller: passwordCont,
                         obscureText: _passwordVisible,
@@ -158,8 +159,8 @@ class SignUpScreenState extends State<SignUpScreen> {
                             icon: Icon(
                               // Based on passwordVisible state choose the icon
                               _passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: ColorRes.textColor.withOpacity(0.3),
                             ),
                             onPressed: () {
@@ -169,7 +170,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                             },
                           ),
                           hintStyle: TextStyle(
-                              color: ColorRes.textColor, fontSize: 16,fontWeight: FontWeight.bold),
+                              color: ColorRes.textColor, fontSize: 14,fontWeight: FontWeight.bold),
                           focusColor: ColorRes.textColor,
                           focusedBorder: UnderlineInputBorder(
                               borderSide:
@@ -183,7 +184,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 15
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -194,6 +195,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                         if (model.validate()) {
                           setState(() {
                             isLoading = true;
+                            gotoHomeScreen(context);
                           });
                           model.signUp();
                         }
@@ -218,17 +220,17 @@ class SignUpScreenState extends State<SignUpScreen> {
                           "Already have an account? ",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: ColorRes.textColor,
+                              color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
-                              fontSize: 15),
+                              fontSize: 14),
                         ),
                         Text(
-                          " Sign In",
+                          " Sign in",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: ColorRes.textColor,
                               fontFamily: 'NeueFrutigerWorld',
-                              fontSize: 18),
+                              fontSize: 14),
                         ),
                       ],
                     ),

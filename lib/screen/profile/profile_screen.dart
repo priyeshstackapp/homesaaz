@@ -135,7 +135,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   child: InkWell(
                     onTap: () => Navigator.pop(context),
                     child: Image.asset(
-                      App.cencelIcon,
+                      App.close,
                       //color: Colors.black,
                       height: 30,
                       width: 30,
@@ -383,7 +383,7 @@ class ProfileScreenState extends State<ProfileScreen> {
            ),
            SizedBox(height: 20),
 
-           //Address
+         /*  //Address
            InkWell(
              onTap: (){
                gotoAddressScreen(context);
@@ -420,7 +420,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                ),
              ),
            ),
-           SizedBox(height: 20),
+           SizedBox(height: 20),*/
          ],
        )
       ],

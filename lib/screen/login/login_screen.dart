@@ -22,7 +22,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   bool isLoading = false;
 
-  bool _passwordVisible = false;
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -46,24 +46,25 @@ class LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                  child: backButton(context),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  child: loginAndSignupbackButton(context),
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 30, left: 30),
                   child: Text(
                     "Login",
                     style: TextStyle(
-                        fontSize: 34,
-                        color: ColorRes.textColor,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w100),
+                      fontSize: 30,
+                      color: ColorRes.nightRider,
+                      fontFamily: 'NeueFrutigerWorld',
+                    ),
                   ),
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: 25),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -71,34 +72,34 @@ class LoginScreenState extends State<LoginScreen> {
                         "Email",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'NeueFrutigerWorld',
-                            color: ColorRes.textColor),
+                            color: ColorRes.dimGray.withOpacity(0.7)),
                       ),
                       TextFormField(
-                        style: TextStyle(
-                            fontSize: 16, color: ColorRes.textColor),
+                        style:
+                            TextStyle(fontSize: 14, color: ColorRes.textColor),
                         cursorColor: ColorRes.textColor,
                         controller: usernameCont,
                         decoration: InputDecoration(
                           hintText: "Helloistiak@gmail.com",
                           hintStyle: TextStyle(
-                              color: ColorRes.textColor, fontSize: 16),
+                              color: ColorRes.textColor, fontSize: 14),
                           focusColor: ColorRes.textColor,
                           focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                              BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                              borderSide: BorderSide(
+                                  color: ColorRes.textColor.withOpacity(0.5))),
                           enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                              BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                              borderSide: BorderSide(
+                                  color: ColorRes.textColor.withOpacity(0.3))),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 20, horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -106,13 +107,13 @@ class LoginScreenState extends State<LoginScreen> {
                         "Password",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'NeueFrutigerWorld',
                             color: ColorRes.textColor),
                       ),
                       TextFormField(
-                        style: TextStyle(
-                            fontSize: 16, color: ColorRes.textColor),
+                        style:
+                            TextStyle(fontSize: 14, color: ColorRes.textColor),
                         cursorColor: ColorRes.textColor,
                         controller: passwordCont,
                         obscureText: _passwordVisible,
@@ -122,8 +123,8 @@ class LoginScreenState extends State<LoginScreen> {
                             icon: Icon(
                               // Based on passwordVisible state choose the icon
                               _passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: ColorRes.textColor.withOpacity(0.3),
                             ),
                             onPressed: () {
@@ -133,14 +134,16 @@ class LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           hintStyle: TextStyle(
-                              color: ColorRes.textColor, fontSize: 16,fontWeight: FontWeight.bold),
+                              color: ColorRes.textColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                           focusColor: ColorRes.textColor,
                           focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                              borderSide: BorderSide(
+                                  color: ColorRes.textColor.withOpacity(0.5))),
                           enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                              borderSide: BorderSide(
+                                  color: ColorRes.textColor.withOpacity(0.3))),
                         ),
                       ),
                     ],
@@ -150,25 +153,28 @@ class LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: GestureDetector(
                     onTap: () {
+
                       if (!isLoading) {
                         if (model.validate()) {
                           setState(() {
                             isLoading = true;
+                            gotoHomeScreen(context);
                           });
                           model.login();
                         }
                       }
                     },
-                    child: gradientButton(context,title: 'Log in',isLoading: isLoading),
+                    child: gradientButton(context,
+                        title: 'Log in', isLoading: isLoading),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: GestureDetector(
                     onTap: () {
                       if (!isLoading) {
@@ -182,17 +188,17 @@ class LoginScreenState extends State<LoginScreen> {
                           "Don't have account? ",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: ColorRes.textColor,
+                              color: ColorRes.dimGray,
                               fontFamily: 'NeueFrutigerWorld',
-                              fontSize: 15),
+                              fontSize: 14),
                         ),
                         Text(
-                          " Sign up",
+                          " Sign Up",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: ColorRes.textColor,
                               fontFamily: 'NeueFrutigerWorld',
-                              fontSize: 18),
+                              fontSize: 14),
                         ),
                       ],
                     ),

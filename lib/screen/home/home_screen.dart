@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homesaaz/app.dart';
@@ -25,360 +26,396 @@ class HomeScreenState extends State<HomeScreen> {
     print("Current page --> $runtimeType");
     model ?? (model = HomeScreenViewModel(this));
 
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: ColorRes.primaryColor,
-      appBar: AppBar(
-        leading: InkWell(
-          child: Image.asset(App.menuIcon),
-          onTap: () => scaffoldKey.currentState.openDrawer(),
-        ),
-        elevation: 0,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        key: scaffoldKey,
         backgroundColor: ColorRes.primaryColor,
-        actions: [
-          InkWell(
-              onTap: (){
-                gotoProfileScreen(context);
-
-              },child: Image.asset(App.userIcon)),
-          InkWell(
-              onTap: (){
-                gotoCartScreen(context);
-              },child: Image.asset(App.cartIcon)),
-        ],
-      ),
-      drawer: Scaffold(
-        backgroundColor: ColorRes.whisper,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: height * 0.8,
-                  width: width * width,
-                  color: ColorRes.primaryColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          gotoHomeScreen(context);
-                        }
-                        ,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Home",
-                            style: new TextStyle(
-                              fontSize: 24,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          gotoProfileScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Profile",
-                            style: new TextStyle(
-                              fontSize: 24,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          gotoCartScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "My Cart",
-                            style: new TextStyle(
-                              fontSize: 24,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Favorite",
-                            style: new TextStyle(
-                              fontSize: 24,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          gotoMyOrdersScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "My Orders",
-                            style: new TextStyle(
-                              fontSize: 24,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Help",
-                            style: new TextStyle(
-                              fontSize: 24,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+        appBar: AppBar(
+          leading: InkWell(
+            child: Image.asset(App.menuIcon),
+            onTap: () => scaffoldKey.currentState.openDrawer(),
+          ),
+          elevation: 0,
+          backgroundColor: ColorRes.primaryColor,
+          actions: [
+            InkWell(
+                onTap: () {
+                  gotoProfileScreen(context);
+                },
+                child: Image.asset(
+                  App.user,
+                  color: ColorRes.darkRedColor58,
+                  height: 16,
+                  width: 16,
+                ),
+            ),
+            InkWell(
+                onTap: () {
+                  gotoCartScreen(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Image.asset(
+                    App.shopping_cart,
+                    color: ColorRes.darkRedColor58,
+                    height: 16,
+                    width: 16,
                   ),
                 ),
-                Container(
-                  margin:
-                      EdgeInsets.only(top: width * 0.08, right: width * 0.1),
-                  alignment: Alignment.bottomRight,
-                  child: InkWell(
-                    onTap: () => Navigator.pop(context),
-                    child: Image.asset(
-                      App.cencelIcon,
-                      //color: Colors.black,
-                      height: 30,
-                      width: 30,
+            ),
+          ],
+        ),
+        drawer: Scaffold(
+          backgroundColor: ColorRes.whisper,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    height: height * 0.8,
+                    width: width * width,
+                    color: ColorRes.primaryColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            replaceWithHomeScreen(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "Home",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            gotoProfileScreen(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "Profile",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            gotoCartScreen(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "My Cart",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "Favorite",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            gotoMyOrdersScreen(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "My Orders",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "Help",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            replaceWithLoginScreen(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "LogOut",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    margin:
+                        EdgeInsets.only(top: width * 0.08, right: width * 0.1),
+                    alignment: Alignment.bottomRight,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Image.asset(
+                        App.close,
+                        //color: Colors.black,
+                        height: 30,
+                        width: 30,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 5),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 5),
 
-            search(),
-            SizedBox(height: 20),
+              search(),
+              SizedBox(height: 20),
 
-            //Top Banner
-            Image.asset(App.banner_top),
-            SizedBox(height: 14),
+              //Top Banner
+              Image.asset(App.banner_top),
+              SizedBox(height: 14),
 
-            categories(),
-            SizedBox(height: 25),
+              categories(),
+              SizedBox(height: 25),
 
-            //New Products
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    'New Products',
-                    style: new TextStyle(
-                        fontSize: 22,
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    gotoSeeAllScreen(context, "New Products");
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(right: 20),
+              //New Products
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(left: 25),
                     child: Text(
-                      "See all",
+                      'New Products',
                       style: new TextStyle(
-                          fontSize: 14,
+                          fontSize: 22,
                           color: ColorRes.charcoal,
                           fontFamily: 'NeueFrutigerWorld',
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 18),
-            Container(
-              padding: EdgeInsets.only(left: 25),
-              color: ColorRes.primaryColor,
-              height: height * 0.4,
-              child: ListView.builder(
-                  itemCount: model.newProductName.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    HomeScreenModel product = model.newProductName[index];
-                    return GestureDetector(
-                      onTap: () {
-                        gotoProductDetailScreen(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: productView(
-                            product.productUrl,
-                            product.productName,
-                            product.productPriceBefore,
-                            product.productPriceAfter),
+                  InkWell(
+                    onTap: () {
+                      gotoSeeAllScreen(context, "New Products");
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        "See all",
+                        style: new TextStyle(
+                            fontSize: 14,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400),
                       ),
-                    );
-                  }),
-            ),
-            SizedBox(height: 10),
-
-            //Center Banner
-            Image.asset(App.banner_center),
-            SizedBox(height: 30),
-
-            //Trending Products
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    'Trending Products',
-                    style: new TextStyle(
-                        fontSize: 22,
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400),
+                    ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    gotoSeeAllScreen(context, "Trending Products");
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(right: 20),
+                ],
+              ),
+              SizedBox(height: 18),
+              Container(
+                padding: EdgeInsets.only(left: 25),
+                color: ColorRes.primaryColor,
+                height: height * 0.4,
+                child: ListView.builder(
+                    itemCount: model.newProductName.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      HomeScreenModel product = model.newProductName[index];
+                      return GestureDetector(
+                        onTap: () {
+                          gotoProductDetailScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: productView(
+                              product.productUrl,
+                              product.productName,
+                              product.productPriceBefore,
+                              product.productPriceAfter),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(height: 10),
+
+              //Center Banner
+              Image.asset(App.banner_center),
+              SizedBox(height: 30),
+
+              //Trending Products
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(left: 25),
                     child: Text(
-                      "See all",
+                      'Trending Products',
                       style: new TextStyle(
-                          fontSize: 14,
+                          fontSize: 22,
                           color: ColorRes.charcoal,
                           fontFamily: 'NeueFrutigerWorld',
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 18),
-            Container(
-              padding: EdgeInsets.only(left: 25),
-              color: ColorRes.primaryColor,
-              height: height * 0.4,
-              child: ListView.builder(
-                  itemCount: model.trendingProductsName.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    HomeScreenModel product = model.trendingProductsName[index];
-                    return GestureDetector(
-                      onTap: () {
-                        gotoProductDetailScreen(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: productView(
-                            product.productUrl,
-                            product.productName,
-                            product.productPriceBefore,
-                            product.productPriceAfter),
+                  InkWell(
+                    onTap: () {
+                      gotoSeeAllScreen(context, "Trending Products");
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        "See all",
+                        style: new TextStyle(
+                            fontSize: 14,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400),
                       ),
-                    );
-                  }),
-            ),
-            SizedBox(height: 10),
-
-            //Bottom Banner
-            Image.asset(App.banner_bottom),
-            SizedBox(height: 30),
-
-            //Featured Products
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    'Featured Products',
-                    style: new TextStyle(
-                        fontSize: 22,
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400),
+                    ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    gotoSeeAllScreen(context, "Featured Products");
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(right: 20),
+                ],
+              ),
+              SizedBox(height: 18),
+              Container(
+                padding: EdgeInsets.only(left: 25),
+                color: ColorRes.primaryColor,
+                height: height * 0.4,
+                child: ListView.builder(
+                    itemCount: model.trendingProductsName.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      HomeScreenModel product =
+                          model.trendingProductsName[index];
+                      return GestureDetector(
+                        onTap: () {
+                          gotoProductDetailScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: productView(
+                              product.productUrl,
+                              product.productName,
+                              product.productPriceBefore,
+                              product.productPriceAfter),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(height: 10),
+
+              //Bottom Banner
+              Image.asset(App.banner_bottom),
+              SizedBox(height: 30),
+
+              //Featured Products
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(left: 25),
                     child: Text(
-                      "See all",
+                      'Featured Products',
                       style: new TextStyle(
-                          fontSize: 14,
+                          fontSize: 22,
                           color: ColorRes.charcoal,
                           fontFamily: 'NeueFrutigerWorld',
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 18),
-            Container(
-              padding: EdgeInsets.only(left: 25),
-              color: ColorRes.primaryColor,
-              height: height * 0.4,
-              child: ListView.builder(
-                  itemCount: model.featuredProductsName.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    HomeScreenModel product = model.featuredProductsName[index];
-                    return GestureDetector(
-                      onTap: () {
-                        gotoProductDetailScreen(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: productView(
-                            product.productUrl,
-                            product.productName,
-                            product.productPriceBefore,
-                            product.productPriceAfter),
+                  InkWell(
+                    onTap: () {
+                      gotoSeeAllScreen(context, "Featured Products");
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        "See all",
+                        style: new TextStyle(
+                            fontSize: 14,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400),
                       ),
-                    );
-                  }),
-            ),
-            SizedBox(height: 10),
-          ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 18),
+              Container(
+                padding: EdgeInsets.only(left: 25),
+                color: ColorRes.primaryColor,
+                height: height * 0.4,
+                child: ListView.builder(
+                    itemCount: model.featuredProductsName.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      HomeScreenModel product =
+                          model.featuredProductsName[index];
+                      return GestureDetector(
+                        onTap: () {
+                          gotoProductDetailScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: productView(
+                              product.productUrl,
+                              product.productName,
+                              product.productPriceBefore,
+                              product.productPriceAfter),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
@@ -456,38 +493,43 @@ class HomeScreenState extends State<HomeScreen> {
                     (MediaQuery.of(context).size.height / 3),
                 mainAxisSpacing: 15.0),
             itemBuilder: (BuildContext context, int index) {
-              return Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFFFFFF),
-                      borderRadius: BorderRadius.circular(5.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 5.5,
-                          spreadRadius: 1.5,
-                          offset: Offset(4.4, 9.0),
-                        ),
-                      ],
+              return InkWell(
+                onTap: () {
+                  gotoSeeAllScreen(context, model.categoriesName[index]);
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFFFFFF),
+                        borderRadius: BorderRadius.circular(5.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            blurRadius: 5.5,
+                            spreadRadius: 1.5,
+                            offset: Offset(4.4, 9.0),
+                          ),
+                        ],
+                      ),
+                      child: Image.asset(model.categoriesImage[index],
+                          fit: BoxFit.cover),
                     ),
-                    child: Image.asset(model.categoriesImage[index],
-                        fit: BoxFit.cover),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    child: Center(
-                      child: Text(
-                        model.categoriesName[index],
-                        style: new TextStyle(
-                            fontSize: 12,
-                            color: ColorRes.whiteColor,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.bold),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      child: Center(
+                        child: Text(
+                          model.categoriesName[index],
+                          style: new TextStyle(
+                              fontSize: 12,
+                              color: ColorRes.whiteColor,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),

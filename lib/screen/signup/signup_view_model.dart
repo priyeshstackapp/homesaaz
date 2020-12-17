@@ -11,10 +11,11 @@ class SignUpViewModel {
   }
 
   bool validate() {
-    if (state.userIdCont.text == '') {
+   /* if (state.userIdCont.text == '') {
       showSnackBar(state.scaffoldKey,'Enter username',isError: true);
       return false;
-    }else if (state.userNameCont.text == '') {
+    }else*/
+      if (state.userNameCont.text == '') {
       showSnackBar(state.scaffoldKey,'Enter name',isError: true);
       return false;
     } else if (state.emailCont.text == '') {

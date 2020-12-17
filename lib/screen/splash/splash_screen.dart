@@ -15,16 +15,21 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 4))
-        .then((value) => replaceWithHomeScreen(context));
+        .then((value) => replaceWithLoginScreen(context));
   }
 
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
 
-    return SafeArea(
-      child: Scaffold(
-        body: Image.asset(App.splashImage),
+    return Scaffold(
+      body:Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Image.asset(
+          App.splashImage,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
