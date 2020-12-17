@@ -285,9 +285,12 @@ Widget cartProductView(
                               ),
                             ),
                             onTap: () {
-                              state.setState(() {
-                                cartItem.quantity++;
-                              });
+                              if (cartItem.quantity != 1) {
+                                state.setState(() {
+                                  cartItem.quantity--;
+                                });
+                              }
+
                             }),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -311,11 +314,9 @@ Widget cartProductView(
                               ),
                             ),
                             onTap: () {
-                              if (cartItem.quantity != 1) {
-                                state.setState(() {
-                                  cartItem.quantity--;
-                                });
-                              }
+                              state.setState(() {
+                                cartItem.quantity++;
+                              });
                             }),
                       ],
                     ),

@@ -61,6 +61,10 @@ class HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
+                        onTap: (){
+                          gotoHomeScreen(context);
+                        }
+                        ,
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
