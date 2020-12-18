@@ -239,7 +239,7 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 14),
 
               categories(),
-              SizedBox(height: 25),
+              SizedBox(height:  height*0.03),
 
               //New Products
               Row(
@@ -300,11 +300,11 @@ class HomeScreenState extends State<HomeScreen> {
                       );
                     }),
               ),
-              SizedBox(height: 10),
+              //SizedBox(height: 10),
 
               //Center Banner
               Image.asset(App.banner_center),
-              SizedBox(height: 30),
+              SizedBox(height: height*0.05),
 
               //Trending Products
               Row(
@@ -366,11 +366,11 @@ class HomeScreenState extends State<HomeScreen> {
                       );
                     }),
               ),
-              SizedBox(height: 10),
+              //SizedBox(height: 10),
 
               //Bottom Banner
               Image.asset(App.banner_bottom),
-              SizedBox(height: 30),
+              SizedBox(height:  height*0.05),
 
               //Featured Products
               Row(
@@ -432,7 +432,7 @@ class HomeScreenState extends State<HomeScreen> {
                       );
                     }),
               ),
-              SizedBox(height: 10),
+              //SizedBox(height: 10),
             ],
           ),
         ),
@@ -535,7 +535,6 @@ class HomeScreenState extends State<HomeScreen> {
                           fit: BoxFit.cover),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(5),
                       child: Center(
                         child: Text(
                           model.categoriesName[index],
@@ -544,6 +543,7 @@ class HomeScreenState extends State<HomeScreen> {
                               color: ColorRes.whiteColor,
                               fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),

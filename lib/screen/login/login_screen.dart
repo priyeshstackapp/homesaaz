@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -54,7 +55,13 @@ class LoginScreenState extends State<LoginScreen> {
                         child: new Text('No'),
                       ),
                       new FlatButton(
-                        onPressed: () => SystemNavigator.pop(),
+                        onPressed: () {
+                          if (Platform.isAndroid) {
+                            SystemNavigator.pop();
+                          } else if (Platform.isIOS) {
+                            exit(0);
+                          }
+                        },
                         child: new Text('Yes'),
                       ),
                     ],
