@@ -19,10 +19,20 @@ void main() {
 
 SharedPreferences prefs;
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white),
+
+    );
+
     return MaterialApp(
       title: 'Home Saaz',
       debugShowCheckedModeBanner: false,

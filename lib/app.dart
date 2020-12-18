@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class App {
   static const String appName = 'HomeSaaz';
 
@@ -45,6 +47,7 @@ class App {
   static const close = rootIcon +'close.png';
 
   static const splashImage = rootImage + 'splash.png';
+  static const splash = rootImage + 'splash.jpg';
   static const appNameImage = rootImage + 'appNameLogo.png';
   static const bannerImage = rootImage + 'banner.png';
   static const VectorVisaCreditCard = rootImage + 'VectorVisaCreditCard.png';
@@ -65,4 +68,23 @@ class App {
   static const trending_product_first = HomeImage + 'trending_product_first.png';
   static const trending_product_second = HomeImage + 'trending_product_second.png';
   static const confirmation = HomeImage + 'confirmation.png';
+
+  static Route createRoute({Widget page}) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.fastLinearToSlowEaseIn;
+
+        var tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
 }

@@ -9,7 +9,7 @@ import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
 import 'package:rating_bar/rating_bar.dart';
 
-Widget gradientButton(context, {String title, bool isLoading}) {
+Widget gradientButton(context, {String title}) {
   return Container(
     height: MediaQuery.of(context).size.height * .060,
     width: MediaQuery.of(context).size.width / 1.2,
@@ -28,14 +28,7 @@ Widget gradientButton(context, {String title, bool isLoading}) {
           colors: [ColorRes.redColor, ColorRes.darkRedColor]),
     ),
     child: Center(
-        child: isLoading
-            ? Padding(
-                child: CircularProgressIndicator(
-                  backgroundColor: ColorRes.whiteColor,
-                ),
-                padding: EdgeInsets.all(5),
-              )
-            : Text(title,
+        child:Text(title,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

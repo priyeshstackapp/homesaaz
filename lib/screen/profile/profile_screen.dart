@@ -205,7 +205,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
-                   color: ColorRes.charcoal,
+                   color: ColorRes.charcoal.withOpacity(0.5),
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),
@@ -239,7 +239,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
-                   color: ColorRes.charcoal,
+                   color: ColorRes.charcoal.withOpacity(0.5),
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),
@@ -273,7 +273,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
-                   color: ColorRes.charcoal,
+                   color: ColorRes.charcoal.withOpacity(0.5),
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),
@@ -307,7 +307,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
-                   color: ColorRes.charcoal,
+                   color: ColorRes.charcoal.withOpacity(0.5),
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),
@@ -341,7 +341,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
-                   color: ColorRes.charcoal,
+                   color: ColorRes.charcoal.withOpacity(0.5),
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),
@@ -375,7 +375,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
-                   color: ColorRes.charcoal,
+                   color: ColorRes.charcoal.withOpacity(0.5),
                  ),
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),

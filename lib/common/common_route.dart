@@ -15,6 +15,8 @@ import 'package:homesaaz/screen/profile/profile_screen.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
 
+import '../app.dart';
+
 // create two method with name replaceWith and goto
 
 replaceWithLoginScreen(context) {
@@ -26,7 +28,11 @@ gotoLoginScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => LoginScreen()));
 }
-
+gotoLoginScreenUntilRemove(context) {
+  Navigator.pushAndRemoveUntil(context,
+      App.createRoute(page: LoginScreen()),
+          (Route<dynamic> route) => false);
+}
 gotoForgotPassword(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => ForgotPassword()));
@@ -51,7 +57,11 @@ replaceWithHomeScreen(context) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => HomeScreen()));
 }
-
+gotoHomeScreenUntilRemove(context) {
+  Navigator.pushAndRemoveUntil(context,
+      App.createRoute(page: HomeScreen()),
+          (Route<dynamic> route) => false);
+}
 gotoHomeScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => HomeScreen()));

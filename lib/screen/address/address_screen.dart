@@ -82,110 +82,122 @@ class AddressScreenState extends State<AddressScreen> {
         key: _formKey,
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: SingleChildScrollView(
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SingleChildScrollView(
+                child: Container(
 
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  height: MediaQuery.of(context).size.height,
+                  child: SingleChildScrollView(
+                    child: Column(
+
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Address",
+                            style: new TextStyle(
+                              fontSize: 30,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: height * 0.6,
+                          child: ListView.builder(
+                            itemCount: listOfAddress.length,
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () {}, child: addressData(index));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: height*0.18,
+                child:  Column(
+                  //mainAxisAlignment: MainAxisAlignment.end,
+                  //crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    SizedBox(height: 10),
-                    Text(
-                      "Address",
-                      style: new TextStyle(
-                        fontSize: 30,
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
+                    InkWell(
+                      onTap: () async {
+                        Map setData = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateAddressScreen()),
+                        );
+                        print(setData);
+                        listOfAddress.add(setData);
+                        print(listOfAddress);
+                        setState(() {});
+                      },
+                      child: DottedBorder(
+                        color: ColorRes.red,
+                        dashPattern: [4, 4],
+                        strokeWidth: 1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: height * 0.07,
+                          width: width * 0.9,
+                          decoration: BoxDecoration(
+                            color: ColorRes.whiteColor,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Text(
+                            '+ Add Address',
+                            style: new TextStyle(
+                                fontSize: 20,
+                                color: ColorRes.textColor,
+                                fontFamily: 'NeueFrutigerWorld',
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
-                      height: height * 0.6,
-                      child: ListView.builder(
-                        itemCount: listOfAddress.length,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () {}, child: addressData(index));
-                        },
+                    SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        //print(listOfAddress[isSelectedIndex]);
+                        listOfAddress.length == 0 ? showToast() : gotoPaymentScreen(context, mapAddress: listOfAddress[isSelectedIndex]);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: height * 0.07,
+                        width: width * 0.92,
+                        decoration: BoxDecoration(
+                          color: ColorRes.red,
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Text(
+                          'Continue To Payment',
+                          style: new TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Spacer(),
-            Column(
-              //mainAxisAlignment: MainAxisAlignment.end,
-              //crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () async {
-                    Map setData = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CreateAddressScreen()),
-                    );
-                    print(setData);
-                    listOfAddress.add(setData);
-                    print(listOfAddress);
-                    setState(() {});
-                  },
-                  child: DottedBorder(
-                    color: ColorRes.red,
-                    dashPattern: [4, 4],
-                    strokeWidth: 1,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: height * 0.07,
-                      width: width * 0.9,
-                      decoration: BoxDecoration(
-                        color: ColorRes.whiteColor,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Text(
-                        '+ Add Address',
-                        style: new TextStyle(
-                            fontSize: 20,
-                            color: ColorRes.textColor,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                InkWell(
-                  onTap: () {
-                    //print(listOfAddress[isSelectedIndex]);
-                   listOfAddress.length == 0 ? showToast() : gotoPaymentScreen(context, mapAddress: listOfAddress[isSelectedIndex]);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: height * 0.07,
-                    width: width * 0.92,
-                    decoration: BoxDecoration(
-                      color: ColorRes.red,
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(
-                      'Continue To Payment',
-                      style: new TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-          ],
+            ],
+          ),
         ),
+
+
       ),
     );
   }
@@ -197,7 +209,7 @@ class AddressScreenState extends State<AddressScreen> {
         setState(() {});
       },
       child: Container(
-        padding: EdgeInsets.only(right: 20, bottom: 20),
+        padding: EdgeInsets.only(left:20,right: 20, bottom: 20),
         color: ColorRes.whiteColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

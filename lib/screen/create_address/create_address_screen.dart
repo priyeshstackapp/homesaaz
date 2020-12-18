@@ -163,7 +163,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
-              color: ColorRes.dimGray,
+              color: ColorRes.textColor,
             ),
           ),
           Padding(
@@ -180,11 +180,11 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: 'Rakesh Patwal',
+                hintText: 'Enter your name',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
@@ -198,7 +198,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
-              color: ColorRes.dimGray,
+              color: ColorRes.textColor,
             ),
           ),
           Padding(
@@ -220,11 +220,11 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: 'Shewrapara 958',
+                hintText: 'Enter Address lane',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
@@ -238,7 +238,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
-              color: ColorRes.dimGray,
+              color: ColorRes.textColor,
             ),
           ),
           Padding(
@@ -260,11 +260,11 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 //filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: 'Delhi',
+                hintText: 'Enter city',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
@@ -278,13 +278,13 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
-              color: ColorRes.dimGray,
+              color: ColorRes.textColor,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
-
+              maxLength:6,
               //readOnly: true,
               controller: _postalCode,
               validator: validatePostalCode,
@@ -301,11 +301,12 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: '110065',
+                hintText: 'Enter postal code',
+                counterText: '',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
@@ -323,13 +324,14 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
-              color: ColorRes.dimGray,
+              color: ColorRes.textColor,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
               //readOnly: true,
+              maxLength:10,
               validator: validateMobileNo,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -341,11 +343,13 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: '+91 9958 314 088',
+                hintText: 'Enter phone number',
+
+                counterText: '',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),

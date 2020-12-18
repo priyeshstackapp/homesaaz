@@ -17,7 +17,26 @@ class HomeScreenState extends State<HomeScreen> {
   HomeScreenViewModel model;
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  Future<bool> _onWillPop() async {
+    return (
+        await showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit an App'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
@@ -27,10 +46,10 @@ class HomeScreenState extends State<HomeScreen> {
     model ?? (model = HomeScreenViewModel(this));
 
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: _onWillPop,
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: ColorRes.primaryColor,
+        backgroundColor: ColorRes.whiteColor,
         appBar: AppBar(
           leading: InkWell(
             child: Image.asset(App.menuIcon),
@@ -171,7 +190,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            replaceWithLoginScreen(context);
+                            gotoLoginScreenUntilRemove(context);
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20),

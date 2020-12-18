@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 4))
-        .then((value) => replaceWithLoginScreen(context));
+        .then((onValue) => replaceWithLoginScreen(context));
   }
 
   @override
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Image.asset(
-          App.splashImage,
+          App.splash,
           fit: BoxFit.cover,
         ),
       ),
