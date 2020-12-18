@@ -20,22 +20,22 @@ class HomeScreenState extends State<HomeScreen> {
   Future<bool> _onWillPop() async {
     return (
         await showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Are you sure?'),
-        content: new Text('Do you want to exit an App'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('No'),
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
           ),
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    )) ?? false;
+        )) ?? false;
   }
   @override
   Widget build(BuildContext context) {
@@ -59,29 +59,29 @@ class HomeScreenState extends State<HomeScreen> {
           backgroundColor: ColorRes.primaryColor,
           actions: [
             InkWell(
-                onTap: () {
-                  gotoProfileScreen(context);
-                },
+              onTap: () {
+                gotoProfileScreen(context);
+              },
+              child: Image.asset(
+                App.user,
+                color: ColorRes.darkRedColor58,
+                height: 16,
+                width: 16,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                gotoCartScreen(context);
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Image.asset(
-                  App.user,
+                  App.shopping_cart,
                   color: ColorRes.darkRedColor58,
                   height: 16,
                   width: 16,
                 ),
-            ),
-            InkWell(
-                onTap: () {
-                  gotoCartScreen(context);
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Image.asset(
-                    App.shopping_cart,
-                    color: ColorRes.darkRedColor58,
-                    height: 16,
-                    width: 16,
-                  ),
-                ),
+              ),
             ),
           ],
         ),
@@ -209,7 +209,7 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                     margin:
-                        EdgeInsets.only(top: width * 0.08, right: width * 0.1),
+                    EdgeInsets.only(top: width * 0.08, right: width * 0.1),
                     alignment: Alignment.bottomRight,
                     child: InkWell(
                       onTap: () => Navigator.pop(context),
@@ -235,11 +235,12 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 20),
 
               //Top Banner
-              Image.asset(App.banner_top),
+              Image.asset(App.banner_top,fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,),
               SizedBox(height: 14),
 
               categories(),
-              SizedBox(height:  height*0.03),
+              SizedBox(height: 30),
 
               //New Products
               Row(
@@ -303,7 +304,8 @@ class HomeScreenState extends State<HomeScreen> {
               //SizedBox(height: 10),
 
               //Center Banner
-              Image.asset(App.banner_center),
+              Image.asset(App.banner_center,fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,),
               SizedBox(height: height*0.05),
 
               //Trending Products
@@ -350,7 +352,7 @@ class HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       HomeScreenModel product =
-                          model.trendingProductsName[index];
+                      model.trendingProductsName[index];
                       return GestureDetector(
                         onTap: () {
                           gotoProductDetailScreen(context);
@@ -369,7 +371,8 @@ class HomeScreenState extends State<HomeScreen> {
               //SizedBox(height: 10),
 
               //Bottom Banner
-              Image.asset(App.banner_bottom),
+              Image.asset(App.banner_bottom,fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,),
               SizedBox(height:  height*0.05),
 
               //Featured Products
@@ -416,7 +419,7 @@ class HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       HomeScreenModel product =
-                          model.featuredProductsName[index];
+                      model.featuredProductsName[index];
                       return GestureDetector(
                         onTap: () {
                           gotoProductDetailScreen(context);
@@ -499,7 +502,7 @@ class HomeScreenState extends State<HomeScreen> {
 
         //Categories Images
         Padding(
-          padding: const EdgeInsets.only(left: 20, right: 15),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: GridView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -507,10 +510,11 @@ class HomeScreenState extends State<HomeScreen> {
             itemCount: model.categoriesImage.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 6.0,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 3),
-                mainAxisSpacing: 15.0),
+                crossAxisSpacing: 13.0,
+                childAspectRatio: 1.6,
+                //childAspectRatio: MediaQuery.of(context).size.width /
+                //   (MediaQuery.of(context).size.height / 3),
+                mainAxisSpacing: 17.0),
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () {
@@ -521,6 +525,9 @@ class HomeScreenState extends State<HomeScreen> {
                     Container(
                       decoration: BoxDecoration(
                         color: Color(0xFFFFFFFFF),
+                        image: DecorationImage(
+                            image: AssetImage(model.categoriesImage[index]), fit: BoxFit.cover
+                        ),
                         borderRadius: BorderRadius.circular(5.0),
                         boxShadow: [
                           BoxShadow(
@@ -531,11 +538,8 @@ class HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      child: Image.asset(model.categoriesImage[index],
-                          fit: BoxFit.cover),
-                    ),
-                    Container(
-                      child: Center(
+                      child:  Container(
+                        alignment: Alignment.center,
                         child: Text(
                           model.categoriesName[index],
                           style: new TextStyle(
