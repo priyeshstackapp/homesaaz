@@ -36,14 +36,7 @@ class CartScreenState extends State<CartScreen> {
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  "Cart",
-                  style: new TextStyle(
-                    fontSize: 30,
-                    color: ColorRes.charcoal,
-                    fontFamily: 'NeueFrutigerWorld',
-                  ),
-                ),
+                child: commonTitle('Cart'),
               ),
               SizedBox(height: 10),
               Container(

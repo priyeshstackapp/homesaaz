@@ -98,6 +98,7 @@ class HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        //Home
                         InkWell(
                           onTap: () {
                             replaceWithHomeScreen(context);
@@ -114,6 +115,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        //Profile
                         InkWell(
                           onTap: () {
                             gotoProfileScreen(context);
@@ -130,6 +132,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        //My Cart
                         InkWell(
                           onTap: () {
                             gotoCartScreen(context);
@@ -146,6 +149,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        //Favorite
                         InkWell(
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20),
@@ -159,6 +163,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        //My Orders
                         InkWell(
                           onTap: () {
                             gotoMyOrdersScreen(context);
@@ -175,6 +180,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        //Help
                         InkWell(
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20),
@@ -188,6 +194,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        //LogOut
                         InkWell(
                           onTap: () {
                             gotoLoginScreenUntilRemove(context);
@@ -240,68 +247,10 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 14),
 
               categories(),
-              SizedBox(height: 30),
+              SizedBox(height: height*0.05),
 
               //New Products
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(left: 25),
-                    child: Text(
-                      'New Products',
-                      style: new TextStyle(
-                          fontSize: 22,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      gotoSeeAllScreen(context, "New Products");
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Text(
-                        "See all",
-                        style: new TextStyle(
-                            fontSize: 14,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 18),
-              Container(
-                padding: EdgeInsets.only(left: 25),
-                color: ColorRes.primaryColor,
-                height: height * 0.4,
-                child: ListView.builder(
-                    itemCount: model.newProductName.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      HomeScreenModel product = model.newProductName[index];
-                      return GestureDetector(
-                        onTap: () {
-                          gotoProductDetailScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: productView(
-                              product.productUrl,
-                              product.productName,
-                              product.productPriceBefore,
-                              product.productPriceAfter),
-                        ),
-                      );
-                    }),
-              ),
-              //SizedBox(height: 10),
+              newProduct(),
 
               //Center Banner
               Image.asset(App.banner_center,fit: BoxFit.cover,
@@ -309,66 +258,7 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: height*0.05),
 
               //Trending Products
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(left: 25),
-                    child: Text(
-                      'Trending Products',
-                      style: new TextStyle(
-                          fontSize: 22,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      gotoSeeAllScreen(context, "Trending Products");
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Text(
-                        "See all",
-                        style: new TextStyle(
-                            fontSize: 14,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 18),
-              Container(
-                padding: EdgeInsets.only(left: 25),
-                color: ColorRes.primaryColor,
-                height: height * 0.4,
-                child: ListView.builder(
-                    itemCount: model.trendingProductsName.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      HomeScreenModel product =
-                      model.trendingProductsName[index];
-                      return GestureDetector(
-                        onTap: () {
-                          gotoProductDetailScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: productView(
-                              product.productUrl,
-                              product.productName,
-                              product.productPriceBefore,
-                              product.productPriceAfter),
-                        ),
-                      );
-                    }),
-              ),
-              //SizedBox(height: 10),
+              trendingProducts(),
 
               //Bottom Banner
               Image.asset(App.banner_bottom,fit: BoxFit.cover,
@@ -376,66 +266,8 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height:  height*0.05),
 
               //Featured Products
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(left: 25),
-                    child: Text(
-                      'Featured Products',
-                      style: new TextStyle(
-                          fontSize: 22,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      gotoSeeAllScreen(context, "Featured Products");
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Text(
-                        "See all",
-                        style: new TextStyle(
-                            fontSize: 14,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 18),
-              Container(
-                padding: EdgeInsets.only(left: 25),
-                color: ColorRes.primaryColor,
-                height: height * 0.4,
-                child: ListView.builder(
-                    itemCount: model.featuredProductsName.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      HomeScreenModel product =
-                      model.featuredProductsName[index];
-                      return GestureDetector(
-                        onTap: () {
-                          gotoProductDetailScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: productView(
-                              product.productUrl,
-                              product.productName,
-                              product.productPriceBefore,
-                              product.productPriceAfter),
-                        ),
-                      );
-                    }),
-              ),
-              //SizedBox(height: 10),
+              featuredProducts(),
+
             ],
           ),
         ),
@@ -559,5 +391,221 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }//Categories
+
+  //New Products
+  Widget newProduct() {
+    Size media = MediaQuery.of(context).size;
+    double width = media.width;
+    double height = media.height;
+    return Column(
+      children: [
+        //New Products title
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Text(
+                'New Products',
+                style: new TextStyle(
+                    fontSize: 22,
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                gotoSeeAllScreen(context, "New Products");
+              },
+              child: Container(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  "See all",
+                  style: new TextStyle(
+                      fontSize: 14,
+                      color: ColorRes.charcoal,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 18),
+       //New Products Images
+        Container(
+          padding: EdgeInsets.only(left: 25),
+          color: ColorRes.primaryColor,
+          height: height * 0.4,
+          child: ListView.builder(
+              itemCount: model.newProductName.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                HomeScreenModel product = model.newProductName[index];
+                return GestureDetector(
+                  onTap: () {
+                    gotoProductDetailScreen(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: productView(
+                        product.productUrl,
+                        product.productName,
+                        product.productPriceBefore,
+                        product.productPriceAfter),
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
   }
+
+  //Trending Products
+  Widget trendingProducts() {
+    Size media = MediaQuery.of(context).size;
+    double width = media.width;
+    double height = media.height;
+    return Column(
+      children: [
+        //Trending Products title
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Text(
+                'Trending Products',
+                style: new TextStyle(
+                    fontSize: 22,
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                gotoSeeAllScreen(context, "Trending Products");
+              },
+              child: Container(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  "See all",
+                  style: new TextStyle(
+                      fontSize: 14,
+                      color: ColorRes.charcoal,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 18),
+        //Trending Products Images
+        Container(
+          padding: EdgeInsets.only(left: 25),
+          color: ColorRes.primaryColor,
+          height: height * 0.4,
+          child: ListView.builder(
+              itemCount: model.trendingProductsName.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                HomeScreenModel product =
+                model.trendingProductsName[index];
+                return GestureDetector(
+                  onTap: () {
+                    gotoProductDetailScreen(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: productView(
+                        product.productUrl,
+                        product.productName,
+                        product.productPriceBefore,
+                        product.productPriceAfter),
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
+  }
+
+  //Featured Products
+  Widget featuredProducts() {
+    Size media = MediaQuery.of(context).size;
+    double width = media.width;
+    double height = media.height;
+    return Column(
+      children: [
+        //Featured Products title
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Text(
+                'Featured Products',
+                style: new TextStyle(
+                    fontSize: 22,
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                gotoSeeAllScreen(context, "Featured Products");
+              },
+              child: Container(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  "See all",
+                  style: new TextStyle(
+                      fontSize: 14,
+                      color: ColorRes.charcoal,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 18),
+        //Featured Products Images
+        Container(
+          padding: EdgeInsets.only(left: 25),
+          color: ColorRes.primaryColor,
+          height: height * 0.4,
+          child: ListView.builder(
+              itemCount: model.featuredProductsName.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                HomeScreenModel product =
+                model.featuredProductsName[index];
+                return GestureDetector(
+                  onTap: () {
+                    gotoProductDetailScreen(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: productView(
+                        product.productUrl,
+                        product.productName,
+                        product.productPriceBefore,
+                        product.productPriceAfter),
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
+  }
+
 }

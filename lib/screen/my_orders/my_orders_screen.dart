@@ -34,16 +34,10 @@ class MyOrdersScreenState extends State<MyOrdersScreen> {
           children: [
             SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                "My Orders",
-                style: new TextStyle(
-                  fontSize: 30,
-                  color: ColorRes.charcoal,
-                  fontFamily: 'NeueFrutigerWorld',
-                ),
-              ),
+              padding: const EdgeInsets.only(left: 19),
+              child: commonTitle('My Orders'),
             ),
+
             SizedBox(height: 10),
             Container(
               height: height*0.77,

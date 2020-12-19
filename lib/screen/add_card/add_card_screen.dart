@@ -56,7 +56,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
               validity: Validity(validThruMonth: month, validThruYear: year),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: TextFormField(
                 style: TextStyle(fontSize: 16, color: ColorRes.dimGray),
                 cursorColor: ColorRes.dimGray,
@@ -78,7 +78,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: TextFormField(
                 style: TextStyle(fontSize: 16, color: ColorRes.dimGray),
                 cursorColor: ColorRes.dimGray,
@@ -106,7 +106,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 10, bottom: 10, left: 30, right: 7),
+                      top: 10, bottom: 10, left: 20, right: 5),
                   child: Container(
                     width: 30,
                     child: TextFormField(
@@ -142,7 +142,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Container(
                     width: 30,
                     child: TextFormField(

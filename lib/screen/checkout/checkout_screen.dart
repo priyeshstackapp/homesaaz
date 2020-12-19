@@ -37,15 +37,8 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           children: [
             SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                "Checkout",
-                style: new TextStyle(
-                  fontSize: 30,
-                  color: ColorRes.charcoal,
-                  fontFamily: 'NeueFrutigerWorld',
-                ),
-              ),
+              padding: const EdgeInsets.only(left: 19),
+              child: commonTitle('Checkout'),
             ),
             SizedBox(height: 10),
             Container(
@@ -135,21 +128,31 @@ class CheckoutScreenState extends State<CheckoutScreen> {
               children: [
                 widget.mapAddress == null
                     ? Container()
-                    : Text(
-                        //'Shewrapara, Mirpur, Delhi-1216  ' +
-                        widget.mapAddress['address'] +
-                            ', ' +
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.mapAddress['address'] + ', ',
+                            style: new TextStyle(
+                              fontSize: 18,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
+                            maxLines: 5,
+                          ),
+                          Text(
                             widget.mapAddress['city'] +
-                            '-' +
-                            widget.mapAddress['postalCode'],
-                        // data[index]['city'],
-                        style: new TextStyle(
-                          fontSize: 18,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                        ),
-                        maxLines: 2,
-                      ),
+                                '-' +
+                                widget.mapAddress['postalCode'],
+                            style: new TextStyle(
+                              fontSize: 18,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
+                            maxLines: 5,
+                          ),
+                        ],
+                      )
               ],
             ),
           ),

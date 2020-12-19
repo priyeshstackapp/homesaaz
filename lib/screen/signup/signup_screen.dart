@@ -38,7 +38,7 @@ class SignUpScreenState extends State<SignUpScreen> {
           children: <Widget>[
             Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: InkWell(
                 onTap: () => gotoLoginScreenUntilRemove(context),
                 child: Image.asset(
@@ -49,20 +49,14 @@ class SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 30, left: 30),
-              child: Text(
-                "Signup",
-                style: TextStyle(
-                    fontSize: 30,
-                    color: ColorRes.nightRider,
-                    fontFamily: 'NeueFrutigerWorld',
-                ),
-              ),
+              margin: EdgeInsets.only(bottom: 30, left: 20),
+              child: commonTitle('Signup'),
+
             ),
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 30),
+                  vertical: 10, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -97,7 +91,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 30),
+                  vertical: 10, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -133,7 +127,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  vertical: 20, horizontal: 30),
+                  vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

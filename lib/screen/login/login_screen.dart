@@ -42,7 +42,7 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: InkWell(
                 onTap: () => showDialog(
                   context: context,
@@ -76,20 +76,15 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 30, left: 30),
-              child: Text(
-                "Login",
-                style: TextStyle(
-                  fontSize: 30,
-                  color: ColorRes.nightRider,
-                  fontFamily: 'NeueFrutigerWorld',
-                ),
-              ),
+              margin: EdgeInsets.only(bottom: 30, left: 20),
+              child:commonTitle('Login'),
+
+
             ),
             SizedBox(height: 25),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -124,7 +119,7 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

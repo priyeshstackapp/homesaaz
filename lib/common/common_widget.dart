@@ -622,4 +622,17 @@ Widget commonAppbar(context) {
       ),
     ],
   );
+
+
+}
+
+Widget commonTitle(title){
+  return Text(
+    title,
+    style: new TextStyle(
+      fontSize: 30,
+      color: ColorRes.charcoal,
+      fontFamily: 'NeueFrutigerWorld',
+    ),
+  );
 }

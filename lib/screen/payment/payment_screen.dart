@@ -45,14 +45,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 10),
-                  Text(
-                    "Payment",
-                    style: new TextStyle(
-                      fontSize: 30,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                    ),
-                  ),
+                  commonTitle('Payment'),
                 ],
               ),
             ),

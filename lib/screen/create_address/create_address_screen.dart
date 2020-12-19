@@ -10,13 +10,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'create_address_screen_view_model.dart';
 
 class CreateAddressScreen extends StatefulWidget {
-   String address;
-   String city;
-   String postalCode;
-   String houseNo;
-   String roadNo;
+  String address;
+  String city;
+  String postalCode;
+  String houseNo;
+  String roadNo;
 
-   CreateAddressScreen(
+  CreateAddressScreen(
       {Key key,
       this.address,
       this.city,
@@ -95,15 +95,9 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10),
-                  Text(
-                    "Create Address",
-                    style: new TextStyle(
-                      fontSize: 30,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                    ),
-                  ),
+                  // SizedBox(height: 10),
+                  commonTitle('Create Address'),
+
                   SizedBox(height: 30),
                   Container(
                     height: height * 0.68,
@@ -284,7 +278,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           Padding(
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
-              maxLength:6,
+              maxLength: 6,
               //readOnly: true,
               controller: _postalCode,
               validator: validatePostalCode,
@@ -310,10 +304,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
-              onTap: (){
-
-              },
-
+              onTap: () {},
             ),
           ),
           SizedBox(height: 20),
@@ -331,7 +322,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
               //readOnly: true,
-              maxLength:10,
+              maxLength: 10,
               validator: validateMobileNo,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -344,7 +335,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
                 hintText: 'Enter phone number',
-
                 counterText: '',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
@@ -357,7 +347,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           ),
           SizedBox(height: 20),
 
-         /* //House No
+          /* //House No
           Text(
             'House No',
             style: TextStyle(
@@ -437,7 +427,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               ),
             ),
           ),*/
-         // SizedBox(height: 20),
+          // SizedBox(height: 20),
         ],
       ),
     );
@@ -449,7 +439,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   String validateName(String value) {
     if (value.isEmpty)
       return 'Please enter your name';
-     else
+    else
       return null;
   }
 
@@ -473,7 +463,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   String validatePostalCode(String value) {
     if (value.isEmpty)
       return 'Please enter your postal code';
-    else if(value.length != 6)
+    else if (value.length != 6)
       return 'Please enter your 6 digit postal code';
     else
       return null;
@@ -489,7 +479,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
       return null;
   }
 
- /* //House No
+  /* //House No
   String validateHouseNo(String value) {
     if (value.isEmpty)
       return 'Please enter house no';

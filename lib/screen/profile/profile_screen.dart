@@ -153,14 +153,8 @@ class ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10),
-                Text(
-                  "Profile",
-                  style: new TextStyle(
-                    fontSize: 30,
-                    color: ColorRes.charcoal,
-                    fontFamily: 'NeueFrutigerWorld',
-                  ),
-                ),
+                commonTitle('Profile'),
+
                 SizedBox(height: 30),
                 profileDetails(),
               ],
