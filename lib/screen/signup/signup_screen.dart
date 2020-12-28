@@ -13,10 +13,13 @@ class SignUpScreen extends StatefulWidget {
 class SignUpScreenState extends State<SignUpScreen> {
   SignUpViewModel model;
 
-  TextEditingController emailCont = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordCont = TextEditingController();
-  TextEditingController userIdCont = TextEditingController();
-  TextEditingController userNameCont = TextEditingController();
+  TextEditingController conformPasswordController = TextEditingController();
+  // TextEditingController userIdCont = TextEditingController();
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -54,131 +57,13 @@ class SignUpScreenState extends State<SignUpScreen> {
 
             ),
             SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Name",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'NeueFrutigerWorld',
-                        color: ColorRes.textColor),
-                  ),
-                  TextFormField(
-                    style: TextStyle(
-                        fontSize: 14, color: ColorRes.textColor),
-                    cursorColor: ColorRes.textColor,
-                    controller: userNameCont,
-                    decoration: InputDecoration(
-                      hintText: "Enter your name",
-                      hintStyle: TextStyle(
-                          color: ColorRes.textColor.withOpacity(0.4), fontSize: 14),
-                      focusColor: ColorRes.textColor,
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Email",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'NeueFrutigerWorld',
-                        color: ColorRes.textColor),
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(
-                        fontSize: 14, color: ColorRes.textColor),
-                    cursorColor: ColorRes.textColor,
-                    controller: emailCont,
-                    decoration: InputDecoration(
-                      hintText: "Enter email id",
-                      hintStyle: TextStyle(
-                          color: ColorRes.textColor.withOpacity(0.4), fontSize: 14),
-                      focusColor: ColorRes.textColor,
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 20, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Password",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'NeueFrutigerWorld',
-                        color: ColorRes.textColor),
-
-                  ),
-                  TextFormField(
-                    style: TextStyle(
-                        fontSize: 14, color: ColorRes.textColor),
-                    cursorColor: ColorRes.textColor,
-                    controller: passwordCont,
-                    obscureText: _passwordVisible,
-                    decoration: InputDecoration(
-                      hintText: "Enter password",
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          // Based on passwordVisible state choose the icon
-                          _passwordVisible
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: ColorRes.textColor.withOpacity(0.3),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
-                      ),
-                      hintStyle: TextStyle(
-                          color: ColorRes.textColor.withOpacity(0.4), fontSize: 14,),
-                      focusColor: ColorRes.textColor,
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                          BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15
-            ),
+            firstNameView(),
+            lastNameView(),
+            phoneNumberView(),
+            emailView(),
+            passwordView(),
+            conformPasswordView(),
+            SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(
                   vertical: 10, horizontal: 30),
@@ -243,4 +128,266 @@ class SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+  firstNameView() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 10, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "First name",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'NeueFrutigerWorld',
+                color: ColorRes.textColor),
+          ),
+          TextFormField(
+            style: TextStyle(
+                fontSize: 14, color: ColorRes.textColor),
+            cursorColor: ColorRes.textColor,
+            controller: firstNameController,
+            decoration: InputDecoration(
+              hintText: "Enter first name",
+              hintStyle: TextStyle(
+                  color: ColorRes.textColor.withOpacity(0.4), fontSize: 14),
+              focusColor: ColorRes.textColor,
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  lastNameView() {
+    return  Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 10, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Last name",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'NeueFrutigerWorld',
+                color: ColorRes.textColor),
+          ),
+          TextFormField(
+            style: TextStyle(
+                fontSize: 14, color: ColorRes.textColor),
+            cursorColor: ColorRes.textColor,
+            controller: lastNameController,
+            decoration: InputDecoration(
+              hintText: "Enter last name",
+              hintStyle: TextStyle(
+                  color: ColorRes.textColor.withOpacity(0.4), fontSize: 14),
+              focusColor: ColorRes.textColor,
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  phoneNumberView() {
+    return  Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 10, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Phone",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'NeueFrutigerWorld',
+                color: ColorRes.textColor),
+          ),
+          TextFormField(
+            style: TextStyle(
+                fontSize: 14, color: ColorRes.textColor),
+            cursorColor: ColorRes.textColor,
+            controller: mobileController,
+            decoration: InputDecoration(
+              hintText: "Enter phone number",
+              hintStyle: TextStyle(
+                  color: ColorRes.textColor.withOpacity(0.4), fontSize: 14),
+              focusColor: ColorRes.textColor,
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  emailView() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 10, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Email",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'NeueFrutigerWorld',
+                color: ColorRes.textColor),
+          ),
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+                fontSize: 14, color: ColorRes.textColor),
+            cursorColor: ColorRes.textColor,
+            controller: emailController,
+            decoration: InputDecoration(
+              hintText: "Enter email id",
+              hintStyle: TextStyle(
+                  color: ColorRes.textColor.withOpacity(0.4), fontSize: 14),
+              focusColor: ColorRes.textColor,
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  passwordView() {
+    return  Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 20, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Password",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'NeueFrutigerWorld',
+                color: ColorRes.textColor),
+
+          ),
+          TextFormField(
+            style: TextStyle(
+                fontSize: 14, color: ColorRes.textColor),
+            cursorColor: ColorRes.textColor,
+            controller: passwordCont,
+            obscureText: _passwordVisible,
+            decoration: InputDecoration(
+              hintText: "Enter password",
+              suffixIcon: IconButton(
+                icon: Icon(
+                  // Based on passwordVisible state choose the icon
+                  _passwordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                  color: ColorRes.textColor.withOpacity(0.3),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+              hintStyle: TextStyle(
+                color: ColorRes.textColor.withOpacity(0.4), fontSize: 14,),
+              focusColor: ColorRes.textColor,
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  conformPasswordView() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: 20, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Conform password",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'NeueFrutigerWorld',
+                color: ColorRes.textColor),
+
+          ),
+          TextFormField(
+            style: TextStyle(
+                fontSize: 14, color: ColorRes.textColor),
+            cursorColor: ColorRes.textColor,
+            controller: passwordCont,
+            obscureText: _passwordVisible,
+            decoration: InputDecoration(
+              hintText: "Enter conform password",
+              suffixIcon: IconButton(
+                icon: Icon(
+                  // Based on passwordVisible state choose the icon
+                  _passwordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                  color: ColorRes.textColor.withOpacity(0.3),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+              hintStyle: TextStyle(
+                color: ColorRes.textColor.withOpacity(0.4), fontSize: 14,),
+              focusColor: ColorRes.textColor,
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide:
+                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
