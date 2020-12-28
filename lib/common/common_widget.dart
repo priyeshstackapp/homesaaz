@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
+import 'package:homesaaz/common/loder_show.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/my_order_model.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
@@ -622,8 +623,6 @@ Widget commonAppbar(context) {
       ),
     ],
   );
-
-
 }
 
 Widget commonTitle(title){
@@ -635,4 +634,22 @@ Widget commonTitle(title){
       fontFamily: 'NeueFrutigerWorld',
     ),
   );
+}
+
+
+BuildContext c;
+showLoader(context,{String label}){
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      c = context;
+      return LoaderPage(label: label);
+
+    },
+  );
+}
+
+hideLoader(){
+  Navigator.pop(c);
 }

@@ -1,8 +1,7 @@
 import 'package:homesaaz/common/common_route.dart';
-import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/login_ref_model.dart';
-import 'package:homesaaz/restapi/restapi.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
+import 'package:homesaaz/service/rest_api.dart';
 
 class LoginScreenViewModel {
   LoginScreenState state;

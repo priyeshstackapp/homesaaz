@@ -39,14 +39,16 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   // TextEditingController userIdCont = TextEditingController();
 
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> loginKey = new GlobalKey<ScaffoldState>();
+  // GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+
   SharedPreferences preferences;
 
   bool isLoading = false;
   bool _passwordVisible = true;
 
   _validateInputs() async {
-    model.nextButtonGotoSignUpPage(context);
+    model.registerApi();
     /*if (firstNameController.text != '' &&
         lastNameController.text != '' &&
         mobileController.text != '' &&
@@ -63,13 +65,20 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
     model ?? (model = SignUpViewModel(this));
 
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
-      key: scaffoldKey,
+      key: loginKey,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -366,7 +375,7 @@ class SignUpScreenState extends State<SignUpScreen> {
           TextFormField(
             style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
-            controller: passwordCont,
+            controller: conformPasswordController,
             obscureText: _passwordVisible,
             decoration: InputDecoration(
               hintText: "Enter conform password",

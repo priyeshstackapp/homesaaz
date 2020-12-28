@@ -1,70 +1,49 @@
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:homesaaz/common/common_route.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_widget.dart';
-import 'package:homesaaz/restapi/restapi.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
+import 'package:homesaaz/service/rest_api.dart';
 
 class SignUpViewModel {
   SignUpScreenState state;
 
-  SignUpViewModel(this.state);
+  OverlayEntry loader;
 
-  signUp() async {
+  bool validateForm = false;
 
+  // SignUpViewModel(this.state);
+
+  SignUpViewModel(SignUpScreenState state) {
+    this.state = state;
+    // loader = LoaderShowHide.overlayLoader(state.context);
   }
-  Future<bool> isSignUp(String first_name, String last_name,String mobileno, String email,
-      String password,String conf_password) async {
-    Map body = {
-      "first_name": 'Test',
-      "last_name": 'User',
-      "mobileno": '0123456784',
-      "email": 'abhishek12@signtific.co.in',
-      "password": '123456',
-      "conf_password": '123456'
-    };
-    String data = await RestApi.isSignUp(body);
-    if (data != null) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  nextButtonGotoSignUpPage(context) async {
-
-    bool res = await isSignUp(state.widget.first_name, state.widget.last_name,
-       state.widget.mobileno.toString(), state.widget.email,  state.widget.password,state.widget.conf_password);
-    if (res != null && res) {
-      gotoHomeScreen(context);
-    } else {
-      Fluttertoast.showToast(
-        msg: "Email address already exists.",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-      );
-    }
-  }
-
 
   bool validate() {
    /* if (state.userIdCont.text == '') {
       showSnackBar(state.scaffoldKey,'Enter username',isError: true);
       return false;
     }else*/
-      if (state.firstNameController.text == '') {
-      showSnackBar(state.scaffoldKey,'Enter name',isError: true);
+     /* if (state.firstNameController.text == '') {
+      showSnackBar(state.loginKey,'Enter name',isError: true);
+      // validateForm = false;
       return false;
     } else if (state.emailController.text == '') {
-      showSnackBar(state.scaffoldKey,'Enter email',isError: true);
+      showSnackBar(state.loginKey,'Enter email',isError: true);
+      // validateForm = false;
       return false;
     } else if (!isEmail(state.emailController.text.trim())) {
-      showSnackBar(state.scaffoldKey,'Enter valid email',isError: true);
+      showSnackBar(state.loginKey,'Enter valid email',isError: true);
+      // validateForm = false;
       return false;
     } else if (state.passwordCont.text == '') {
-      showSnackBar(state.scaffoldKey,'Enter password',isError: true);
+      showSnackBar(state.loginKey,'Enter password',isError: true);
+      // validateForm = false;
       return false;
-    }
-    return true;
+    }*/
+
+     // validateForm = true;
+     return true;
+
   }
 
   bool isEmail(String em) {
@@ -75,34 +54,50 @@ class SignUpViewModel {
 
     return regExp.hasMatch(em);
   }
+  
 
-  /*void registerApi() async {
+  void registerApi() async {
     FocusScope.of(state.context).unfocus();
-    if (loginFormKey.currentState.validate() && customValidation()) {
+
+    Map<String, dynamic> body = {
+      "first_name": state.firstNameController.text,
+      "last_name": state.lastNameController.text,
+      "mobileno": state.mobileController.text,
+      "email": state.emailController.text,
+      "password": state.passwordCont.text,
+      "conf_password": state.conformPasswordController.text
+    };
+
+    if (validate()) {
+    // if (state.loginKey.currentState.validate()) {
       // loginFormKey.currentState.save();
-      Overlay.of(context).insert(loader);
-      repository.register(user).then((value) {
-        if (value != null && value.apiToken != null) {
-          vehicleRepo.getVehicleType();
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+      // Overlay.of(state.context).insert(loader);
+      showLoader(state.context);
+      RestApi.signUp(body).then((responseData) {
+        // hideLoader();
+        Map<String, dynamic> jsonData = json.decode(responseData.body);
+        if (responseData != null && jsonData['status'] == "success") {
+          print(responseData);
+          // Navigator.of(loginKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+        } else if(responseData != null && jsonData['status'] == "error") {
+          showSnackBar(state.loginKey, jsonData['error'], isError: true);
+          // Html(data: jsonData['status']).toString()
         } else {
-          scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(S.of(context).wrong_email_or_password),
-          ));
+          showSnackBar(state.loginKey, 'Some thing wrong', isError: true);
         }
       }).catchError((e) {
-        loader?.remove();
-        scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(e.toString()),
-        ));
+        hideLoader();
+        showSnackBar(state.loginKey, e.toString(), isError: true);
       }).whenComplete(() {
-        Helper.hideLoader(loader);
+        hideLoader();
       });
     } else {
-      validateForm = true;
-      setState((){});
+      hideLoader();
+      validateForm = false;
+      print("some error");
+      state.setState((){});
     }
-  }*/
+  }
 
 
 }
