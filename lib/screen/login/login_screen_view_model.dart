@@ -1,4 +1,7 @@
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/model/login_ref_model.dart';
+import 'package:homesaaz/restapi/restapi.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
 
 class LoginScreenViewModel {
@@ -6,9 +9,30 @@ class LoginScreenViewModel {
 
   LoginScreenViewModel(this.state);
 
-  login() async {}
 
-  bool validate() {
+  Future<bool> isLogin(login_username, login_password) async {
+    LoginPageModel loginRefModel = await RestApi.isLogin(login_username, login_password);
+    if (loginRefModel != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  login(context) async {
+
+    bool res = await isLogin(emailCont.text,passwordCont.text);
+    if (res != null) {
+      gotoHomeScreen(context);
+      }
+    else {
+      state.setState(() {
+        state.isLoading = false;
+      });
+      print("Email and Password is wrong!");
+    }
+  }
+/*  bool validate() {
     if (state.emailCont.text == '') {
       showSnackBar(state.scaffoldKey, 'Enter  valid email', isError: true);
       return false;
@@ -20,7 +44,7 @@ class LoginScreenViewModel {
       return false;
     }
     return true;
-  }
+  }*/
 
   bool isEmail(String em) {
 

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:homesaaz/app.dart';
@@ -9,6 +8,9 @@ import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/login/login_screen_view_model.dart';
 
+TextEditingController emailCont = new TextEditingController();
+TextEditingController passwordCont = new TextEditingController();
+
 class LoginScreen extends StatefulWidget {
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -16,23 +18,22 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   LoginScreenViewModel model;
-
-  TextEditingController emailCont = TextEditingController();
-  TextEditingController passwordCont = TextEditingController();
-
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   bool isLoading = false;
-
   bool _passwordVisible = true;
 
+  _validateInputs() async {
+    if (emailCont.text != '' && passwordCont.text != '') {
+      model.login(context);
+    } else {
+      print('================null');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
     model ?? (model = LoginScreenViewModel(this));
-
     return Scaffold(
-
       backgroundColor: ColorRes.whiteColor,
       key: scaffoldKey,
       body: SingleChildScrollView(
@@ -169,20 +170,21 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 30
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: GestureDetector(
                 onTap: () {
-                    if (model.validate()) {
+                  _validateInputs();
+                  /*if (model.validate()) {
                       setState(() {
                         isLoading = true;
                         gotoHomeScreenUntilRemove(context);
                       });
                       model.login();
                   }
-                 /* if (!isLoading) {
+                  if (!isLoading) {
                     if (model.validate()) {
                       setState(() {
                         isLoading = true;

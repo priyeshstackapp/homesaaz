@@ -4,8 +4,25 @@ import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/signup/signup_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
+  SignUpScreen({
+    Key key,
+    this.first_name,
+    this.last_name,
+    this.mobileno,
+    this.email,
+    this.password,
+    this.conf_password,
+  }) : super(key: key);
+  final String first_name;
+  final String last_name;
+  final int mobileno;
+  final String email;
+  final String password;
+  final String conf_password;
+
   @override
   SignUpScreenState createState() => SignUpScreenState();
 }
@@ -19,12 +36,31 @@ class SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordCont = TextEditingController();
   TextEditingController conformPasswordController = TextEditingController();
+
   // TextEditingController userIdCont = TextEditingController();
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  SharedPreferences preferences;
 
   bool isLoading = false;
   bool _passwordVisible = true;
+
+  _validateInputs() async {
+    model.nextButtonGotoSignUpPage(context);
+    /*if (firstNameController.text != '' &&
+        lastNameController.text != '' &&
+        mobileController.text != '' &&
+        emailController.text != '' &&
+        passwordCont.text != '' &&
+        conformPasswordController.text != '') {
+      model.nextButtonGotoSignUpPage(context);
+    } else {
+      setState(() {
+        print('=======================data not found...');
+
+      });
+    }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +76,20 @@ class SignUpScreenState extends State<SignUpScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: InkWell(
                 onTap: () => gotoLoginScreenUntilRemove(context),
                 child: Image.asset(
                   App.left_arrow,
                   color: ColorRes.dimGray.withOpacity(0.3),
-                  height: 22,width: 22,
+                  height: 22,
+                  width: 22,
                 ),
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 30, left: 20),
               child: commonTitle('Signup'),
-
             ),
             SizedBox(height: 20),
             firstNameView(),
@@ -65,30 +100,19 @@ class SignUpScreenState extends State<SignUpScreen> {
             conformPasswordView(),
             SizedBox(height: 15),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: GestureDetector(
                 onTap: () {
-
-                    if (model.validate()) {
+                  _validateInputs();
+                  /*      if (model.validate()) {
                       setState(() {
                         isLoading = true;
                         gotoHomeScreen(context);
                       });
                       model.signUp();
-
-                  }
-                /*  if (!isLoading) {
-                    if (model.validate()) {
-                      setState(() {
-                        isLoading = true;
-                        gotoHomeScreen(context);
-                      });
-                      model.signUp();
-                    }
                   }*/
                 },
-                child: gradientButton(context,title: "Sign Up"),
+                child: gradientButton(context, title: "Sign Up"),
               ),
             ),
             Padding(
@@ -131,8 +155,7 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   firstNameView() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 10, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -145,8 +168,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                 color: ColorRes.textColor),
           ),
           TextFormField(
-            style: TextStyle(
-                fontSize: 14, color: ColorRes.textColor),
+            style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
             controller: firstNameController,
             decoration: InputDecoration(
@@ -156,10 +178,10 @@ class SignUpScreenState extends State<SignUpScreen> {
               focusColor: ColorRes.textColor,
               focusedBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
             ),
           ),
         ],
@@ -168,9 +190,8 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   lastNameView() {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 10, horizontal: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -183,8 +204,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                 color: ColorRes.textColor),
           ),
           TextFormField(
-            style: TextStyle(
-                fontSize: 14, color: ColorRes.textColor),
+            style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
             controller: lastNameController,
             decoration: InputDecoration(
@@ -194,10 +214,10 @@ class SignUpScreenState extends State<SignUpScreen> {
               focusColor: ColorRes.textColor,
               focusedBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
             ),
           ),
         ],
@@ -206,9 +226,8 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   phoneNumberView() {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 10, horizontal: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -221,8 +240,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                 color: ColorRes.textColor),
           ),
           TextFormField(
-            style: TextStyle(
-                fontSize: 14, color: ColorRes.textColor),
+            style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
             controller: mobileController,
             decoration: InputDecoration(
@@ -232,10 +250,10 @@ class SignUpScreenState extends State<SignUpScreen> {
               focusColor: ColorRes.textColor,
               focusedBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
             ),
           ),
         ],
@@ -245,8 +263,7 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   emailView() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 10, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -260,8 +277,7 @@ class SignUpScreenState extends State<SignUpScreen> {
           ),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-                fontSize: 14, color: ColorRes.textColor),
+            style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
             controller: emailController,
             decoration: InputDecoration(
@@ -271,10 +287,10 @@ class SignUpScreenState extends State<SignUpScreen> {
               focusColor: ColorRes.textColor,
               focusedBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
             ),
           ),
         ],
@@ -283,9 +299,8 @@ class SignUpScreenState extends State<SignUpScreen> {
   }
 
   passwordView() {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 20, horizontal: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -296,11 +311,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                 fontSize: 14,
                 fontFamily: 'NeueFrutigerWorld',
                 color: ColorRes.textColor),
-
           ),
           TextFormField(
-            style: TextStyle(
-                fontSize: 14, color: ColorRes.textColor),
+            style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
             controller: passwordCont,
             obscureText: _passwordVisible,
@@ -309,9 +322,7 @@ class SignUpScreenState extends State<SignUpScreen> {
               suffixIcon: IconButton(
                 icon: Icon(
                   // Based on passwordVisible state choose the icon
-                  _passwordVisible
-                      ? Icons.visibility_off
-                      : Icons.visibility,
+                  _passwordVisible ? Icons.visibility_off : Icons.visibility,
                   color: ColorRes.textColor.withOpacity(0.3),
                 ),
                 onPressed: () {
@@ -321,14 +332,16 @@ class SignUpScreenState extends State<SignUpScreen> {
                 },
               ),
               hintStyle: TextStyle(
-                color: ColorRes.textColor.withOpacity(0.4), fontSize: 14,),
+                color: ColorRes.textColor.withOpacity(0.4),
+                fontSize: 14,
+              ),
               focusColor: ColorRes.textColor,
               focusedBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
             ),
           ),
         ],
@@ -338,8 +351,7 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   conformPasswordView() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 20, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -350,11 +362,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                 fontSize: 14,
                 fontFamily: 'NeueFrutigerWorld',
                 color: ColorRes.textColor),
-
           ),
           TextFormField(
-            style: TextStyle(
-                fontSize: 14, color: ColorRes.textColor),
+            style: TextStyle(fontSize: 14, color: ColorRes.textColor),
             cursorColor: ColorRes.textColor,
             controller: passwordCont,
             obscureText: _passwordVisible,
@@ -363,9 +373,7 @@ class SignUpScreenState extends State<SignUpScreen> {
               suffixIcon: IconButton(
                 icon: Icon(
                   // Based on passwordVisible state choose the icon
-                  _passwordVisible
-                      ? Icons.visibility_off
-                      : Icons.visibility,
+                  _passwordVisible ? Icons.visibility_off : Icons.visibility,
                   color: ColorRes.textColor.withOpacity(0.3),
                 ),
                 onPressed: () {
@@ -375,19 +383,20 @@ class SignUpScreenState extends State<SignUpScreen> {
                 },
               ),
               hintStyle: TextStyle(
-                color: ColorRes.textColor.withOpacity(0.4), fontSize: 14,),
+                color: ColorRes.textColor.withOpacity(0.4),
+                fontSize: 14,
+              ),
               focusColor: ColorRes.textColor,
               focusedBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.5))),
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                  BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
+                      BorderSide(color: ColorRes.textColor.withOpacity(0.3))),
             ),
           ),
         ],
       ),
     );
   }
-
 }
