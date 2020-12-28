@@ -8,8 +8,6 @@ import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/login/login_screen_view_model.dart';
 
-TextEditingController emailCont = new TextEditingController();
-TextEditingController passwordCont = new TextEditingController();
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -18,16 +16,21 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   LoginScreenViewModel model;
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> loginKey = new GlobalKey<ScaffoldState>();
+
   bool isLoading = false;
   bool _passwordVisible = true;
+  TextEditingController emailCont = new TextEditingController();
+  TextEditingController passwordCont = new TextEditingController();
 
   _validateInputs() async {
-    if (emailCont.text != '' && passwordCont.text != '') {
-      model.login(context);
-    } else {
-      print('================null');
-    }
+    model.loginApi();
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class LoginScreenState extends State<LoginScreen> {
     model ?? (model = LoginScreenViewModel(this));
     return Scaffold(
       backgroundColor: ColorRes.whiteColor,
-      key: scaffoldKey,
+      key: loginKey,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
