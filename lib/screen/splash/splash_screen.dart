@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/common_route.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 
 import '../../app.dart';
 
@@ -14,8 +15,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 4))
-        .then((onValue) => replaceWithLoginScreen(context));
+
+    if(Injector.loginResponse == null) {
+      Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithLoginScreen(context));
+    } else {
+      Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithHomeScreen(context));
+    }
   }
 
   @override

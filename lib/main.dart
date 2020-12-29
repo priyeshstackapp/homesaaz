@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
+import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
 import 'package:homesaaz/screen/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+
+void main() => setupLocator();
+
+Future setupLocator() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Injector.getInstance();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
@@ -15,6 +21,8 @@ void main() {
       runApp(MyApp());
     });
   });
+
+  // runApp(MyApp());
 }
 
 SharedPreferences prefs;
@@ -30,9 +38,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white),
-
     );
-
     return MaterialApp(
       title: 'Home Saaz',
       debugShowCheckedModeBanner: false,
@@ -40,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(),
+      home:SplashScreen(),
     );
   }
 }

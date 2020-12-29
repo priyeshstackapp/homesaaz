@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
+import 'package:homesaaz/model/login_ref_model.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
@@ -22,14 +24,16 @@ class LoginScreenViewModel {
       "login_using" :'email',
     };
     if (validate()) {
-      // showLoader(state.context);
-      RestApi.logIn(body).then((responseData) {
+      showLoader(state.context);
+      RestApi.logIn(body).then((responseData) async {
         Map<String, dynamic> jsonData = json.decode(responseData.body);
-        // hideLoader();
         if (responseData != null && jsonData['status'] == "success") {
          // gotoHomeScreen(state.context);
           print(responseData);
-          Navigator.push(state.context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          LoginResponseModel loginResponse = LoginResponseModel.fromJson(jsonData);
+          await Injector.updateUserData(loginResponse);
+          // await Injector.setLoginRequest(loginRequest);
+          replaceWithHomeScreen(state.context);
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
         } else {

@@ -244,13 +244,10 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 20),
 
               //Top Banner --  imageApp.banner_top
-              model.dashBoardModel.banners.length == null
-                  ? Container()
-                  : Image.network(
-                      model.dashBoardModel.banners[0].imageUrl,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                    ),
+              model.dashBoardModel != null && model.dashBoardModel.banners.length != 0 ?
+              Image.network(model.dashBoardModel.banners[0].imageUrl,fit: BoxFit.cover, width: MediaQuery.of(context).size.width) :
+              Container(),
+
               SizedBox(height: 14),
 
               categories(),

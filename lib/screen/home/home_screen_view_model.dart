@@ -137,6 +137,7 @@ class HomeScreenViewModel {
           print(responseData);
           dashBoardModel = dashBoardModelFromJson(responseData.body);
           print(dashBoardModel);
+          state.setState(() {});
         } else {
           Utils.showToast("Some thing wrong");
           // showSnackBar(state.loginKey, 'Some thing wrong', isError: true);

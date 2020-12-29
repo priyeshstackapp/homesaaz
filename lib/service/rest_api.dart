@@ -45,6 +45,8 @@ class RestApi{
     try {
       http.Response response = await http.post(url, headers: {'Authorization': auth}, body: registerData);
       Map result = jsonDecode(response.body);
+      print(response);
+      hideLoader();
       if(response.statusCode == 200 || response.statusCode == 201) {
         print(result);
         return response;
@@ -53,8 +55,9 @@ class RestApi{
         return null;
       }
     } catch(e) {
-      Utils.showToast(e);
-      return null;
+    hideLoader();
+    Utils.showToast(e);
+     return null;
     }
   }
 
