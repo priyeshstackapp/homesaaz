@@ -29,12 +29,12 @@ Widget gradientButton(context, {String title}) {
           colors: [ColorRes.redColor, ColorRes.darkRedColor]),
     ),
     child: Center(
-        child:Text(title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'NeueFrutigerWorld',
-                    fontWeight: FontWeight.w700))),
+        child: Text(title,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'NeueFrutigerWorld',
+                fontWeight: FontWeight.w700))),
   );
 }
 
@@ -54,28 +54,28 @@ showSnackBar(_scaffoldKey, String message, {bool isError = false}) {
 Widget backButton(context) {
   return InkWell(
     onTap: () {
-    Navigator.pop(context);
-    } ,
-    child:Padding(
+      Navigator.pop(context);
+    },
+    child: Padding(
       padding: const EdgeInsets.all(15.0),
       child: Image.asset(
         App.left_arrow,
         color: ColorRes.darkRedColor58,
-
       ),
     ),
   );
 }
+
 Widget loginAndSignupbackButton(context) {
   return InkWell(
     onTap: () {
       //   Navigator.pop(context);
-    } ,
+    },
     child: Image.asset(
       App.left_arrow,
       color: ColorRes.dimGray.withOpacity(0.3),
-      height: 22,width: 22,
-
+      height: 22,
+      width: 22,
     ),
   );
 }
@@ -165,12 +165,10 @@ Widget productView(
     String imageUrl, String productName, String oldPrice, String newPrice) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-
     children: <Widget>[
-      imageUrl.isNotEmpty ? Image.network(imageUrl) : Image(
-          height: 150,
-          width: 250,
-          image: AssetImage(App.banner_bottom), fit: BoxFit.cover),
+      imageUrl.isNotEmpty
+          ? Image.network(imageUrl)
+          : Image.asset(App.product_name_first, fit: BoxFit.cover),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -303,7 +301,6 @@ Widget cartProductView(
                                   cartItem.quantity--;
                                 });
                               }
-
                             }),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -351,7 +348,7 @@ Widget cartProductView(
         ),
         onTap: () {
           state.setState(() {
-           newProductName.remove(cartItem);
+            newProductName.remove(cartItem);
           });
         },
       )
@@ -359,8 +356,8 @@ Widget cartProductView(
   );
 }
 
-Widget checkoutProductView(
-    CartModel cartItem, CheckoutScreenState state, List<CartModel> newProductName) {
+Widget checkoutProductView(CartModel cartItem, CheckoutScreenState state,
+    List<CartModel> newProductName) {
   return Stack(
     alignment: Alignment.topRight,
     children: [
@@ -504,12 +501,14 @@ Widget checkoutProductView(
 
 Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
     List<MyOrdersModel> newProductName) {
-
   List<Widget> array = [];
   var filled = ColorRes.darkYellow;
   var empty = Colors.grey;
   for (var i = 1; i <= 5; i++) {
-    array.add(Icon(Icons.star,color: (myOrdersItem.rating < i ? empty : filled),));
+    array.add(Icon(
+      Icons.star,
+      color: (myOrdersItem.rating < i ? empty : filled),
+    ));
   }
 
   return Stack(
@@ -590,6 +589,7 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
     ],
   );
 }
+
 Widget commonAppbar(context) {
   return AppBar(
     leading: backButton(context),
@@ -597,35 +597,35 @@ Widget commonAppbar(context) {
     backgroundColor: ColorRes.primaryColor,
     actions: [
       GestureDetector(
-          onTap: () {
-            replaceWithProfileScreen(context);
-          },
-          child:  Image.asset(
-            App.user,
+        onTap: () {
+          replaceWithProfileScreen(context);
+        },
+        child: Image.asset(
+          App.user,
+          color: ColorRes.darkRedColor58,
+          height: 16,
+          width: 16,
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          replaceWithCartScreen(context);
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Image.asset(
+            App.shopping_cart,
             color: ColorRes.darkRedColor58,
             height: 16,
             width: 16,
           ),
-      ),
-      GestureDetector(
-          onTap: () {
-            replaceWithCartScreen(context);
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Image.asset(
-              App.shopping_cart,
-              color: ColorRes.darkRedColor58,
-              height: 16,
-              width: 16,
-            ),
-          ),
+        ),
       ),
     ],
   );
 }
 
-Widget commonTitle(title){
+Widget commonTitle(title) {
   return Text(
     title,
     style: new TextStyle(
@@ -636,20 +636,19 @@ Widget commonTitle(title){
   );
 }
 
-
 BuildContext c;
-showLoader(context,{String label}){
+
+showLoader(context, {String label}) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
       c = context;
       return LoaderPage(label: label);
-
     },
   );
 }
 
-hideLoader(){
+hideLoader() {
   Navigator.pop(c);
 }
