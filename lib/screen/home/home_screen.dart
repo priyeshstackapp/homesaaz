@@ -348,7 +348,7 @@ class HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: model.dashBoardModel.categories.length,
+            itemCount: model.dashBoardModel != null && model.dashBoardModel.categories.length != 0 ? model.dashBoardModel.categories.length : 0,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 13.0,
@@ -357,10 +357,10 @@ class HomeScreenState extends State<HomeScreen> {
                 //   (MediaQuery.of(context).size.height / 3),
                 mainAxisSpacing: 17.0),
             itemBuilder: (BuildContext context, int index) {
-              return InkWell(
+              return model.dashBoardModel != null && model.dashBoardModel.categories.length != 0 ?
+              InkWell(
                 onTap: () {
-                  gotoSeeAllScreen(context,model.dashBoardModel.categories[index].categoryName,
-                  );
+                  gotoSeeAllScreen(context,model.dashBoardModel.categories[index].categoryName);
                 },
                 child: Stack(
                   children: [
@@ -404,6 +404,10 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+              ) :
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 200
               );
             },
           ),
@@ -459,26 +463,35 @@ class HomeScreenState extends State<HomeScreen> {
           color: ColorRes.primaryColor,
           height: height * 0.4,
           child: ListView.builder(
-              itemCount: model.newProductName.length,
+              itemCount: model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0 ? model.dashBoardModel.newProducts.length : 0,
+              // model.newProductName.length,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                HomeScreenModel product = model.newProductName[index];
-                return GestureDetector(
+
+
+                // HomeScreenModel product = model.newProductName[index];
+
+
+                return model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0 ? GestureDetector(
                   onTap: () {
                     gotoProductDetailScreen(context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: productView(
-                      product.productUrl,
-                      model.dashBoardModel.newProducts[index].productName.toString(),
+                      model.dashBoardModel.newProducts[index].productImage,
+                        model.dashBoardModel.newProducts[index].productName,
+                        model.dashBoardModel.newProducts[index].discountedPrice.toString(),
                       // product.productName,
-                      product.productPriceBefore,
+                      // product.productPriceBefore,
                       //product.productPriceAfter
-                      model.dashBoardModel.newProducts[index].price.toString(),
+                      model.dashBoardModel.newProducts[index].price,
                     ),
                   ),
+                ) : Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
                 );
               }),
         ),

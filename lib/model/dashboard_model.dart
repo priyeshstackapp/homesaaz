@@ -95,7 +95,7 @@ class Product {
   });
 
   String itemdetId;
-  ProductName productName;
+  String productName;
   String productImage;
   String price;
   int discountedPrice;
@@ -103,7 +103,8 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     itemdetId: json["itemdet_id"],
-    productName: productNameValues.map[json["product_name"]],
+    productName: json["product_name"],
+    // productName: productNameValues.map[json["product_name"]],
     productImage: json["product_image"],
     price: json["price"],
     discountedPrice: json["discounted_price"],

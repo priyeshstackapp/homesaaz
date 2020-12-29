@@ -167,10 +167,10 @@ Widget productView(
     crossAxisAlignment: CrossAxisAlignment.start,
 
     children: <Widget>[
-      Image.asset(
-        imageUrl,
-        fit: BoxFit.cover,
-      ),
+      imageUrl.isNotEmpty ? Image.network(imageUrl) : Image(
+          height: 150,
+          width: 250,
+          image: AssetImage(App.banner_bottom), fit: BoxFit.cover),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
