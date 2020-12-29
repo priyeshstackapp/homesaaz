@@ -20,8 +20,8 @@ class LoginScreenState extends State<LoginScreen> {
 
   bool isLoading = false;
   bool _passwordVisible = true;
-  TextEditingController emailCont = new TextEditingController();
-  TextEditingController passwordCont = new TextEditingController();
+  TextEditingController emailCont = new TextEditingController(text: "abhishek.k@doorsstudio.com");
+  TextEditingController passwordCont = new TextEditingController(text: "123456");
 
   _validateInputs() async {
     model.loginApi();

@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/util.dart';
+import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
+import 'package:homesaaz/service/rest_api.dart';
 
 
 
@@ -10,11 +16,13 @@ class HomeScreenViewModel {
   List<HomeScreenModel> trendingProductsName = [];
   List<HomeScreenModel> featuredProductsName = [];
 
+  DashBoardModel dashBoardModel;
   HomeScreenViewModel(HomeScreenState state) {
     this.state = state;
     newProductData();
     trendingProductsData();
     featuredProductsData();
+    dashBoardApi();
   }
 
   List<String> categoriesNamew = ['Furniture', 'kitchen', 'Bath & Laundry', 'Furnishing', 'Furnishing', 'Decor',];
@@ -103,6 +111,50 @@ class HomeScreenViewModel {
           productName: "Woman T-Shirt",
           productUrl:Utils.homeImg('product_name_third'),
       ),);
+  }
+
+
+
+  void dashBoardApi() {
+    // FocusScope.of(state.context).unfocus();
+
+    // Map<String, dynamic> body = {
+    //   "login_username": state.emailCont.text,
+    //   "login_password": state.passwordCont.text,
+    //   "login_using" :'email',
+    // };
+    // if (validate()) {
+    Future.delayed(const Duration(milliseconds: 400), () {
+      showLoader(state.context);
+    });
+
+      RestApi.dahsBoardApi().then((responseData) {
+        // hideLoader();
+        Map<String, dynamic> jsonData = json.decode(responseData.body);
+        if (responseData != null && jsonData['status'] == "error") {
+          Utils.showToast(jsonData['error']);
+        } else if(responseData != null) {
+          print(responseData);
+          dashBoardModel = dashBoardModelFromJson(responseData.body);
+          print(dashBoardModel);
+        } else {
+          Utils.showToast("Some thing wrong");
+          // showSnackBar(state.loginKey, 'Some thing wrong', isError: true);
+        }
+      }).catchError((e) {
+        // hideLoader();
+        Utils.showToast(e.toString());
+
+        // showSnackBar(state.loginKey, e.toString(), isError: true);
+      }).whenComplete(() {
+        // hideLoader();
+      });
+    // } else {
+    //   hideLoader();
+    //   validateForm = false;
+    //   print("some error");
+    //   state.setState((){});
+    // }
   }
 
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
@@ -21,22 +22,24 @@ class LoginScreenViewModel {
       "login_using" :'email',
     };
     if (validate()) {
-      showLoader(state.context);
+      // showLoader(state.context);
       RestApi.logIn(body).then((responseData) {
         Map<String, dynamic> jsonData = json.decode(responseData.body);
+        // hideLoader();
         if (responseData != null && jsonData['status'] == "success") {
          // gotoHomeScreen(state.context);
           print(responseData);
+          Navigator.push(state.context, MaterialPageRoute(builder: (context) => HomeScreen()));
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
         } else {
           showSnackBar(state.loginKey, 'Some thing wrong', isError: true);
         }
       }).catchError((e) {
-        hideLoader();
+        // hideLoader();
         showSnackBar(state.loginKey, e.toString(), isError: true);
       }).whenComplete(() {
-        hideLoader();
+        // hideLoader();
       });
     } else {
       hideLoader();
