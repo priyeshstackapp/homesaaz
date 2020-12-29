@@ -5,7 +5,6 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
-import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,9 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   HomeScreenViewModel model;
-
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
@@ -244,9 +241,9 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 20),
 
               //Top Banner --  imageApp.banner_top
-              model.dashBoardModel != null && model.dashBoardModel.banners.length != 0 ?
-              Image.network(model.dashBoardModel.banners[0].imageUrl,fit: BoxFit.cover, width: MediaQuery.of(context).size.width) :
-              Container(),
+              model.dashBoardModel != null && model.dashBoardModel.banners.length != 0
+                  ? Image.network(model.dashBoardModel.banners[0].imageUrl,fit: BoxFit.cover, width: MediaQuery.of(context).size.width)
+                  : Container(),
 
               SizedBox(height: 14),
 
@@ -257,22 +254,14 @@ class HomeScreenState extends State<HomeScreen> {
               newProduct(),
 
               //Center Banner
-              Image.asset(
-                App.banner_center,
-                fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width,
-              ),
+              Image.asset(App.banner_center, fit: BoxFit.cover, width: MediaQuery.of(context).size.width),
               SizedBox(height: height * 0.05),
 
               //Trending Products
               trendingProducts(),
 
               //Bottom Banner
-              Image.asset(
-                App.banner_bottom,
-                fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width,
-              ),
+              Image.asset(App.banner_bottom, fit: BoxFit.cover, width: MediaQuery.of(context).size.width),
               SizedBox(height: height * 0.05),
 
               //Featured Products
@@ -348,7 +337,9 @@ class HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: model.dashBoardModel != null && model.dashBoardModel.categories.length != 0 ? model.dashBoardModel.categories.length : 0,
+            itemCount: model.dashBoardModel != null &&
+                model.dashBoardModel.categories.length != 0
+                ? model.dashBoardModel.categories.length : 0,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 13.0,
@@ -357,58 +348,54 @@ class HomeScreenState extends State<HomeScreen> {
                 //   (MediaQuery.of(context).size.height / 3),
                 mainAxisSpacing: 17.0),
             itemBuilder: (BuildContext context, int index) {
-              return model.dashBoardModel != null && model.dashBoardModel.categories.length != 0 ?
-              InkWell(
-                onTap: () {
-                  gotoSeeAllScreen(context,model.dashBoardModel.categories[index].categoryName);
-                },
-                child: Stack(
-                  children: [
-                    Image.network(
-                      model.dashBoardModel.categories[index].categoryImage,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        //color: Color(0xFFFFFFFFF),
-                        /*image: DecorationImage(
-                            image: AssetImage(
-                              model.dashBoardModel.categories[index].categoryImage,
-                              //model.categoriesImage[index],
+              return model.dashBoardModel != null && model.dashBoardModel.categories.length != 0
+                  ? InkWell(
+                      onTap: () {
+                        gotoSeeAllScreen(
+                            context,
+                            model.dashBoardModel.categories[index].categoryName);
+                      },
+                      child: Stack(
+                        children: [
+                          Image.network(
+                            model.dashBoardModel.categories[index].categoryImage,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                             /* color: Color(0xFFFFFFFFF),
+                                image: DecorationImage(
+                                image: AssetImage(model.categoriesImage[index]),
+                                fit: BoxFit.cover),*/
+                              borderRadius: BorderRadius.circular(5.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  blurRadius: 5.5,
+                                  spreadRadius: 1.5,
+                                  offset: Offset(4.4, 9.0),
+                                ),
+                              ],
                             ),
-                            fit: BoxFit.cover),*/
-                        borderRadius: BorderRadius.circular(5.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            blurRadius: 5.5,
-                            spreadRadius: 1.5,
-                            offset: Offset(4.4, 9.0),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                model.dashBoardModel.categories[index].categoryName,
+                                // model.categoriesName[index],
+                                style: new TextStyle(
+                                    fontSize: 12,
+                                    color: ColorRes.whiteColor,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          model.dashBoardModel.categories[index].categoryName,
-                         // model.categoriesName[index],
-                          style: new TextStyle(
-                              fontSize: 12,
-                              color: ColorRes.whiteColor,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ) :
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200
-              );
+                    )
+                  : Container(width: MediaQuery.of(context).size.width, height: 200);
             },
           ),
         ),
@@ -463,36 +450,38 @@ class HomeScreenState extends State<HomeScreen> {
           color: ColorRes.primaryColor,
           height: height * 0.4,
           child: ListView.builder(
-              itemCount: model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0 ? model.dashBoardModel.newProducts.length : 0,
+              itemCount: model.dashBoardModel != null &&
+                         model.dashBoardModel.newProducts.length != 0
+                         ? model.dashBoardModel.newProducts.length
+                         : 0,
               // model.newProductName.length,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-
-
                 // HomeScreenModel product = model.newProductName[index];
-
-
-                return model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0 ? GestureDetector(
-                  onTap: () {
-                    gotoProductDetailScreen(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: productView(
-                      model.dashBoardModel.newProducts[index].productImage,
-                        model.dashBoardModel.newProducts[index].productName,
-                        model.dashBoardModel.newProducts[index].discountedPrice.toString(),
-                      // product.productName,
-                      // product.productPriceBefore,
-                      //product.productPriceAfter
-                      model.dashBoardModel.newProducts[index].price,
-                    ),
-                  ),
-                ) : Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 200,
-                );
+                return model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0
+                    ? GestureDetector(
+                        onTap: () {
+                          gotoProductDetailScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: productView(
+                            model.dashBoardModel.newProducts[index].productImage,
+                            model.dashBoardModel.newProducts[index].productName,
+                            model.dashBoardModel.newProducts[index].discountedPrice.toString(),
+                            model.dashBoardModel.newProducts[index].price,
+                            /*  product.productUrl,
+                                product.productName,
+                                product.productPriceBefore,
+                                product.productPriceAfter,*/
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                      );
               }),
         ),
       ],
@@ -546,27 +535,35 @@ class HomeScreenState extends State<HomeScreen> {
           color: ColorRes.primaryColor,
           height: height * 0.4,
           child: ListView.builder(
-              itemCount: model.trendingProductsName.length,
+              itemCount: model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
+                  ? model.dashBoardModel.trendingProducts.length : 0,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                HomeScreenModel product = model.trendingProductsName[index];
-                return GestureDetector(
-                  onTap: () {
-                    gotoProductDetailScreen(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: productView(
-                      product.productUrl,
-                      //  product.productName,
-                      model.dashBoardModel.trendingProducts[index].productName.toString(),
-                      product.productPriceBefore,
-                      model.dashBoardModel.trendingProducts[index].price.toString(),
-                      // product.productPriceAfter
-                    ),
-                  ),
-                );
+                // HomeScreenModel product = model.trendingProductsName[index];
+                return model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
+                    ? GestureDetector(
+                        onTap: () {
+                          gotoProductDetailScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: productView(
+                            model.dashBoardModel.trendingProducts[index].productImage,
+                            model.dashBoardModel.trendingProducts[index].productName,
+                            model.dashBoardModel.trendingProducts[index].discountedPrice.toString(),
+                            model.dashBoardModel.trendingProducts[index].price,
+                            /*  product.productUrl,
+                                product.productName,
+                                product.productPriceBefore,
+                                product.productPriceAfter,*/
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                      );
               }),
         ),
       ],
@@ -620,29 +617,40 @@ class HomeScreenState extends State<HomeScreen> {
           color: ColorRes.primaryColor,
           height: height * 0.4,
           child: ListView.builder(
-              itemCount: model.featuredProductsName.length,
+              itemCount: model.dashBoardModel != null &&
+                         model.dashBoardModel.featuredProducts.length != 0
+                         ? model.dashBoardModel.featuredProducts.length
+                         : 0,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                HomeScreenModel product = model.featuredProductsName[index];
-                return GestureDetector(
-                  onTap: () {
-                    gotoProductDetailScreen(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: productView(
-                      product.productUrl,
-                      //product.productName,
-                      model.dashBoardModel.featuredProducts[index].productName.toString(),
-                      product.productPriceBefore,
-                      model.dashBoardModel.featuredProducts[index].price.toString(),
-
-                      // product.productPriceAfter,
-                    ),
-                  ),
-                );
-              }),
+                //  HomeScreenModel product = model.featuredProductsName[index];
+                return model.dashBoardModel != null &&
+                        model.dashBoardModel.featuredProducts.length != 0
+                    ? GestureDetector(
+                        onTap: () {
+                          gotoProductDetailScreen(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: productView(
+                            model.dashBoardModel.featuredProducts[index].productImage,
+                            model.dashBoardModel.featuredProducts[index].productName,
+                            model.dashBoardModel.featuredProducts[index].discountedPrice.toString(),
+                            model.dashBoardModel.featuredProducts[index].price,
+                            /*  product.productUrl,
+                                product.productName,
+                                product.productPriceBefore,
+                                product.productPriceAfter,*/
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                      );
+              },
+          ),
         ),
       ],
     );
