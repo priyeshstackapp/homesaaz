@@ -4,13 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
-import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
-import 'package:homesaaz/screen/payment/payment_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'address_screen_view_model.dart';
 
@@ -20,10 +17,7 @@ class AddressScreen extends StatefulWidget {
   String postalCode = "";
   String houseNo = "";
   String roadNo = "";
-
-  AddressScreen(
-      {this.address, this.city, this.postalCode, this.houseNo, this.roadNo});
-
+  AddressScreen({this.address, this.city, this.postalCode, this.houseNo, this.roadNo});
   @override
   AddressScreenState createState() => AddressScreenState();
 }
@@ -37,18 +31,14 @@ class AddressScreenState extends State<AddressScreen> {
   String postalCode;
   String houseNo;
   String roadNo;
-
   List<Map> listOfAddress = List();
-
   @override
   void initState() {
     super.initState();
     getData();
   }
-
   List data = List();
   SharedPreferences prefs;
-
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -97,17 +87,20 @@ class AddressScreenState extends State<AddressScreen> {
                         SizedBox(height: 10),
                         commonTitle('Address'),
                         SizedBox(height: 20),
-                        Container(
+
+                        //Show List of Address
+                        model.addressModel != null ? Container(
                           height: height * 0.57,
                           child: ListView.builder(
-                            itemCount: listOfAddress.length,
+                            itemCount: model.addressModel.data.length,
+                            //itemCount: listOfAddress.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                   onTap: () {}, child: addressData(index));
                             },
                           ),
-                        ),
+                        ) : Container(),
                       ],
                     ),
                   ),
@@ -121,6 +114,7 @@ class AddressScreenState extends State<AddressScreen> {
     );
   }
 
+  //List of Address
   Widget addressData(int index) {
     return InkResponse(
       onTap: () {
@@ -128,23 +122,39 @@ class AddressScreenState extends State<AddressScreen> {
         setState(() {});
       },
       child: Container(
-        padding: EdgeInsets.only(right: 20, bottom: 20),
+        padding: EdgeInsets.only(right: 10, bottom: 20),
         color: ColorRes.whiteColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
-              flex: 8,
+            Expanded(
+              flex: 9,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  listOfAddress[index] == null
-                      ? Container()
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        model.addressModel.data[index].addressTitle +',',
+                        style: new TextStyle(
+                          fontSize: 18,
+                          color: ColorRes.charcoal,
+                          fontFamily: 'NeueFrutigerWorld',
+                        ),
+                        maxLines: 10,
+                      ),
+                      Text(
+                        model.addressModel.data[index].address,
+                        style: new TextStyle(
+                          fontSize: 18,
+                          color: ColorRes.charcoal,
+                          fontFamily: 'NeueFrutigerWorld',
+                        ),
+                        maxLines: 10,
+                      ),
+                      /*  Text(
                               //'Shewrapara, Mirpur, Delhi-1216  ' +
                               listOfAddress[index]['address'] + ', ',
                               // data[index]['city'],
@@ -166,37 +176,13 @@ class AddressScreenState extends State<AddressScreen> {
                                 fontFamily: 'NeueFrutigerWorld',
                               ),
                               maxLines: 5,
-                            ),
-                          ],
-                        )
-                  /* listOfAddress[index] == null
-                      ? Container()
-                      : Text(
-                          'House no: ' + listOfAddress[index]['houseNo'],
-                          //'House no: 938',
-                          style: new TextStyle(
-                            fontSize: 18,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                          ),
-                        ),
-                  listOfAddress[index] == null
-                      ? Container()
-                      : Text(
-                          'Road no: ' + listOfAddress[index]['roadNo'],
-                          //'Road no: 9',
-                          style: new TextStyle(
-                            fontSize: 18,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                          ),
-                        ),*/
+                            ),*/
+                    ],
+                  ),
                 ],
               ),
             ),
-            listOfAddress[index] == null
-                ? Container()
-                : Flexible(
+            model.addressModel.data[index] == null ? Container() : Expanded(
                     flex: 2,
                     child: isSelectedIndex == index
                         ? Icon(
@@ -206,7 +192,36 @@ class AddressScreenState extends State<AddressScreen> {
                           )
                         : Icon(Icons.radio_button_off,
                             color: ColorRes.dimGray, size: 20),
-                  )
+                  ),
+            model.addressModel.data[index] == null ? Container() : Expanded(
+                flex: 1,
+                child:InkWell(
+                  onTap: (){
+                    return showDialog(
+                        context: context,
+                        builder: (context) => new AlertDialog(
+                      title: new Text('Are you sure?'),
+                      content: new Text('Do you want to delete address'),
+                      actions: <Widget>[
+                        new FlatButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: new Text('No'),
+                        ),
+                        new FlatButton(
+                          onPressed: () =>  model.deleteAddressApiCall(),
+                          child: new Text('Yes'),
+                        ),
+                      ],
+                    ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.cancel,
+                    color: ColorRes.dimGray,
+                    size: 20,
+                  ),
+                )
+            ),
           ],
         ),
       ),
@@ -296,8 +311,8 @@ class AddressScreenState extends State<AddressScreen> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
-        backgroundColor: ColorRes.whiteColor,
-        textColor: ColorRes.textColor,
+        backgroundColor: ColorRes.redColor,
+        textColor: ColorRes.whiteColor,
         fontSize: 16.0);
   }
 }

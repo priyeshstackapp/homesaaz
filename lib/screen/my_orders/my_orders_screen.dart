@@ -29,31 +29,33 @@ class MyOrdersScreenState extends State<MyOrdersScreen> {
       child: Scaffold(
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 19),
-              child: commonTitle('My Orders'),
-            ),
-
-            SizedBox(height: 10),
-            Container(
-              height: height*0.77,
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: model.newProductName.length,
-                itemBuilder: (context, index) {
-                  MyOrdersModel myOrdersItem = model.newProductName[index];
-                  return myOrdersView(
-                      myOrdersItem, this, model.newProductName);
-                },
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 19),
+                child: commonTitle('My Orders'),
               ),
-            ),
-            SizedBox(height: 10),
-          ],
+
+              SizedBox(height: 10),
+              Container(
+                height: height*0.77,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: model.newProductName.length,
+                  itemBuilder: (context, index) {
+                    MyOrdersModel myOrdersItem = model.newProductName[index];
+                    return myOrdersView(
+                        myOrdersItem, this, model.newProductName);
+                  },
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );

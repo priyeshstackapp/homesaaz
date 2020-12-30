@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/dabasehelper.dart';
@@ -33,16 +32,20 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   CreateAddressScreenViewModel model;
   SharedPreferences prefs;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _address = new TextEditingController();
-  final TextEditingController _city = new TextEditingController();
-  final TextEditingController _postalCode = new TextEditingController();
-  final TextEditingController _houseNo = new TextEditingController();
-  final TextEditingController _roadNo = new TextEditingController();
+
+  final TextEditingController addressCont = new TextEditingController();
+  final TextEditingController cityCont = new TextEditingController();
+  final TextEditingController postalCodeCont = new TextEditingController();
+  final TextEditingController houseNoCont = new TextEditingController();
+  final TextEditingController roadNoCont = new TextEditingController();
+  final TextEditingController mobileCont = new TextEditingController();
   String address;
   String city;
   String postalCode;
   String houseNo;
   String roadNo;
+  int mobile;
+
 
   @override
   void initState() {
@@ -108,11 +111,9 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                     onTap: () {
                       if (_validateInputs()) {
                         Navigator.pop(context, {
-                          "address": _address.text,
-                          "city": _city.text,
-                          "postalCode": _postalCode.text,
-                          /*"houseNo": _houseNo.text,
-                          "roadNo": _roadNo.text,*/
+                          "address": addressCont.text,
+                          "city": cityCont.text,
+                          "postalCode": postalCodeCont.text,
                         });
                       }
                       _sendData(context);
@@ -199,7 +200,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
               //  readOnly: true,
-              controller: _address,
+              controller: addressCont,
               validator: validateAddress,
 
               onSaved: (String val) {
@@ -239,7 +240,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
               //readOnly: true,
-              controller: _city,
+              controller: cityCont,
               validator: validateCity,
 
               onSaved: (String val) {
@@ -280,7 +281,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             child: TextFormField(
               maxLength: 6,
               //readOnly: true,
-              controller: _postalCode,
+              controller: postalCodeCont,
               validator: validatePostalCode,
               keyboardType: TextInputType.number,
               onSaved: (String val) {
@@ -323,6 +324,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             child: TextFormField(
               //readOnly: true,
               maxLength: 10,
+              controller: mobileCont,
               validator: validateMobileNo,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -497,6 +499,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   bool _validateInputs() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      model.addEditAddressListApi();
       return true;
     } else {
       return false;

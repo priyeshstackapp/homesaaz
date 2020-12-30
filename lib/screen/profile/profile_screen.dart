@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
-import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/screen/profile/profile_screen_view_model.dart';
 
@@ -13,8 +11,12 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen> {
   ProfileScreenViewModel model;
-
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         key: scaffoldKey,
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
-
-        drawer: Scaffold(
+        /*drawer:Scaffold(
           backgroundColor: ColorRes.whisper,
           body: SafeArea(
             child: Column(
@@ -145,7 +146,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-        ),
+        ),*/
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
@@ -195,7 +196,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                  ),
                  filled: true,
                  fillColor: const Color(0xFFFFFFFF),
-                 hintText: 'Rakesh Patwal',
+                 hintText: '${model.profileModel == null ? 'Rakesh' : model.profileModel.firstName}'
+                    ' ' '${model.profileModel == null ? 'Patwal' : model.profileModel.lastName}',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
@@ -297,7 +299,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  ),
                  filled: true,
                  fillColor: const Color(0xFFFFFFFF),
-                 hintText: 'Male',
+                 hintText: '${model.profileModel == null ? 'Male' : model.profileModel.gender}',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
@@ -331,7 +333,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  ),
                  filled: true,
                  fillColor: const Color(0xFFFFFFFF),
-                 hintText: 'rakesh.patwal@signtific.co.in',
+                 hintText: '${model.profileModel == null ? 'rakesh.patwal@signtific.co.in' : model.profileModel.email}',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
@@ -365,7 +367,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                  ),
                  filled: true,
                  fillColor: const Color(0xFFFFFFFF),
-                 hintText: '+91 9958 314 088',
+                 hintText:'${model.profileModel == null ? '+91 9958 314 088' : model.profileModel.mobile}',
                  hintStyle: TextStyle(
                    fontFamily: 'NeueFrutigerWorld',
                    fontSize: 16,
@@ -416,7 +418,7 @@ class ProfileScreenState extends State<ProfileScreen> {
            ),
            SizedBox(height: 20),*/
          ],
-       )
+       ),
       ],
     );
   }
