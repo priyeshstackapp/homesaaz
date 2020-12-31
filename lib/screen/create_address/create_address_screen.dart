@@ -109,14 +109,17 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                   SizedBox(height: height * 0.01),
                   InkWell(
                     onTap: () {
-                      if (_validateInputs()) {
-                        Navigator.pop(context, {
-                          "address": addressCont.text,
-                          "city": cityCont.text,
-                          "postalCode": postalCodeCont.text,
-                        });
-                      }
-                      _sendData(context);
+                      setState(() {
+                        if (_validateInputs()) {
+                          Navigator.pop(context, {
+                            "address": addressCont.text,
+                            "city": cityCont.text,
+                            "postalCode": postalCodeCont.text,
+                          });
+                        }
+                        _sendData(context);
+                      });
+
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -499,7 +502,9 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   bool _validateInputs() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      model.addEditAddressListApi();
+      setState(() {
+        model.addEditAddressListApi();
+      });
       return true;
     } else {
       return false;

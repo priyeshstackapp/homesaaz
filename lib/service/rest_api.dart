@@ -92,11 +92,11 @@ class RestApi{
         print(result);
         return response;
       } else if(response.statusCode == 401) {
-        Utils.showToast("Unauthorized user");
+       // Utils.showToast("Unauthorized user");
         return null;
       }
     } catch(e) {
-      Utils.showToast(e);
+     // Utils.showToast(e);
       hideLoader();
       return null;
     }
@@ -119,7 +119,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
-      Utils.showToast(e);
+     // Utils.showToast(e);
       hideLoader();
       return null;
     }
@@ -138,18 +138,18 @@ class RestApi{
         print(result);
         return response;
       } else if(response.statusCode == 401) {
-        Utils.showToast("Unauthorized user");
+       // Utils.showToast("Unauthorized user");
         return null;
       }
     } catch(e) {
-      Utils.showToast(e);
+     // Utils.showToast(e);
       hideLoader();
       return null;
     }
   }
 
   //Delete address Api
-  static Future<http.Response> deleteaddressApi(Map<String, dynamic> registerData) async {
+ /* static Future<http.Response> deleteaddressApi(Map<String, dynamic> registerData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "user/deleteaddress";
     print(url + registerData.toString());
@@ -169,5 +169,29 @@ class RestApi{
       hideLoader();
       return null;
     }
+  }*/
+
+  //Get Complete detail of address
+  static Future<http.Response> getCompleteDetailsOfAddressApi(Map<String, dynamic> registerData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "user/addressdata";
+    print(url + registerData.toString());
+    try {
+      http.Response response = await http.get(url, headers: {'Authorization': auth});
+      Map result = jsonDecode(response.body);
+      hideLoader();
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        print(result);
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      Utils.showToast(e);
+      hideLoader();
+      return null;
+    }
   }
+
 }

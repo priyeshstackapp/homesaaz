@@ -34,10 +34,10 @@ class ProfileScreenViewModel {
         print(profileModel);
         state.setState(() {});
       } else {
-        Utils.showToast("Some thing wrong");
+      //  Utils.showToast("Some thing wrong");
       }
     }).catchError((e) {
-      Utils.showToast(e.toString());
+     // Utils.showToast(e.toString());
     }).whenComplete(() {
     });
   }

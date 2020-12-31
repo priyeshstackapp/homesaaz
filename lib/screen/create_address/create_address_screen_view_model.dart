@@ -8,7 +8,6 @@ import 'package:homesaaz/service/rest_api.dart';
 
 class CreateAddressScreenViewModel {
   CreateAddressScreenState state;
-  OverlayEntry loader;
   EditAddressModel editAddressModel;
   CreateAddressScreenViewModel(CreateAddressScreenState state) {
     this.state = state;
@@ -16,11 +15,11 @@ class CreateAddressScreenViewModel {
   }
 
   void addEditAddressListApi() async {
-    FocusScope.of(state.context).unfocus();
+   // FocusScope.of(state.context).unfocus();
 
     Map<String, dynamic> body = {
       "uid": '1',
-      "address_id": '22',
+      "address_id": '',
       "address": state.addressCont.text,
       "flat": state.addressCont.text,
       "landmark": state.addressCont.text,
@@ -38,14 +37,14 @@ class CreateAddressScreenViewModel {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
         print(responseData);
-      //  editAddressModel = editAddressModelFromJson(responseData.body);
+       editAddressModel = editAddressModelFromJson(responseData.body);
         print(editAddressModel);
         state.setState(() {});
       } else {
-        Utils.showToast("Some thing wrong");
+        //Utils.showToast("Some thing wrong");
       }
     }).catchError((e) {
-      Utils.showToast(e.toString());
+     // Utils.showToast(e.toString());
     }).whenComplete(() {});
   }
 

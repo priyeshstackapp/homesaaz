@@ -35,7 +35,7 @@ class AddressScreenState extends State<AddressScreen> {
   @override
   void initState() {
     super.initState();
-    getData();
+   // getData();
   }
   List data = List();
   SharedPreferences prefs;
@@ -92,12 +92,11 @@ class AddressScreenState extends State<AddressScreen> {
                         model.addressModel != null ? Container(
                           height: height * 0.57,
                           child: ListView.builder(
-                            itemCount: model.addressModel.data.length,
+                            itemCount: model.addressModel.data.length == null ? null :model.addressModel.data.length,
                             //itemCount: listOfAddress.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  onTap: () {}, child: addressData(index));
+                              return addressData(index);
                             },
                           ),
                         ) : Container(),
@@ -193,35 +192,6 @@ class AddressScreenState extends State<AddressScreen> {
                         : Icon(Icons.radio_button_off,
                             color: ColorRes.dimGray, size: 20),
                   ),
-            model.addressModel.data[index] == null ? Container() : Expanded(
-                flex: 1,
-                child:InkWell(
-                  onTap: (){
-                    return showDialog(
-                        context: context,
-                        builder: (context) => new AlertDialog(
-                      title: new Text('Are you sure?'),
-                      content: new Text('Do you want to delete address'),
-                      actions: <Widget>[
-                        new FlatButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: new Text('No'),
-                        ),
-                        new FlatButton(
-                          onPressed: () =>  model.deleteAddressApiCall(),
-                          child: new Text('Yes'),
-                        ),
-                      ],
-                    ),
-                    );
-                  },
-                  child: Icon(
-                    Icons.cancel,
-                    color: ColorRes.dimGray,
-                    size: 20,
-                  ),
-                )
-            ),
           ],
         ),
       ),
@@ -245,10 +215,12 @@ class AddressScreenState extends State<AddressScreen> {
                 context,
                 MaterialPageRoute(builder: (context) => CreateAddressScreen()),
               );
+
               print(setData);
-              listOfAddress.add(setData);
-              print(listOfAddress);
-              setState(() {});
+              //listOfAddress.add(setData);
+             // print(listOfAddress);
+              setState(() {
+              });
             },
             child: DottedBorder(
               color: ColorRes.red,

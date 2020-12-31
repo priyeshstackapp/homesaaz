@@ -1,24 +1,25 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/address_model.dart';
+import 'package:homesaaz/model/edit_address_model.dart';
 import 'package:homesaaz/screen/address/address_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
 class AddressScreenViewModel {
   AddressScreenState state;
   //List<AddressModel> list = List();
-  OverlayEntry loader;
   AddressModel addressModel;
+  EditAddressModel editAddressModel;
   AddressScreenViewModel(AddressScreenState state) {
     this.state = state;
    // listOfData();
-    addressListApi();
+   state.setState(() {
+     addressListApi();
+   });
   }
   //Address Api
   void addressListApi() {
-    FocusScope.of(state.context).unfocus();
     Map<String, dynamic> body = {
       "uid": '1'
     };
@@ -28,23 +29,24 @@ class AddressScreenViewModel {
     RestApi.addressListApi(body).then((responseData) {
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
-        Utils.showToast(jsonData['error']);
+       Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
         print(responseData);
-        addressModel = addressModelFromJson(responseData.body);
         print(addressModel);
-        state.setState(() {});
+        state.setState(() {
+          addressModel = addressModelFromJson(responseData.body);
+        });
       } else {
-        Utils.showToast("Some thing wrong");
+       Utils.showToast("Some thing wrong");
       }
     }).catchError((e) {
-      Utils.showToast(e.toString());
+   // Utils.showToast(e.toString());
     }).whenComplete(() {
     });
   }
 
   //Delete Api
-  void deleteAddressApiCall() {
+ /* void deleteAddressApiCall() {
     FocusScope.of(state.context).unfocus();
     Map<String, dynamic> body = {
       "uid": '1',
@@ -66,7 +68,7 @@ class AddressScreenViewModel {
       Utils.showToast(e.toString());
     }).whenComplete(() {
     });
-  }
+  }*/
 
 /*  listOfData() {
     list.add(AddressModel(

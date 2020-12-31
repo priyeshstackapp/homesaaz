@@ -12,6 +12,7 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   ProfileScreenViewModel model;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -155,9 +156,8 @@ class ProfileScreenState extends State<ProfileScreen> {
               children: [
                 SizedBox(height: 10),
                 commonTitle('Profile'),
-
                 SizedBox(height: 30),
-                profileDetails(),
+               model.profileModel ==null ? Container()  :profileDetails(),
               ],
             ),
           ),
@@ -166,127 +166,100 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  profileDetails(){
+  profileDetails() {
     Size media = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-       Column(
-         crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           //name
-           Text(
-             'Name',
-             style: TextStyle(
-               fontFamily: 'NeueFrutigerWorld',
-               fontSize: 16,
-               color: ColorRes.dimGray,
-             ),
-           ),
-           Padding(
-             padding: EdgeInsets.only(right: media.width * 0.06),
-             child: TextFormField(
-               readOnly: true,
-               decoration: InputDecoration(
-                 enabledBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 filled: true,
-                 fillColor: const Color(0xFFFFFFFF),
-                 hintText: '${model.profileModel == null ? 'Rakesh' : model.profileModel.firstName}'
-                    ' ' '${model.profileModel == null ? 'Patwal' : model.profileModel.lastName}',
-                 hintStyle: TextStyle(
-                   fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 16,
-                   color: ColorRes.charcoal.withOpacity(0.5),
-                 ),
-                 contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
-               ),
-             ),
-           ),
-           SizedBox(height: 20),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //First name
+            Text(
+              'First Name',
+              style: TextStyle(
+                fontFamily: 'NeueFrutigerWorld',
+                fontSize: 16,
+                color: ColorRes.dimGray,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: media.width * 0.06),
+              child: TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xFFFFFFFF),
+                  hintText:
+                      '${model.profileModel == null ? 'Rakesh' : model.profileModel.firstName}',
+                  hintStyle: TextStyle(
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 16,
+                    color: ColorRes.charcoal.withOpacity(0.5),
+                  ),
+                  contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
 
-           //Address lane
-           Text(
-             'Address lane',
-             style: TextStyle(
-               fontFamily: 'NeueFrutigerWorld',
-               fontSize: 16,
-               color: ColorRes.dimGray,
-             ),
-           ),
-           Padding(
-             padding: EdgeInsets.only(right: media.width * 0.06),
-             child: TextFormField(
-               readOnly: true,
-               decoration: InputDecoration(
-                 enabledBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 filled: true,
-                 fillColor: const Color(0xFFFFFFFF),
-                 hintText: 'Shewrapara 958',
-                 hintStyle: TextStyle(
-                   fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 16,
-                   color: ColorRes.charcoal.withOpacity(0.5),
-                 ),
-                 contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
-               ),
-             ),
-           ),
-           SizedBox(height: 20),
+            //Last name
+            Text(
+              'Last Name',
+              style: TextStyle(
+                fontFamily: 'NeueFrutigerWorld',
+                fontSize: 16,
+                color: ColorRes.dimGray,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: media.width * 0.06),
+              child: TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xFFFFFFFF),
+                  hintText:
+                      '${model.profileModel == null ? 'Patwal' : model.profileModel.lastName}',
+                  hintStyle: TextStyle(
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 16,
+                    color: ColorRes.charcoal.withOpacity(0.5),
+                  ),
+                  contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
 
-           //City
-           Text(
-             'City',
-             style: TextStyle(
-               fontFamily: 'NeueFrutigerWorld',
-               fontSize: 16,
-               color: ColorRes.dimGray,
-             ),
-           ),
-           Padding(
-             padding: EdgeInsets.only(right: media.width * 0.06),
-             child: TextFormField(
-               readOnly: true,
-               decoration: InputDecoration(
-                 enabledBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 filled: true,
-                 fillColor: const Color(0xFFFFFFFF),
-                 hintText: 'Delhi',
-                 hintStyle: TextStyle(
-                   fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 16,
-                   color: ColorRes.charcoal.withOpacity(0.5),
-                 ),
-                 contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
-               ),
-             ),
-           ),
-           SizedBox(height: 20),
-
-           //Gender
-           Text(
-             'Gender',
-             style: TextStyle(
-               fontFamily: 'NeueFrutigerWorld',
-               fontSize: 16,
-               color: ColorRes.dimGray,
-             ),
-           ),
-           Padding(
+            //Gender
+            Text(
+              'Gender',
+              style: TextStyle(
+                fontFamily: 'NeueFrutigerWorld',
+                fontSize: 16,
+                color: ColorRes.dimGray,
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                addRadioButton(0, 'Male'),
+                addRadioButton(1, 'Female'),
+              ],
+            ),
+            /*  Padding(
              padding: EdgeInsets.only(right: media.width * 0.06),
              child: TextFormField(
                readOnly: true,
@@ -308,117 +281,100 @@ class ProfileScreenState extends State<ProfileScreen> {
                  contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
                ),
              ),
-           ),
-           SizedBox(height: 20),
+           ),*/
+            SizedBox(height: 20),
 
-           //Email
-           Text(
-             'Email',
-             style: TextStyle(
-               fontFamily: 'NeueFrutigerWorld',
-               fontSize: 16,
-               color: ColorRes.dimGray,
-             ),
-           ),
-           Padding(
-             padding: EdgeInsets.only(right: media.width * 0.06),
-             child: TextFormField(
-               readOnly: true,
-               decoration: InputDecoration(
-                 enabledBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 filled: true,
-                 fillColor: const Color(0xFFFFFFFF),
-                 hintText: '${model.profileModel == null ? 'rakesh.patwal@signtific.co.in' : model.profileModel.email}',
-                 hintStyle: TextStyle(
-                   fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 16,
-                   color: ColorRes.charcoal.withOpacity(0.5),
-                 ),
-                 contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
-               ),
-             ),
-           ),
-           SizedBox(height: 20),
+            //Email
+            Text(
+              'Email',
+              style: TextStyle(
+                fontFamily: 'NeueFrutigerWorld',
+                fontSize: 16,
+                color: ColorRes.dimGray,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: media.width * 0.06),
+              child: TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xFFFFFFFF),
+                  hintText:
+                      '${model.profileModel == null ? 'rakesh.patwal@signtific.co.in' : model.profileModel.email}',
+                  hintStyle: TextStyle(
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 16,
+                    color: ColorRes.charcoal.withOpacity(0.5),
+                  ),
+                  contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
 
-           //Phone Number
-           Text(
-             'Phone Number',
-             style: TextStyle(
-               fontFamily: 'NeueFrutigerWorld',
-               fontSize: 16,
-               color: ColorRes.dimGray,
-             ),
-           ),
-           Padding(
-             padding: EdgeInsets.only(right: media.width * 0.06),
-             child: TextFormField(
-               readOnly: true,
-               decoration: InputDecoration(
-                 enabledBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 filled: true,
-                 fillColor: const Color(0xFFFFFFFF),
-                 hintText:'${model.profileModel == null ? '+91 9958 314 088' : model.profileModel.mobile}',
-                 hintStyle: TextStyle(
-                   fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 16,
-                   color: ColorRes.charcoal.withOpacity(0.5),
-                 ),
-                 contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
-               ),
-             ),
-           ),
-           SizedBox(height: 20),
+            //Phone Number
+            Text(
+              'Phone Number',
+              style: TextStyle(
+                fontFamily: 'NeueFrutigerWorld',
+                fontSize: 16,
+                color: ColorRes.dimGray,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: media.width * 0.06),
+              child: TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade100),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xFFFFFFFF),
+                  hintText:
+                      '${model.profileModel == null ? '+91 9958 314 088' : model.profileModel.mobile}',
+                  hintStyle: TextStyle(
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 16,
+                    color: ColorRes.charcoal.withOpacity(0.5),
+                  ),
+                  contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ],
+    );
+  }
 
-         /*  //Address
-           InkWell(
-             onTap: (){
-               gotoAddressScreen(context);
-             },
-             child: Text(
-               'Address',
-               style: TextStyle(
-                 fontFamily: 'NeueFrutigerWorld',
-                 fontSize: 16,
-                 color: ColorRes.dimGray,
-               ),
-             ),
-           ),
-           Padding(
-             padding: EdgeInsets.only(right: media.width * 0.06),
-             child: TextFormField(
-               readOnly: true,
-               decoration: InputDecoration(
-                 enabledBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 focusedBorder: UnderlineInputBorder(
-                   borderSide: BorderSide(color: Colors.grey.shade100),
-                 ),
-                 filled: true,
-                 fillColor: const Color(0xFFFFFFFF),
-                 hintText: 'Georgia',
-                 hintStyle: TextStyle(
-                   fontFamily: 'NeueFrutigerWorld',
-                   fontSize: 16,
-                   color: ColorRes.charcoal,
-                 ),
-                 contentPadding: EdgeInsets.only(left: 0.0,bottom: 10),
-               ),
-             ),
-           ),
-           SizedBox(height: 20),*/
-         ],
-       ),
+  List gender = ["Male", "Female"];
+  int groupValue = 0;
+  String select;
+  Row addRadioButton(int value, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+       Radio(
+          activeColor: Theme.of(context).primaryColor,
+          value:value,
+          groupValue:model.profileModel.gender == 'male' ? 0 : 1,
+        ) ,
+        Text(
+          title, style: TextStyle(fontFamily: 'NeueFrutigerWorld', fontSize: 16, color: ColorRes.charcoal.withOpacity(0.5),
+          ),
+        )
       ],
     );
   }
