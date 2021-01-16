@@ -50,14 +50,16 @@ class CartScreenState extends State<CartScreen> {
                     Product cartItem = model.cartModel.products[index];
                     return cartProductView(cartItem,(){
                       model.removeFromCart(cartItem);
-                    },() {
+                    },() async {
+                      await model.updateQuantity(cartItem, 'minus');
                       setState(() {
                         int quant = int.parse(cartItem.itemqty);
                         quant ++ ;
                         cartItem.itemqty = quant.toString();
                       });
-                    },() {
+                    },() async {
                       if (int.parse(cartItem.itemqty) != 1) {
+                        await model.updateQuantity(cartItem, 'minus');
                         setState(() {
                           int quant = int.parse(cartItem.itemqty);
                           quant -- ;

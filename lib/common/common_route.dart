@@ -11,6 +11,7 @@ import 'package:homesaaz/screen/forgot/forgot_password_screen.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
+import 'package:homesaaz/screen/my_orders_details/my_orders_detail_screen.dart';
 import 'package:homesaaz/screen/payment/payment_screen.dart';
 import 'package:homesaaz/screen/product_detail/product_detail.dart';
 import 'package:homesaaz/screen/profile/profile_screen.dart';
@@ -150,4 +151,13 @@ replaceWithCheckoutScreen(context) {
 gotoCheckoutScreen(context,{AddressData addressData}) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => CheckoutScreen(addressData: addressData)));
+}
+
+gotoMyOrderDetailScreen(context, String orderId ) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MyOrdersDetailScreen(orderId)));
+}
+replaceWithMyOrderDetailScreen(context,String orderId) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => MyOrdersDetailScreen(orderId)));
 }

@@ -48,4 +48,29 @@ class CheckoutScreenViewModel {
       // Utils.showToast(e.toString());
     }).whenComplete(() {});
   }
+
+
+  updateQuantity(Product product,String action) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : product.itemid.toString(),
+      "action" : action
+    };
+
+    RestApi.updateProductQuantity(body).then((responseData) {
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        Utils.showToast("Remove from cart");
+      } else {
+        //Utils.showToast("Something went wrong");
+      }
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
+  }
 }

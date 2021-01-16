@@ -5,9 +5,11 @@ import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/loder_show.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/my_order_model.dart';
+import 'package:homesaaz/model/order_details_model.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
+import 'package:homesaaz/screen/my_orders_details/my_orders_detail_screen.dart';
 import 'package:rating_bar/rating_bar.dart';
 
 Widget gradientButton(context, {String title}) {
@@ -341,17 +343,16 @@ Widget cartProductView(Product cartItem,VoidCallback removeButton,VoidCallback i
   );
 }
 
-Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
-    List<MyOrdersModel> newProductName) {
-  List<Widget> array = [];
-  var filled = ColorRes.darkYellow;
-  var empty = Colors.grey;
-  for (var i = 1; i <= 5; i++) {
-    array.add(Icon(
-      Icons.star,
-      color: (myOrdersItem.rating < i ? empty : filled),
-    ));
-  }
+Widget myOrdersDetailView(OrderItemsList myOrdersItem, MyOrdersDetailScreenState state) {
+  // List<Widget> array = [];
+  // var filled = ColorRes.darkYellow;
+  // var empty = Colors.grey;
+  // for (var i = 1; i <= 5; i++) {
+  //   array.add(Icon(
+  //     Icons.star,
+  //     color: (myOrdersItem.rating < i ? empty : filled),
+  //   ));
+  // }
 
   return Stack(
     alignment: Alignment.topRight,
@@ -364,11 +365,11 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image.asset(
-                myOrdersItem.imageUrl,
+              myOrdersItem.pimage.isNotEmpty ? Image.network(
+                myOrdersItem.pimage,
                 fit: BoxFit.cover,
                 height: 100,
-              ),
+              ) : Container(),
               SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,43 +386,18 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
                     height: 5,
                   ),
                   Text(
-                    'Product Code:' + myOrdersItem.productCode,
+                    '${myOrdersItem.price}',
                     style: new TextStyle(
-                        color: ColorRes.gray57,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 11),
+                      fontSize: 16,
+                      color: ColorRes.redColor,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        '${myOrdersItem.newPrice}',
-                        style: new TextStyle(
-                          fontSize: 16,
-                          color: ColorRes.redColor,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${myOrdersItem.oldPrice}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w200,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: array,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                  )
+                  // Row(
+                  //   children: array,
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  // )
                 ],
               ),
             ],
@@ -429,6 +405,63 @@ Widget myOrdersView(MyOrdersModel myOrdersItem, MyOrdersScreenState state,
         ),
       ),
     ],
+  );
+}
+
+Widget myOrdersView(MyOrderData myOrdersItem) {
+
+  return Card(
+    elevation: 3,
+    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    child: Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Order no: ' + myOrdersItem.orderNo,
+            style: new TextStyle(
+                color: ColorRes.gray57,
+                fontFamily: 'NeueFrutigerWorld',
+                fontWeight: FontWeight.w400,
+                fontSize: 16),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            myOrdersItem.orderStatus,
+            style: new TextStyle(
+                color: ColorRes.charcoal,
+                fontFamily: 'NeueFrutigerWorld',
+                fontWeight: FontWeight.w400,
+                fontSize: 16),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+
+          Text(
+            '${myOrdersItem.orderDate} - ${myOrdersItem.orderTime}',
+            style: new TextStyle(
+              fontSize: 16,
+              color: ColorRes.redColor,
+              fontFamily: 'NeueFrutigerWorld',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Text(
+            '\$${myOrdersItem.orderTotal}',
+            style: new TextStyle(
+              fontSize: 16,
+              color: ColorRes.redColor,
+              fontFamily: 'NeueFrutigerWorld',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }
 

@@ -4,33 +4,36 @@ import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/my_order_model.dart';
+import 'package:homesaaz/model/order_details_model.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
+import 'package:homesaaz/screen/my_orders_details/my_orders_detail_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
-class MyOrdersScreenViewModel {
-  MyOrdersScreenState state;
+class MyOrdersDetailScreenViewModel {
+  MyOrdersDetailScreenState state;
 
-  MyOrdersScreenViewModel(MyOrdersScreenState state) {
+  MyOrdersDetailScreenViewModel(MyOrdersDetailScreenState state) {
     this.state = state;
-    getMyOrderData();
+    getOrderDetails();
   }
 
-  MyOrdersModel ordersModel;
+  OrderDetailsModel orderDetailsModel;
 
-  getMyOrderData() async {
+  getOrderDetails() async {
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
+      "order_id" : state.widget.orderId
     };
     await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
-    RestApi.getMyOrderData(body).then((responseData) {
+    RestApi.getSingleOrderData(body).then((responseData) {
       hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        ordersModel = myOrdersModelFromJson(responseData.body);
+        orderDetailsModel = orderDetailsModelFromJson(responseData.body);
         state.setState(() {});
       } else {
         //Utils.showToast("Something went wrong");
@@ -40,4 +43,5 @@ class MyOrdersScreenViewModel {
       // Utils.showToast(e.toString());
     }).whenComplete(() {});
   }
+
 }

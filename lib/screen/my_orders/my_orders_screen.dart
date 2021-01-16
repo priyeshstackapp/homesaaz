@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homesaaz/common/colorres.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/my_order_model.dart';
 import 'my_orders_screen_view_model.dart';
@@ -40,19 +41,25 @@ class MyOrdersScreenState extends State<MyOrdersScreen> {
               ),
 
               SizedBox(height: 10),
-              Container(
+              model.ordersModel!=null && model.ordersModel.data!=null && model.ordersModel.data.isNotEmpty?  Container(
                 height: height*0.77,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  itemCount: model.newProductName.length,
+                  itemCount: model.ordersModel.data.length,
                   itemBuilder: (context, index) {
-                    MyOrdersModel myOrdersItem = model.newProductName[index];
-                    return myOrdersView(
-                        myOrdersItem, this, model.newProductName);
+                    MyOrderData myOrdersItem = model.ordersModel.data[index];
+                    return InkWell(
+                      onTap: (){
+                        gotoMyOrderDetailScreen(this.context,myOrdersItem.orderId);
+                      },
+                      child: myOrdersView(myOrdersItem),
+                    );
                   },
                 ),
-              ),
+              ) : Align(
+                  alignment: Alignment.center,
+                  child: Container(child: Text("No orders!"),)),
               SizedBox(height: 10),
             ],
           ),
