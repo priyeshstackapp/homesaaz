@@ -48,6 +48,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                 child: Column(
                   children: [
                     //list of Checkout Product
+                    model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
@@ -56,7 +57,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       itemBuilder: (context, index) {
                         Product cartItem = model.cartModel.products[index];
                         return cartProductView(cartItem,(){
-                          print("RemoveButton");
+                          model.removeFromCart(cartItem);
                         },() {
                           setState(() {
                             int quant = int.parse(cartItem.itemqty);
@@ -73,7 +74,13 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                           }
                         });
                       },
-                    ),
+                    ) :
+                    Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              child: Text("Nothing in cart!"),
+                            ),
+                          ),
 
                     //Address Show
                     addressData(),
@@ -101,7 +108,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           ],
         ),
         //Buy Button
-        InkWell(
+        model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty? InkWell(
           onTap: () {
             gotoConfirmationScreen(context);
           },
@@ -123,7 +130,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                   fontWeight: FontWeight.w500),
             ),
           ),
-        ),
+        ) : Container(),
       ]),
     );
   }

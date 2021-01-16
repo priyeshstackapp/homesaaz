@@ -40,7 +40,7 @@ class CartScreenState extends State<CartScreen> {
                 child: commonTitle('Cart'),
               ),
               SizedBox(height: 10),
-              model.cartModel!=null && model.cartModel.products!=null? Container(
+              model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty? Container(
                 height: height*0.69,
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -49,7 +49,7 @@ class CartScreenState extends State<CartScreen> {
                   itemBuilder: (context, index) {
                     Product cartItem = model.cartModel.products[index];
                     return cartProductView(cartItem,(){
-                      print("RemoveButton");
+                      model.removeFromCart(cartItem);
                     },() {
                       setState(() {
                         int quant = int.parse(cartItem.itemqty);
@@ -71,7 +71,7 @@ class CartScreenState extends State<CartScreen> {
                   child: Container(child: Text("Nothing in cart!"),)),
             ],
           ),
-          model.cartModel!=null && model.cartModel.products!=null? InkWell(
+          model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty? InkWell(
             onTap: (){
               gotoAddressScreen(context);
 
