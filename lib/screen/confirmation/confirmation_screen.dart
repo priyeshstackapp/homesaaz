@@ -23,13 +23,13 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
     model ?? (model = ConfirmationScreenViewModel(this));
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context);
+        gotoHomeScreenUntilRemove(context);
         return true;
       },
       child: Scaffold(
         bottomNavigationBar: InkWell(
           onTap: () async {
-            gotoHomeScreen(context);
+            gotoHomeScreenUntilRemove(context);
           },
           child: Container(
             margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),

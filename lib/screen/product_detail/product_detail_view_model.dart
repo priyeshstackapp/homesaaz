@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
+import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/model/product_model.dart';
 import 'package:homesaaz/screen/product_detail/product_detail.dart';
@@ -31,7 +32,7 @@ class ProductDetailViewModel {
     );
   }
 
-  addToCart() async {
+  addToCart(bool show) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
@@ -45,7 +46,10 @@ class ProductDetailViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        Utils.showToast("Added to cart");
+
+        if(show)
+          Utils.showToast("Added to cart");
+
       } else {
         //Utils.showToast("Something went wrong");
       }
@@ -53,6 +57,31 @@ class ProductDetailViewModel {
       hideLoader();
       // Utils.showToast(e.toString());
     }).whenComplete(() {});
+  }
+
+  getCartData() async {
+
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+    };
+    showLoader(state.context);
+    try{
+      var responseData = await RestApi.getCartItems(body);
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        return cartModelFromJson(responseData.body);
+      } else {
+        return null;
+      }
+    }catch(e){
+      print(e);
+      Utils.showToast(e.toString());
+      return null;
+    }
+
   }
 
 }

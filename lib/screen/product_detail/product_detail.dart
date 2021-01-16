@@ -390,7 +390,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      await model.addToCart();
+                      await model.addToCart(true);
                     },
                     child: Container(
                       color: ColorRes.whisper,
@@ -404,9 +404,12 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: (){
-                      gotoAddressScreen(context);
-
+                    onTap: () async {
+                      await model.addToCart(false);
+                      var cart = await model.getCartData();
+                      if(cart!=null){
+                        gotoAddressScreen(context,cart);
+                      }
                     },
                     child: Container(
                       color: ColorRes.red,

@@ -42,7 +42,7 @@ class CartViewModel {
     }).whenComplete(() {});
   }
 
-  removeFromCart(Product product) async {
+  removeFromCart(CartProduct product) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
@@ -67,7 +67,7 @@ class CartViewModel {
     }).whenComplete(() {});
   }
 
-  updateQuantity(Product product,String action) async {
+  updateQuantity(CartProduct product,String action) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,

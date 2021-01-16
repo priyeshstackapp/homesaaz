@@ -218,7 +218,7 @@ class PaymentScreenState extends State<PaymentScreen> {
           SizedBox(height: 10),
           InkWell(
             onTap: () {
-              gotoCheckoutScreen(context, addressData: widget.addressData);
+              // gotoCheckoutScreen(context, addressData: widget.addressData);
             },
             child: Container(
               alignment: Alignment.center,

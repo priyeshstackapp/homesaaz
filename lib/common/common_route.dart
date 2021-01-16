@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/model/address_model.dart';
+import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/screen/add_card/add_card_screen.dart';
 import 'package:homesaaz/screen/address/address_screen.dart';
@@ -98,17 +99,19 @@ gotoProfileScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => ProfileScreen()));
 }
-gotoAddressScreen(context) {
+gotoAddressScreen(context, CartModel cartModel) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => AddressScreen()));
+      context, MaterialPageRoute(builder: (context) => AddressScreen(cartModel)));
 }
-gotoCreateAddressScreen(context) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => CreateAddressScreen()));
+gotoCreateAddressScreen(context,bool edit,AddressData addressData) async {
+  var res = await Navigator.push(
+      context, MaterialPageRoute(builder: (context) => CreateAddressScreen(edit,addressData)));
+  return res;
 }
 gotoConfirmationScreen(context) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => ConfirmationScreen()));
+  Navigator.pushAndRemoveUntil(context,
+      App.createRoute(page: ConfirmationScreen()),
+          (Route<dynamic> route) => false);
 }
 
 replaceWithCartScreen(context) {
@@ -124,9 +127,9 @@ replaceWithPaymentScreen(context) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => PaymentScreen()));
 }
-gotoPaymentScreen(context, {AddressData mapAddress}) {
+gotoPaymentScreen(context, {AddressData address}) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => PaymentScreen(addressData: mapAddress)));
+      context, MaterialPageRoute(builder: (context) => PaymentScreen(addressData: address)));
 }
 replaceWithAddCardScreen(context) {
   Navigator.pushReplacement(
@@ -144,13 +147,9 @@ gotoMyOrdersScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => MyOrdersScreen()));
 }
-replaceWithCheckoutScreen(context) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => CheckoutScreen()));
-}
-gotoCheckoutScreen(context,{AddressData addressData}) {
+gotoCheckoutScreen(context,AddressData addressData, CartModel cartModel) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => CheckoutScreen(addressData: addressData)));
+      context, MaterialPageRoute(builder: (context) => CheckoutScreen(addressData,cartModel)));
 }
 
 gotoMyOrderDetailScreen(context, String orderId ) {

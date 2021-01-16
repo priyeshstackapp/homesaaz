@@ -1,28 +1,17 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_widget.dart';
-import 'package:homesaaz/model/dabasehelper.dart';
+import 'package:homesaaz/model/address_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'create_address_screen_view_model.dart';
 
 class CreateAddressScreen extends StatefulWidget {
-  String address;
-  String city;
-  String postalCode;
-  String houseNo;
-  String roadNo;
+  bool edit;
+  AddressData addressData;
 
-  CreateAddressScreen(
-      {Key key,
-      this.address,
-      this.city,
-      this.postalCode,
-      this.houseNo,
-      this.roadNo})
-      : super(key: key);
+  CreateAddressScreen(this.edit, this.addressData);
 
   @override
   CreateAddressScreenState createState() => CreateAddressScreenState();
@@ -34,48 +23,33 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController addressCont = new TextEditingController();
-  final TextEditingController cityCont = new TextEditingController();
+  // final TextEditingController cityCont = new TextEditingController();
+  final TextEditingController stateCont = new TextEditingController();
   final TextEditingController postalCodeCont = new TextEditingController();
   final TextEditingController houseNoCont = new TextEditingController();
-  final TextEditingController roadNoCont = new TextEditingController();
   final TextEditingController mobileCont = new TextEditingController();
-  String address;
-  String city;
-  String postalCode;
-  String houseNo;
-  String roadNo;
-  int mobile;
-
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    shared();
-    setState(() {});
-  }
 
-  shared() async {
-    prefs = await SharedPreferences.getInstance();
-  }
-
-  List<DatabaseHelper> dataList = List();
-
-  Future<void> _sendData(BuildContext context) async {
-    String textToAddress = address.toString();
-    String textToCity = city.toString();
-    String textToPostalCode = postalCode.toString();
-    String textToHouseNo = houseNo.toString();
-    String textToRoadNo = roadNo.toString();
-
-    DatabaseHelper databaseHelper = DatabaseHelper();
-    databaseHelper.address = textToAddress;
-    databaseHelper.city = textToCity;
-    databaseHelper.postalCode = textToPostalCode;
-    databaseHelper.houseNo = textToHouseNo;
-    databaseHelper.roadNo = textToRoadNo;
-
-    dataList.add(databaseHelper);
-    await prefs.setString('key', jsonEncode(dataList));
+    if(widget.edit){
+      List<String> addr = widget.addressData.address.split(',');
+      houseNoCont.text = widget.addressData.addressTitle.trim();
+      postalCodeCont.text = addr[addr.length-1].trim();
+      // cityCont.text = addr[addr.length-3];
+      stateCont.text = addr[addr.length-2].trim();
+      // addr.removeAt(addr.length-1);
+      addr.removeAt(addr.length-1);
+      addr.removeAt(addr.length-1);
+      String lane = '';
+      addr.forEach((element) {
+        lane = lane + element + "," ;
+      });
+      addressCont.text = lane.trim();
+      mobileCont.text = widget.addressData.mobile.trim();
+    }
   }
 
   @override
@@ -99,7 +73,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // SizedBox(height: 10),
-                  commonTitle('Create Address'),
+                  commonTitle(widget.edit ? "Update Address": 'Create Address'),
 
                   SizedBox(height: 30),
                   Container(
@@ -111,13 +85,8 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                     onTap: () {
                       setState(() {
                         if (_validateInputs()) {
-                          Navigator.pop(context, {
-                            "address": addressCont.text,
-                            "city": cityCont.text,
-                            "postalCode": postalCodeCont.text,
-                          });
+                          model.addEditAddressListApi(widget.edit,id: widget.edit ? widget.addressData.addressId: "");
                         }
-                        _sendData(context);
                       });
 
                     },
@@ -130,7 +99,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       child: Text(
-                        'Add Address',
+                        widget.edit ? "Update Address": 'Add Address',
                         style: new TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -157,7 +126,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
         children: [
           //name
           Text(
-            'Name',
+            'House/Flat no.',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
@@ -168,7 +137,8 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
               //readOnly: true,
-              validator: validateName,
+              validator: validateHouse,
+              controller: houseNoCont,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade100),
@@ -178,7 +148,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: 'Enter your name',
+                hintText: 'Enter your hourse/flat no.',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
                   fontSize: 14,
@@ -205,10 +175,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               //  readOnly: true,
               controller: addressCont,
               validator: validateAddress,
-
-              onSaved: (String val) {
-                address = val;
-              },
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade100),
@@ -230,9 +196,43 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           ),
           SizedBox(height: 20),
 
-          //City
+          // //City
+          // Text(
+          //   'City',
+          //   style: TextStyle(
+          //     fontFamily: 'NeueFrutigerWorld',
+          //     fontSize: 16,
+          //     color: ColorRes.textColor,
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(right: media.width * 0.06),
+          //   child: TextFormField(
+          //     //readOnly: true,
+          //     controller: cityCont,
+          //     validator: validateCity,
+          //     decoration: InputDecoration(
+          //       enabledBorder: UnderlineInputBorder(
+          //         borderSide: BorderSide(color: Colors.grey.shade100),
+          //       ),
+          //       focusedBorder: UnderlineInputBorder(
+          //         borderSide: BorderSide(color: Colors.grey.shade100),
+          //       ),
+          //       //filled: true,
+          //       fillColor: const Color(0xFFFFFFFF),
+          //       hintText: 'Enter city',
+          //       hintStyle: TextStyle(
+          //         fontFamily: 'NeueFrutigerWorld',
+          //         fontSize: 14,
+          //         color: ColorRes.charcoal.withOpacity(0.7),
+          //       ),
+          //       contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(height: 20),
           Text(
-            'City',
+            'State',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
@@ -243,12 +243,8 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             padding: EdgeInsets.only(right: media.width * 0.06),
             child: TextFormField(
               //readOnly: true,
-              controller: cityCont,
-              validator: validateCity,
-
-              onSaved: (String val) {
-                city = val;
-              },
+              controller: stateCont,
+              validator: validateState,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade100),
@@ -258,7 +254,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 //filled: true,
                 fillColor: const Color(0xFFFFFFFF),
-                hintText: 'Enter city',
+                hintText: 'Enter state',
                 hintStyle: TextStyle(
                   fontFamily: 'NeueFrutigerWorld',
                   fontSize: 14,
@@ -287,9 +283,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               controller: postalCodeCont,
               validator: validatePostalCode,
               keyboardType: TextInputType.number,
-              onSaved: (String val) {
-                postalCode = val;
-              },
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade100),
@@ -308,7 +301,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 ),
                 contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
               ),
-              onTap: () {},
             ),
           ),
           SizedBox(height: 20),
@@ -351,87 +343,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             ),
           ),
           SizedBox(height: 20),
-
-          /* //House No
-          Text(
-            'House No',
-            style: TextStyle(
-              fontFamily: 'NeueFrutigerWorld',
-              fontSize: 16,
-              color: ColorRes.dimGray,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: media.width * 0.06),
-            child: TextFormField(
-              //readOnly: true,
-              controller: _houseNo,
-              validator: validateHouseNo,
-              keyboardType: TextInputType.number,
-
-              onSaved: (String val) {
-                houseNo = val;
-              },
-              decoration: InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade100),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade100),
-                ),
-                filled: true,
-                fillColor: const Color(0xFFFFFFFF),
-                hintText: '938',
-                hintStyle: TextStyle(
-                  fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
-                ),
-                contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-
-          //Road No
-          Text(
-            'Road No',
-            style: TextStyle(
-              fontFamily: 'NeueFrutigerWorld',
-              fontSize: 16,
-              color: ColorRes.dimGray,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: media.width * 0.06),
-            child: TextFormField(
-              //readOnly: true,
-              keyboardType: TextInputType.number,
-
-              validator: validateRoadNo,
-              controller: _roadNo,
-              onSaved: (String val) {
-                roadNo = val;
-              },
-              decoration: InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade100),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade100),
-                ),
-                filled: true,
-                fillColor: const Color(0xFFFFFFFF),
-                hintText: '9',
-                hintStyle: TextStyle(
-                  fontFamily: 'NeueFrutigerWorld',
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
-                ),
-                contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
-              ),
-            ),
-          ),*/
           // SizedBox(height: 20),
         ],
       ),
@@ -441,9 +352,9 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   //===============================Validation=================================
 
   //Name
-  String validateName(String value) {
+  String validateHouse(String value) {
     if (value.isEmpty)
-      return 'Please enter your name';
+      return 'Please enter your house/flat no.';
     else
       return null;
   }
@@ -460,6 +371,13 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   String validateCity(String value) {
     if (value.isEmpty)
       return 'Please enter your city';
+    else
+      return null;
+  }
+  //State
+  String validateState(String value) {
+    if (value.isEmpty)
+      return 'Please enter your state';
     else
       return null;
   }
@@ -502,9 +420,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   bool _validateInputs() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      setState(() {
-        model.addEditAddressListApi();
-      });
       return true;
     } else {
       return false;

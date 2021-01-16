@@ -15,19 +15,29 @@ class CreateAddressScreenViewModel {
    // addEditAddressListApi();
   }
 
-  void addEditAddressListApi() async {
+  void addEditAddressListApi(bool edit, {String id}) async {
 
-    Map<String, dynamic> body = {
-      "uid": Injector.loginResponse.uid,
-      "address_id": '',
-      "address": state.addressCont.text,
-      "flat": state.addressCont.text,
-      "landmark": state.addressCont.text,
-      "mobile": state.mobileCont.text,
-      "city": state.cityCont.text,
-      "state": state.cityCont.text,
-      "pincode": state.postalCodeCont.text,
-    };
+    Map<String, dynamic> body;
+    if(edit){
+      body = {
+        "uid": Injector.loginResponse.uid,
+        "address_id": id,
+        "address": state.addressCont.text,
+        "flat": state.houseNoCont.text,
+        "mobile": state.mobileCont.text,
+        "state": state.stateCont.text,
+        "pincode": state.postalCodeCont.text,
+      };
+    }else{
+      body = {
+        "uid": Injector.loginResponse.uid,
+        "address": state.addressCont.text,
+        "flat": state.houseNoCont.text,
+        "mobile": state.mobileCont.text,
+        "state": state.stateCont.text,
+        "pincode": state.postalCodeCont.text,
+      };
+    }
     await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
@@ -37,9 +47,7 @@ class CreateAddressScreenViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        print(responseData);
-       editAddressModel = editAddressModelFromJson(responseData.body);
-        state.setState(() {});
+        Navigator.pop(state.context,'yes');
       } else {
         //Utils.showToast("Something went wrong");
       }

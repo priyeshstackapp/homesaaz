@@ -47,7 +47,7 @@ class CartScreenState extends State<CartScreen> {
                   scrollDirection: Axis.vertical,
                   itemCount: model.cartModel.products.length,
                   itemBuilder: (context, index) {
-                    Product cartItem = model.cartModel.products[index];
+                    CartProduct cartItem = model.cartModel.products[index];
                     return cartProductView(cartItem,(){
                       model.removeFromCart(cartItem);
                     },() async {
@@ -75,8 +75,7 @@ class CartScreenState extends State<CartScreen> {
           ),
           model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty? InkWell(
             onTap: (){
-              gotoAddressScreen(context);
-
+              gotoAddressScreen(context,model.cartModel);
             },
             child: Container(
               alignment: Alignment.center,

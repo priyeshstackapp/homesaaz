@@ -7,17 +7,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'address_screen_view_model.dart';
 
 class AddressScreen extends StatefulWidget {
-  String address = "";
-  String city = "";
-  String postalCode = "";
-  String houseNo = "";
-  String roadNo = "";
-  AddressScreen({this.address, this.city, this.postalCode, this.houseNo, this.roadNo});
+  CartModel cartModel;
+  AddressScreen(this.cartModel);
   @override
   AddressScreenState createState() => AddressScreenState();
 }
@@ -157,17 +154,35 @@ class AddressScreenState extends State<AddressScreen> {
                 ],
               ),
             ),
-            model.addressModel.data[index] == null ? Container() : Expanded(
-                    flex: 2,
-                    child: isSelectedIndex == index
-                        ? Icon(
-                            Icons.radio_button_on_outlined,
-                            color: ColorRes.redColor,
-                            size: 20,
-                          )
-                        : Icon(Icons.radio_button_off,
-                            color: ColorRes.dimGray, size: 20),
+            model.addressModel.data[index] == null ? Container() : Column(
+              children: [
+                isSelectedIndex == index
+                    ? Icon(
+                        Icons.radio_button_on_outlined,
+                        color: ColorRes.redColor,
+                        size: 20,
+                      )
+                    : Icon(Icons.radio_button_off,
+                        color: ColorRes.dimGray, size: 20),
+                SizedBox(height: 10,),
+                InkWell(
+                  onTap: () async {
+                    var res = await gotoCreateAddressScreen(context, true, model.addressModel.data[index]);
+                    if(res!=null){
+                      model.addressListApi();
+                    }
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontSize: 16,
+                      color: ColorRes.redColor,
+                    ),
                   ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -187,16 +202,10 @@ class AddressScreenState extends State<AddressScreen> {
         children: [
           InkWell(
             onTap: () async {
-              Map setData = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateAddressScreen()),
-              );
-
-              print(setData);
-              //listOfAddress.add(setData);
-             // print(listOfAddress);
-              setState(() {
-              });
+             var res = await gotoCreateAddressScreen(context, false, null);
+             if(res!=null){
+               model.addressListApi();
+             }
             },
             child: DottedBorder(
               color: ColorRes.red,
@@ -224,7 +233,7 @@ class AddressScreenState extends State<AddressScreen> {
           SizedBox(height: 10),
           InkWell(
             onTap: () {
-              gotoPaymentScreen(context, mapAddress: model.addressModel.data[isSelectedIndex]);
+              gotoCheckoutScreen(context, model.addressModel.data[isSelectedIndex],widget.cartModel);
             },
             child: Container(
               alignment: Alignment.center,

@@ -154,27 +154,26 @@ class RestApi{
   }
 
   //Delete address Api
- /* static Future<http.Response> deleteaddressApi(Map<String, dynamic> bodyData) async {
+  static Future<Response> deleteAddressApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "user/deleteaddress";
     print(url + bodyData.toString());
     try {
-      http.Response response = await http.get(url, headers: {'Authorization': auth});
-      Map result = jsonDecode(response.body);
-      hideLoader();
+      Response response = await http.post(url, headers: {'Authorization': auth});
+      print(response.statusCode);
+      print(response.body);
       if(response.statusCode == 200 || response.statusCode == 201) {
-        print(result);
         return response;
       } else if(response.statusCode == 401) {
         Utils.showToast("Unauthorized user");
         return null;
       }
     } catch(e) {
-      Utils.showToast(e);
-      hideLoader();
+      print(e);
       return null;
     }
-  }*/
+    return null;
+  }
 
   //Get Complete detail of address
   static Future<Response> getCompleteDetailsOfAddressApi(Map<String, dynamic> bodyData) async {
@@ -346,4 +345,28 @@ class RestApi{
     return null;
   }
 
+
+  // Place order
+  static Future<Response> placeOrder(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "cart/saveorder";
+    print(url);
+    print(bodyData);
+    try {
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        print(response.statusCode);
+        print(response.body);
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+    return null;
+  }
 }

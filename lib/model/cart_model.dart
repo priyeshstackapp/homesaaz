@@ -20,7 +20,7 @@ class CartModel {
     this.totalAmount,
   });
 
-  List<Product> products;
+  List<CartProduct> products;
   dynamic promocode;
   int actualCartSubtotal;
   int cartSubtotal;
@@ -30,7 +30,7 @@ class CartModel {
   int totalAmount;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
-    products: List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+    products: List<CartProduct>.from(json["products"].map((x) => CartProduct.fromJson(x))),
     promocode: json["promocode"],
     actualCartSubtotal: json["actual_cart_subtotal"],
     cartSubtotal: json["cart_subtotal"],
@@ -52,8 +52,8 @@ class CartModel {
   };
 }
 
-class Product {
-  Product({
+class CartProduct {
+  CartProduct({
     this.itemid,
     this.itemname,
     this.pimage,
@@ -75,7 +75,7 @@ class Product {
   String itemDiscountStatus;
   int itemSubtotal;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory CartProduct.fromJson(Map<String, dynamic> json) => CartProduct(
     itemid: json["itemid"],
     itemname: json["itemname"],
     pimage: json["pimage"],

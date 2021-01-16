@@ -215,7 +215,7 @@ Widget productView(
   );
 }
 
-Widget cartProductView(Product cartItem,VoidCallback removeButton,VoidCallback increment,VoidCallback decrement,) {
+Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallback increment,VoidCallback decrement,) {
   return Stack(
     alignment: Alignment.topRight,
     children: [

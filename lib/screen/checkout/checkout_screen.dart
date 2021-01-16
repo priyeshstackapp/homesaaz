@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/address_model.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import '../../app.dart';
@@ -9,8 +10,8 @@ import 'checkout_screen_view_model.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final AddressData addressData;
-
-  CheckoutScreen({Key key, @required this.addressData}) : super(key: key);
+  final CartModel cartModel;
+  CheckoutScreen(this.addressData, this.cartModel);
 
   @override
   CheckoutScreenState createState() => CheckoutScreenState();
@@ -42,20 +43,20 @@ class CheckoutScreenState extends State<CheckoutScreen> {
               child: commonTitle('Checkout'),
             ),
             SizedBox(height: 10),
+            model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
             Container(
               height: height * 0.69,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     //list of Checkout Product
-                    model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       itemCount: model.cartModel.products.length,
                       itemBuilder: (context, index) {
-                        Product cartItem = model.cartModel.products[index];
+                        CartProduct cartItem = model.cartModel.products[index];
                         return cartProductView(cartItem,(){
                           model.removeFromCart(cartItem);
                         },() async {
@@ -76,14 +77,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                           }
                         });
                       },
-                    ) :
-                    Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              child: Text("Nothing in cart!"),
-                            ),
-                          ),
-
+                    ),
                     //Address Show
                     addressData(),
 
@@ -103,16 +97,45 @@ class CheckoutScreenState extends State<CheckoutScreen> {
 
                     //Total Payment
                     totalPayment(),
+
+                    SizedBox(height: 20),
+
+                    Text(
+                      'Payment method',
+                      style: TextStyle(
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontSize: 22,
+                        color: ColorRes.redColor,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+
+                    Column(
+                      children: [
+                        addRadioButton(0, 'Paytm'),
+                        addRadioButton(1, 'Cash on delivery'),
+                      ],
+                    )
+
                   ],
                 ),
               ),
-            ),
+            ) :
+            Container(),
           ],
         ),
         //Buy Button
         model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty? InkWell(
           onTap: () {
-            gotoConfirmationScreen(context);
+            if(select==null){
+              Utils.showToast('Please select payment method');
+            }else{
+              if(select=='Paytm'){
+                Utils.showToast('Coming soon');
+              }else{
+                model.placeOrder();
+              }
+            }
           },
           child: Container(
             alignment: Alignment.center,
@@ -134,6 +157,29 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           ),
         ) : Container(),
       ]),
+    );
+  }
+
+  List gender=["Paytm","Cash on delivery"];
+
+  String select;
+
+  Row addRadioButton(int btnValue, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio(
+          activeColor: Theme.of(context).primaryColor,
+          value: gender[btnValue],
+          groupValue: select,
+          onChanged: (value){
+            setState(() {
+              select=value;
+            });
+          },
+        ),
+        Text(title)
+      ],
     );
   }
 
@@ -198,9 +244,9 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        cardTextShow(App.subtotal, "₹160.00"),
-        cardTextShow(App.discount, "5%"),
-        cardTextShow(App.shipping, "₹10.00"),
+        cardTextShow(App.subtotal, model.cartModel.actualCartSubtotal.toString()),
+        cardTextShow(App.discount, model.cartModel.totalDiscount.toString()),
+        cardTextShow(App.shipping, model.cartModel.shippingCharges.toString()),
       ],
     );
   }
@@ -262,7 +308,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           alignment: Alignment.topRight,
           padding: EdgeInsets.only(right: 20),
           child: Text(
-            '₹162.00',
+            model.cartModel.totalAmount.toString(),
             style: new TextStyle(
                 fontSize: 17,
                 color: ColorRes.charcoal,
