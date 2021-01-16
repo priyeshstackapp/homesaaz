@@ -24,7 +24,11 @@ class Injector {
 
 //  static updateUserData(UserData userData) async {
   static updateUserData(LoginResponseModel userData) async {
-    await Injector.sharedPreferences.setString(PrefKeys.user, jsonEncode(userData.toJson()));
+    if(userData==null){
+      Injector.sharedPreferences.clear();
+    }else{
+      await Injector.sharedPreferences.setString(PrefKeys.user, jsonEncode(userData.toJson()));
+    }
     loginResponse = userData;
   }
 

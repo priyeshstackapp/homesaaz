@@ -213,8 +213,7 @@ Widget productView(
   );
 }
 
-Widget cartProductView(
-    CartModel cartItem, CartScreenState state, List<CartModel> newProductName) {
+Widget cartProductView(Product cartItem,VoidCallback removeButton,VoidCallback increment,VoidCallback decrement,) {
   return Stack(
     alignment: Alignment.topRight,
     children: [
@@ -227,7 +226,7 @@ Widget cartProductView(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Image.asset(
-                cartItem.imageUrl,
+                cartItem.pimage,
                 fit: BoxFit.cover,
                 height: 100,
               ),
@@ -238,7 +237,7 @@ Widget cartProductView(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cartItem.productName,
+                    cartItem.itemname,
                     style: new TextStyle(
                         color: ColorRes.charcoal,
                         fontFamily: 'NeueFrutigerWorld',
@@ -249,7 +248,7 @@ Widget cartProductView(
                     height: 5,
                   ),
                   Text(
-                    'Product Code:' + cartItem.productCode,
+                    'Product Code: ${cartItem.itemid}',
                     style: new TextStyle(
                         color: ColorRes.gray57,
                         fontFamily: 'NeueFrutigerWorld',
@@ -259,7 +258,7 @@ Widget cartProductView(
                   Row(
                     children: [
                       Text(
-                        '${cartItem.newPrice}',
+                        '${cartItem.itemprice}',
                         style: new TextStyle(
                           fontSize: 16,
                           color: ColorRes.redColor,
@@ -270,7 +269,7 @@ Widget cartProductView(
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '${cartItem.oldPrice}',
+                          '${cartItem.itemSubtotal}',
                           style: TextStyle(
                             fontSize: 16,
                             color: ColorRes.charcoal,
@@ -295,17 +294,11 @@ Widget cartProductView(
                                 color: ColorRes.charcoal,
                               ),
                             ),
-                            onTap: () {
-                              if (cartItem.quantity != 1) {
-                                state.setState(() {
-                                  cartItem.quantity--;
-                                });
-                              }
-                            }),
+                            onTap: decrement),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            '${cartItem.quantity}',
+                            '${cartItem.itemqty}',
                             style: TextStyle(
                               fontSize: 16,
                               color: ColorRes.charcoal,
@@ -323,11 +316,7 @@ Widget cartProductView(
                                 color: ColorRes.charcoal,
                               ),
                             ),
-                            onTap: () {
-                              state.setState(() {
-                                cartItem.quantity++;
-                              });
-                            }),
+                            onTap: increment),
                       ],
                     ),
                   ),
@@ -346,154 +335,7 @@ Widget cartProductView(
             color: ColorRes.charcoal.withOpacity(0.5),
           ),
         ),
-        onTap: () {
-          state.setState(() {
-            newProductName.remove(cartItem);
-          });
-        },
-      )
-    ],
-  );
-}
-
-Widget checkoutProductView(CartModel cartItem, CheckoutScreenState state,
-    List<CartModel> newProductName) {
-  return Stack(
-    alignment: Alignment.topRight,
-    children: [
-      Card(
-        elevation: 3,
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-                cartItem.imageUrl,
-                fit: BoxFit.cover,
-                height: 100,
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cartItem.productName,
-                    style: new TextStyle(
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Product Code:' + cartItem.productCode,
-                    style: new TextStyle(
-                        color: ColorRes.gray57,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 11),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        '${cartItem.newPrice}',
-                        style: new TextStyle(
-                          fontSize: 16,
-                          color: ColorRes.redColor,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${cartItem.oldPrice}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w200,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    color: ColorRes.creamColor,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                                color: ColorRes.charcoal,
-                              ),
-                            ),
-                            onTap: () {
-                              state.setState(() {
-                                cartItem.quantity++;
-                              });
-                            }),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            '${cartItem.quantity}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: ColorRes.charcoal,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: ColorRes.charcoal,
-                              ),
-                            ),
-                            onTap: () {
-                              if (cartItem.quantity != 1) {
-                                state.setState(() {
-                                  cartItem.quantity--;
-                                });
-                              }
-                            }),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      GestureDetector(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-          child: Icon(
-            Icons.clear,
-            size: 20,
-            color: ColorRes.charcoal.withOpacity(0.5),
-          ),
-        ),
-        onTap: () {
-          state.setState(() {
-            newProductName.remove(cartItem);
-          });
-        },
+        onTap: removeButton,
       )
     ],
   );

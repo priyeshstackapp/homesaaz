@@ -31,30 +31,6 @@ class AddressScreenState extends State<AddressScreen> {
   String postalCode;
   String houseNo;
   String roadNo;
-  List<Map> listOfAddress = List();
-  @override
-  void initState() {
-    super.initState();
-   // getData();
-  }
-  List data = List();
-  SharedPreferences prefs;
-  getData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      address = prefs.getString('key');
-      city = prefs.getString('key');
-      postalCode = prefs.getString('key');
-      houseNo = prefs.getString('key');
-      roadNo = prefs.getString('key');
-      data = jsonDecode(address);
-      data = jsonDecode(city);
-      data = jsonDecode(postalCode);
-      data = jsonDecode(houseNo);
-      data = jsonDecode(roadNo);
-    });
-    print(data);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -248,11 +224,7 @@ class AddressScreenState extends State<AddressScreen> {
           SizedBox(height: 10),
           InkWell(
             onTap: () {
-              //print(listOfAddress[isSelectedIndex]);
-              listOfAddress.length == 0
-                  ? showToast()
-                  : gotoPaymentScreen(context,
-                      mapAddress: listOfAddress[isSelectedIndex]);
+              gotoPaymentScreen(context, mapAddress: model.addressModel.data[isSelectedIndex]);
             },
             child: Container(
               alignment: Alignment.center,

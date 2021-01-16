@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/edit_address_model.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
@@ -15,10 +16,9 @@ class CreateAddressScreenViewModel {
   }
 
   void addEditAddressListApi() async {
-   // FocusScope.of(state.context).unfocus();
 
     Map<String, dynamic> body = {
-      "uid": '1',
+      "uid": Injector.loginResponse.uid,
       "address_id": '',
       "address": state.addressCont.text,
       "flat": state.addressCont.text,
@@ -28,22 +28,23 @@ class CreateAddressScreenViewModel {
       "state": state.cityCont.text,
       "pincode": state.postalCodeCont.text,
     };
-    Future.delayed(const Duration(milliseconds: 400), () {
+    await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
     RestApi.addEditAddressApi(body).then((responseData) {
+      hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
         print(responseData);
        editAddressModel = editAddressModelFromJson(responseData.body);
-        print(editAddressModel);
         state.setState(() {});
       } else {
-        //Utils.showToast("Some thing wrong");
+        //Utils.showToast("Something went wrong");
       }
     }).catchError((e) {
+      hideLoader();
      // Utils.showToast(e.toString());
     }).whenComplete(() {});
   }

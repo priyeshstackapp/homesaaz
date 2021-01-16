@@ -83,7 +83,7 @@ class SignUpViewModel {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
           // Html(data: jsonData['status']).toString()
         } else {
-          showSnackBar(state.loginKey, 'Some thing wrong', isError: true);
+          showSnackBar(state.loginKey, 'Something went wrong', isError: true);
         }
       }).catchError((e) {
         hideLoader();

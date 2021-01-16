@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/profile_model.dart';
 import 'package:homesaaz/screen/profile/profile_screen.dart';
@@ -16,15 +17,16 @@ class ProfileScreenViewModel {
     getProfileApi();
 
   }
-  void getProfileApi() {
+  void getProfileApi() async {
     FocusScope.of(state.context).unfocus();
     Map<String, dynamic> body = {
-      "uid": '1'
+      "uid": Injector.loginResponse.uid
     };
-    Future.delayed(const Duration(milliseconds: 400), () {
+    await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
     RestApi.profileApi(body).then((responseData) {
+      hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
@@ -34,9 +36,10 @@ class ProfileScreenViewModel {
         print(profileModel);
         state.setState(() {});
       } else {
-      //  Utils.showToast("Some thing wrong");
+      //  Utils.showToast("Something went wrong");
       }
     }).catchError((e) {
+      hideLoader();
      // Utils.showToast(e.toString());
     }).whenComplete(() {
     });

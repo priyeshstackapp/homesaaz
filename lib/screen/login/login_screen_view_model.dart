@@ -37,10 +37,10 @@ class LoginScreenViewModel {
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
         } else {
-          showSnackBar(state.loginKey, 'Some thing wrong', isError: true);
+          showSnackBar(state.loginKey, 'Something went wrong', isError: true);
         }
       }).catchError((e) {
-        // hideLoader();
+        hideLoader();
         showSnackBar(state.loginKey, e.toString(), isError: true);
       }).whenComplete(() {
         // hideLoader();

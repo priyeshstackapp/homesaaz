@@ -5,6 +5,7 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -196,6 +197,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //LogOut
                         InkWell(
                           onTap: () {
+                            Injector.updateUserData(null);
                             gotoLoginScreenUntilRemove(context);
                           },
                           child: Padding(

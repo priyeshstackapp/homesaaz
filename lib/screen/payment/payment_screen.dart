@@ -5,13 +5,14 @@ import 'package:flutter/widgets.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/model/address_model.dart';
 import 'package:homesaaz/screen/payment/payment_screen_view_model.dart';
 import '../../app.dart';
 
 class PaymentScreen extends StatefulWidget {
-  final Map mapAddress;
+  final AddressData addressData;
 
-  PaymentScreen({Key key, @required this.mapAddress}) : super(key: key);
+  PaymentScreen({Key key, @required this.addressData}) : super(key: key);
 
   @override
   PaymentScreenState createState() => PaymentScreenState();
@@ -217,7 +218,7 @@ class PaymentScreenState extends State<PaymentScreen> {
           SizedBox(height: 10),
           InkWell(
             onTap: () {
-              gotoCheckoutScreen(context, mapAddress: widget.mapAddress);
+              gotoCheckoutScreen(context, addressData: widget.addressData);
             },
             child: Container(
               alignment: Alignment.center,

@@ -10,11 +10,11 @@ class AddressModel {
     this.status,
   });
 
-  List<Datum> data;
+  List<AddressData> data;
   String status;
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    data: List<AddressData>.from(json["data"].map((x) => AddressData.fromJson(x))),
     status: json["status"],
   );
 
@@ -24,8 +24,8 @@ class AddressModel {
   };
 }
 
-class Datum {
-  Datum({
+class AddressData {
+  AddressData({
     this.addressId,
     this.addressTitle,
     this.address,
@@ -37,7 +37,7 @@ class Datum {
   String address;
   String mobile;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory AddressData.fromJson(Map<String, dynamic> json) => AddressData(
     addressId: json["address_id"],
     addressTitle: json["address_title"],
     address: json["address"],
