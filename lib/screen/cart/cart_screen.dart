@@ -4,6 +4,7 @@ import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/model/cart_model.dart';
+import 'package:homesaaz/model/product_model.dart';
 import 'package:homesaaz/screen/cart/cart_view_model.dart';
 
 class CartScreen extends StatefulWidget {
@@ -39,20 +40,38 @@ class CartScreenState extends State<CartScreen> {
                 child: commonTitle('Cart'),
               ),
               SizedBox(height: 10),
-              Container(
+              model.cartModel!=null && model.cartModel.products!=null? Container(
                 height: height*0.69,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  itemCount: model.newProductName.length,
+                  itemCount: model.cartModel.products.length,
                   itemBuilder: (context, index) {
-                    CartModel cartItem = model.newProductName[index];
-                  return cartProductView(cartItem,this,model.newProductName);
+                    Product cartItem = model.cartModel.products[index];
+                    return cartProductView(cartItem,(){
+                      print("RemoveButton");
+                    },() {
+                      setState(() {
+                        int quant = int.parse(cartItem.itemqty);
+                        quant ++ ;
+                        cartItem.itemqty = quant.toString();
+                      });
+                    },() {
+                      if (int.parse(cartItem.itemqty) != 1) {
+                        setState(() {
+                          int quant = int.parse(cartItem.itemqty);
+                          quant -- ;
+                          cartItem.itemqty = quant.toString();
+                        });
+                      }
+                    });
                 },),
-              ),
+              ) : Align(
+                  alignment: Alignment.center,
+                  child: Container(child: Text("Nothing in cart!"),)),
             ],
           ),
-          InkWell(
+          model.cartModel!=null && model.cartModel.products!=null? InkWell(
             onTap: (){
               gotoAddressScreen(context);
 
@@ -75,7 +94,7 @@ class CartScreenState extends State<CartScreen> {
                     fontWeight: FontWeight.w500),
               ),
             ),
-          ),
+          ) : Container(),
         ]
       ),
     );

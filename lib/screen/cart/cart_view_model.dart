@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
+import 'package:homesaaz/service/rest_api.dart';
 
 class CartViewModel {
   CartScreenState state;
@@ -10,43 +15,31 @@ class CartViewModel {
     newProductData();
   }
 
-  List<CartModel> newProductName = [];
+  CartModel cartModel;
 
-  newProductData() {
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productName: "Product name",
-      productCode: "SM12435",
-      imageUrl:Utils.homeImg('product_name_first'),
-    ),);
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productCode: "SM12435",
-      productName: "Product name",
-      imageUrl:Utils.homeImg('product_name_second'),
-    ),);
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productCode: "SM12435",
-      productName: "Woman T-Shirt",
-      imageUrl:Utils.homeImg('product_name_third'),
-    ),);
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productCode: "SM12435",
-      productName: "Product name",
-      imageUrl:Utils.homeImg('product_name_second'),
-    ),);
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productCode: "SM12435",
-      productName: "Woman T-Shirt",
-      imageUrl:Utils.homeImg('product_name_third'),
-    ),);
+  newProductData() async {
+
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+    };
+    await Future.delayed(const Duration(milliseconds: 200), () {
+      showLoader(state.context);
+    });
+    RestApi.getCartItems(body).then((responseData) {
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        cartModel = cartModelFromJson(responseData.body);
+        state.setState(() {});
+      } else {
+        //Utils.showToast("Something went wrong");
+      }
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
   }
+
 }

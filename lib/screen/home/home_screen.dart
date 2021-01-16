@@ -464,7 +464,7 @@ class HomeScreenState extends State<HomeScreen> {
                 return model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0
                     ? GestureDetector(
                         onTap: () {
-                          gotoProductDetailScreen(context);
+                          gotoProductDetailScreen(context,model.dashBoardModel.newProducts[index]);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),
@@ -546,7 +546,7 @@ class HomeScreenState extends State<HomeScreen> {
                 return model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
                     ? GestureDetector(
                         onTap: () {
-                          gotoProductDetailScreen(context);
+                          gotoProductDetailScreen(context,model.dashBoardModel.trendingProducts[index]);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),
@@ -631,7 +631,7 @@ class HomeScreenState extends State<HomeScreen> {
                         model.dashBoardModel.featuredProducts.length != 0
                     ? GestureDetector(
                         onTap: () {
-                          gotoProductDetailScreen(context);
+                          gotoProductDetailScreen(context,model.dashBoardModel.featuredProducts[index]);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),

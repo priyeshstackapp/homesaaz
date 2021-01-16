@@ -4,9 +4,13 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
-import 'package:homesaaz/screen/detail/product_detail_view_model.dart';
+import 'package:homesaaz/model/dashboard_model.dart';
+import 'package:homesaaz/screen/product_detail/product_detail_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
+  Product product;
+  ProductDetailScreen(this.product);
+
   @override
   ProductDetailScreenState createState() => ProductDetailScreenState();
 }
@@ -385,9 +389,8 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: (){
-                      gotoCartScreen(context);
-
+                    onTap: () async {
+                      await model.addToCart();
                     },
                     child: Container(
                       color: ColorRes.whisper,

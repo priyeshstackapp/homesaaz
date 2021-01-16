@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/model/address_model.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import '../../app.dart';
 import 'checkout_screen_view_model.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  final Map mapAddress;
+  final AddressData addressData;
 
-  CheckoutScreen({Key key, @required this.mapAddress}) : super(key: key);
+  CheckoutScreen({Key key, @required this.addressData}) : super(key: key);
 
   @override
   CheckoutScreenState createState() => CheckoutScreenState();
@@ -51,11 +52,26 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      itemCount: model.newProductName.length,
+                      itemCount: model.cartModel.products.length,
                       itemBuilder: (context, index) {
-                        CartModel cartItem = model.newProductName[index];
-                        return checkoutProductView(
-                            cartItem, this, model.newProductName);
+                        Product cartItem = model.cartModel.products[index];
+                        return cartProductView(cartItem,(){
+                          print("RemoveButton");
+                        },() {
+                          setState(() {
+                            int quant = int.parse(cartItem.itemqty);
+                            quant ++ ;
+                            cartItem.itemqty = quant.toString();
+                          });
+                        },() {
+                          if (int.parse(cartItem.itemqty) != 1) {
+                            setState(() {
+                              int quant = int.parse(cartItem.itemqty);
+                              quant -- ;
+                              cartItem.itemqty = quant.toString();
+                            });
+                          }
+                        });
                       },
                     ),
 
@@ -126,13 +142,13 @@ class CheckoutScreenState extends State<CheckoutScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                widget.mapAddress == null
+                widget.addressData == null
                     ? Container()
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.mapAddress['address'] + ', ',
+                            widget.addressData.addressTitle,
                             style: new TextStyle(
                               fontSize: 18,
                               color: ColorRes.charcoal,
@@ -141,9 +157,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             maxLines: 5,
                           ),
                           Text(
-                            widget.mapAddress['city'] +
-                                '-' +
-                                widget.mapAddress['postalCode'],
+                            widget.addressData.address,
                             style: new TextStyle(
                               fontSize: 18,
                               color: ColorRes.charcoal,
@@ -156,7 +170,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
               ],
             ),
           ),
-          widget.mapAddress == null
+          widget.addressData == null
               ? Container()
               : Flexible(
                   flex: 2,

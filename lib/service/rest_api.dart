@@ -28,6 +28,7 @@ class RestApi{
        return null;
      }
    } catch(e) {
+     print(e);
      Utils.showToast(e);
      return null;
    }
@@ -53,7 +54,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
-
+      print(e);
         Utils.showToast(e);
         return null;
     }
@@ -75,6 +76,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
+      print(e);
       Utils.showToast(e);
       return null;
     }
@@ -97,6 +99,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
+      print(e);
      // Utils.showToast(e);
       return null;
     }
@@ -119,6 +122,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
+      print(e);
      // Utils.showToast(e);
       return null;
     }
@@ -142,6 +146,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
+      print(e);
      // Utils.showToast(e);
       return null;
     }
@@ -188,6 +193,7 @@ class RestApi{
         return null;
       }
     } catch(e) {
+      print(e);
       Utils.showToast(e);
       return null;
     }
@@ -211,6 +217,31 @@ class RestApi{
         return null;
       }
     } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+    return null;
+  }
+
+  // Get Cart items
+  static Future<Response> addToCartApi(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "cart/addItem";
+    print(url);
+    print(bodyData);
+    try {
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        print(response.statusCode);
+        print(response.body);
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
       Utils.showToast(e);
       return null;
     }

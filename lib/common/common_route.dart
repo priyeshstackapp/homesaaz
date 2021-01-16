@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:homesaaz/model/address_model.dart';
+import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/screen/add_card/add_card_screen.dart';
 import 'package:homesaaz/screen/address/address_screen.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/confirmation/confirmation_screen.dart';
 import 'package:homesaaz/screen/create_address/create_address_screen.dart';
-import 'package:homesaaz/screen/detail/product_detail.dart';
 import 'package:homesaaz/screen/forgot/forgot_password_screen.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
 import 'package:homesaaz/screen/payment/payment_screen.dart';
+import 'package:homesaaz/screen/product_detail/product_detail.dart';
 import 'package:homesaaz/screen/profile/profile_screen.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
@@ -78,14 +79,14 @@ gotoSeeAllScreen(context,title) {
       context, MaterialPageRoute(builder: (context) => SeeAllScreen(title)));
 }
 
-replaceWithProductDetailScreen(context) {
+replaceWithProductDetailScreen(context,Product product) {
   Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => ProductDetailScreen()));
+      context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product)));
 }
 
-gotoProductDetailScreen(context) {
+gotoProductDetailScreen(context, Product product) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => ProductDetailScreen()));
+      context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product)));
 }
 replaceWithProfileScreen(context) {
   Navigator.pushReplacement(

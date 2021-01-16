@@ -12,23 +12,10 @@ class CheckoutScreenViewModel {
     newProductData();
   }
 
-  List<CartModel> newProductName = [];
+  CartModel cartModel;
 
   newProductData() {
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productName: "Product name",
-      productCode: "SM12435",
-      imageUrl:Utils.homeImg('product_name_first'),
-    ),);
-    newProductName.add(CartModel(
-      newPrice: "\$305",
-      oldPrice: "\$455",
-      productCode: "SM12435",
-      productName: "Product name",
-      imageUrl:Utils.homeImg('product_name_second'),
-    ),);
+
 
   }
 }

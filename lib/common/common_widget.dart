@@ -225,7 +225,7 @@ Widget cartProductView(Product cartItem,VoidCallback removeButton,VoidCallback i
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image.asset(
+              Image.network(
                 cartItem.pimage,
                 fit: BoxFit.cover,
                 height: 100,

@@ -54,7 +54,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      gotoProductDetailScreen(context);
+                      // gotoProductDetailScreen(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20),
