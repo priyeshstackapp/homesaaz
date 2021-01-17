@@ -9,6 +9,7 @@ import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/service/rest_api.dart';
+import 'package:paytm/paytm.dart';
 
 import 'checkout_screen.dart';
 
@@ -52,7 +53,7 @@ class CheckoutScreenViewModel {
     }).whenComplete(() {});
   }
 
-  placeOrder() async {
+  placeOrder({String response,String orderId}) async {
     showLoader(state.context);
     Map<String,dynamic> cart = {};
     state.widget.cartModel.products.forEach((element) {
@@ -61,10 +62,10 @@ class CheckoutScreenViewModel {
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "selected_address" : state.widget.addressData.addressId,
-      "payment_mode" : state.select == "Paytm" ? 'paytm': 'cod',
+      "payment_mode" : state.select.contains('Paytm') ? 'paytm': 'cod',
       "cart_items" : jsonEncode(cart).toString(),
-      "paytm_order_id" : "",
-      "transaction_data" : "",
+      "paytm_order_id" : state.select.contains('Paytm') ? orderId : "",
+      "transaction_data" : state.select.contains('Paytm') ? response : "",
       "device" : Platform.isAndroid ? "android" : "ios"
     };
 
@@ -110,5 +111,77 @@ class CheckoutScreenViewModel {
       hideLoader();
       // Utils.showToast(e.toString());
     }).whenComplete(() {});
+  }
+
+  bool testing = true;
+
+  /*
+  mode 0 : Wallet
+  mode 1 : Net Banking
+  mode 2 : UPI
+  mode 3 : Credit Card
+  */
+
+  void generateTxnToken(int mode) async {
+
+    showLoader(state.context);
+
+    final String mid = 'HemMfq82154903427549';
+    final String key = 'ozCqcxy@kSQ6iX2h';
+    final int amount = 150;
+
+    String orderId = DateTime.now().millisecondsSinceEpoch.toString();
+
+    String callBackUrl = (testing
+        ? 'https://securegw-stage.paytm.in'
+        : 'https://securegw.paytm.in') +
+        '/theia/paytmCallback?ORDER_ID=' +
+        orderId;
+
+    var body = json.encode({
+      "mid": mid,
+      "key_secret": key,
+      "website": 'WEBSTAGING',
+      "orderId": orderId,
+      "amount": amount,
+      "callbackUrl": callBackUrl,
+      "custId": "122",
+      "mode": mode.toString(),
+      "testing": testing ? 0 : 1
+    });
+
+    String txnToken = await RestApi.paytm(body);
+
+    var paytmResponse = await Paytm.payWithPaytm(
+        mid, orderId, txnToken, amount.toString(), callBackUrl, testing);
+
+
+    print('-----------------------');
+    print(paytmResponse.values);
+    print('-----------------------');
+    hideLoader();
+    if(paytmResponse['error']){
+      Utils.showToast(paytmResponse['errorMessage']);
+      print("PAYTM Error ${paytmResponse['errorMessage']}");
+    }else{
+      if(paytmResponse['response']!=null){
+        if(paytmResponse['response']['STATUS'] == 'TXN_SUCCESS'){
+          print("SUCCESS!!!!");
+          placeOrder(orderId: paytmResponse['response']['ORDERID'],response: paytmResponse['response'].toString());
+          Utils.showToast('Payment successfully received');
+          print(paytmResponse['response']['STATUS']);
+        }else if(paytmResponse['response']['STATUS'] == 'TXN_FAILURE'){
+          print("FAIL!!!!");
+          Utils.showToast('Payment failed');
+          print(paytmResponse['response']['STATUS']);
+        } else{
+          print("Unknown Status");
+          Utils.showToast('Something went wrong while transaction');
+          print(paytmResponse['response']['STATUS']);
+        }
+
+      }
+    }
+    print('-----------------------');
   }
 }

@@ -112,8 +112,9 @@ class CheckoutScreenState extends State<CheckoutScreen> {
 
                     Column(
                       children: [
-                        addRadioButton(0, 'Paytm'),
-                        addRadioButton(1, 'Cash on delivery'),
+                        addRadioButton(0, 'Paytm Wallet'),
+                        addRadioButton(1, 'Paytm UPI'),
+                        addRadioButton(2, 'Cash on delivery'),
                       ],
                     )
 
@@ -125,13 +126,16 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           ],
         ),
         //Buy Button
-        model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty? InkWell(
+        model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
+        InkWell(
           onTap: () {
             if(select==null){
               Utils.showToast('Please select payment method');
             }else{
-              if(select=='Paytm'){
-                Utils.showToast('Coming soon');
+              if(select=='Paytm Wallet'){
+                model.generateTxnToken(0);
+              }else if(select=='Paytm UPI'){
+                model.generateTxnToken(2);
               }else{
                 model.placeOrder();
               }
@@ -155,12 +159,13 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                   fontWeight: FontWeight.w500),
             ),
           ),
-        ) : Container(),
+        ) :
+        Container(),
       ]),
     );
   }
 
-  List gender=["Paytm","Cash on delivery"];
+  List paymentOptions=["Paytm Wallet","Paytm UPI","Cash on delivery"];
 
   String select;
 
@@ -170,7 +175,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
       children: <Widget>[
         Radio(
           activeColor: Theme.of(context).primaryColor,
-          value: gender[btnValue],
+          value: paymentOptions[btnValue],
           groupValue: select,
           onChanged: (value){
             setState(() {

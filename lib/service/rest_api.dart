@@ -369,4 +369,26 @@ class RestApi{
     }
     return null;
   }
+
+  static Future<String> paytm(String bodyData) async {
+
+    String url = 'https://desolate-anchorage-29312.herokuapp.com/generateTxnToken';
+
+    print(url);
+    print(bodyData);
+
+    try {
+      Response response = await http.post(
+        url,
+        body: bodyData,
+        headers: {'Content-type': "application/json"},
+      );
+      print(response.body);
+      String txnToken = response.body;
+      return txnToken;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

@@ -26,7 +26,6 @@ class CartViewModel {
       showLoader(state.context);
     });
     RestApi.getCartItems(body).then((responseData) {
-      hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
@@ -36,6 +35,7 @@ class CartViewModel {
       } else {
         //Utils.showToast("Something went wrong");
       }
+      hideLoader();
     }).catchError((e) {
       hideLoader();
       // Utils.showToast(e.toString());
