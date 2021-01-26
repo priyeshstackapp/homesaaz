@@ -197,6 +197,7 @@ class AddressScreenState extends State<AddressScreen> {
                           ),
                           new FlatButton(
                             onPressed: () async {
+                              Navigator.pop(context);
                               await model.deleteAddressApiCall(model.addressModel.data[index].addressId);
                             },
                             child: new Text('Yes'),

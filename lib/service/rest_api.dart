@@ -234,7 +234,7 @@ class RestApi{
     print(url);
     print(bodyData);
     try {
-      Response response = await http.post(url, headers: {'Authorization': auth});
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
       print(response.statusCode);
       print(response.body);
       if(response.statusCode == 200 || response.statusCode == 201) {
