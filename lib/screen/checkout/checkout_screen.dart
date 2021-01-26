@@ -60,7 +60,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                         return cartProductView(cartItem,(){
                           model.removeFromCart(cartItem);
                         },() async {
-                          await model.updateQuantity(cartItem, 'minus');
+                          await model.updateQuantity(cartItem, 'plus');
                           setState(() {
                             int quant = int.parse(cartItem.itemqty);
                             quant ++ ;

@@ -298,6 +298,31 @@ class RestApi{
     return null;
   }
 
+
+  // Get Product details
+  static Future<Response> getProductDetails(String productId) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "products/product_detail?pid=$productId";
+    print(url);
+
+    try {
+      Response response = await http.get(url, headers: {'Authorization': auth});
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        print(response.statusCode);
+        print(response.body);
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+    return null;
+  }
+
   // Add to Cart
   static Future<Response> addToCartApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));

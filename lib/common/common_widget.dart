@@ -185,7 +185,7 @@ Widget productView(
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              Padding(
+              oldPrice == "" ? Container() : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '$oldPrice',

@@ -17,7 +17,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class ProductDetailScreenState extends State<ProductDetailScreen> {
   ProductDetailViewModel model;
-  CarouselController carouselController = CarouselController();
+  // CarouselController carouselController = CarouselController();
   int quantity =1;
   int _current = 0;
   int _currentColor = 0;
@@ -29,31 +29,18 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size media = MediaQuery.of(context).size;
-    double width = media.width;
-    double height = media.height;
     print("Current page --> $runtimeType");
     model ?? (model = ProductDetailViewModel(this));
-
-    if (model.product.description.length > 200) {
-      firstHalf = model.product.description.substring(0, 200);
-      secondHalf = model.product.description
-          .substring(200, model.product.description.length);
-    } else {
-      firstHalf = model.product.description;
-      secondHalf = "";
-    }
 
     return Scaffold(
       appBar: commonAppbar(context),
 
       body: SafeArea(
-        child: Stack(
+        child: model.product==null ? Container() : Stack(
           alignment: Alignment.bottomCenter,
           children: [
             SingleChildScrollView(
               child: Container(
-
                 height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                   child: Column(
@@ -61,108 +48,113 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Stack(
-                          alignment: Alignment.centerLeft,
-                          children: [
-                            CarouselSlider.builder(
-                              itemCount: model.product.productUrl.length,
-                              carouselController: carouselController,
-                              itemBuilder: (BuildContext context, int itemIndex) =>
-                                  Container(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Image.asset(
-                                    model.product.productUrl[itemIndex],
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                ),
-                              ),
-                              options: CarouselOptions(
-                                autoPlay: false,
-                                viewportFraction: 1.0,
-                                enlargeCenterPage: false,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _current = index;
-                                  });
-                                },
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20, bottom: 5),
-                                child: Container(
-                                  height: 20,
-                                  child: ListView.builder(
-                                    itemCount: model.product.productUrl.length,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        width: 6,
-                                        height: 6,
-                                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: _current == index
-                                              ? ColorRes.redColor
-                                              : ColorRes.whiteColor,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        // child: Stack(
+                        //   alignment: Alignment.centerLeft,
+                        //   children: [
+                        //     CarouselSlider.builder(
+                        //       itemCount: model.product.data[0].productImage.length,
+                        //       carouselController: carouselController,
+                        //       itemBuilder: (BuildContext context, int itemIndex) =>
+                        //           Container(
+                        //         child: Container(
+                        //           margin: EdgeInsets.symmetric(horizontal: 5),
+                        //           child: Image.network(
+                        //             model.product.data[0].productImage[itemIndex],
+                        //             fit: BoxFit.cover,
+                        //             width: MediaQuery.of(context).size.width,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       options: CarouselOptions(
+                        //         autoPlay: false,
+                        //         viewportFraction: 1.0,
+                        //         enlargeCenterPage: false,
+                        //         onPageChanged: (index, reason) {
+                        //           setState(() {
+                        //             _current = index;
+                        //           });
+                        //         },
+                        //       ),
+                        //     ),
+                        //     Positioned(
+                        //       bottom: 0,
+                        //       child: Padding(
+                        //         padding: const EdgeInsets.only(left: 20, bottom: 5),
+                        //         child: Container(
+                        //           height: 20,
+                        //           child: ListView.builder(
+                        //             itemCount: model.product.productUrl.length,
+                        //             shrinkWrap: true,
+                        //             scrollDirection: Axis.horizontal,
+                        //             physics: NeverScrollableScrollPhysics(),
+                        //             itemBuilder: (context, index) {
+                        //               return Container(
+                        //                 width: 6,
+                        //                 height: 6,
+                        //                 margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        //                 decoration: BoxDecoration(
+                        //                   shape: BoxShape.circle,
+                        //                   color: _current == index
+                        //                       ? ColorRes.redColor
+                        //                       : ColorRes.whiteColor,
+                        //                 ),
+                        //               );
+                        //             },
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        child: Image.network(
+                          model.product.data[0].productImage,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        height: 40,
-                        child: ListView.builder(
-                          itemCount: model.product.productUrl.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int itemIndex) =>
-                              Opacity(
-                            opacity: 1,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _current = itemIndex;
-                                  carouselController.animateToPage(_current);
-                                });
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                    width: 80,
-                                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                    child: Image.asset(
-                                      model.product.productUrl[itemIndex],
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  _current != itemIndex
-                                      ? Container(
-                                          width: 70,
-                                          padding:
-                                              EdgeInsets.symmetric(horizontal: 7),
-                                          color:
-                                              ColorRes.whiteColor.withOpacity(0.4),
-                                        )
-                                      : Container()
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                      //   height: 40,
+                      //   child: ListView.builder(
+                      //     itemCount: model.product.productUrl.length,
+                      //     shrinkWrap: true,
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemBuilder: (BuildContext context, int itemIndex) =>
+                      //         Opacity(
+                      //       opacity: 1,
+                      //       child: GestureDetector(
+                      //         onTap: () {
+                      //           setState(() {
+                      //             _current = itemIndex;
+                      //             carouselController.animateToPage(_current);
+                      //           });
+                      //         },
+                      //         child: Stack(
+                      //           alignment: Alignment.center,
+                      //           children: [
+                      //             Container(
+                      //               width: 80,
+                      //               padding: EdgeInsets.symmetric(horizontal: 7),
+                      //               child: Image.asset(
+                      //                 model.product.productUrl[itemIndex],
+                      //                 fit: BoxFit.contain,
+                      //               ),
+                      //             ),
+                      //             _current != itemIndex
+                      //                 ? Container(
+                      //                     width: 70,
+                      //                     padding:
+                      //                         EdgeInsets.symmetric(horizontal: 7),
+                      //                     color:
+                      //                         ColorRes.whiteColor.withOpacity(0.4),
+                      //                   )
+                      //                 : Container()
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
@@ -170,12 +162,12 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                           children: [
                             SizedBox(height: 10),
                             Text(
-                              model.product.productName,
+                              model.product.data[0].productName,
                               style: TextStyle(fontSize: 25, color: ColorRes.nero),
                             ),
                             SizedBox(height: 3),
                             Text(
-                              "Product Code: ${model.product.productId}",
+                              "Product Code: ${model.product.data[0].itemdetId}",
                               style: TextStyle(fontSize: 13, color: ColorRes.textColor.withOpacity(0.7)),
                             ),
                             SizedBox(
@@ -186,19 +178,19 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    "\$${model.product.newPrice}",
+                                    "\$${model.product.data[0].price}",
                                     style:
                                     TextStyle(fontSize: 22, color: ColorRes.redColor),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(
-                                    "\$${model.product.oldPrice}",
+                                  model.product.data[0].discountedPrice ==0 ? Container() : Text(
+                                    "\$${model.product.data[0].discountedPrice}",
                                     style: TextStyle(fontSize: 22, color: ColorRes.dimGray.withOpacity(0.7)),
                                   ),
                                   SizedBox(
-                                    width: media.width * 0.30,
+                                    width: MediaQuery.of(context).size.width * 0.30,
                                   ),
                                   Container(
                                     color: ColorRes.creamColor,
@@ -221,7 +213,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 10),
                                           child: Text(
-                                            '${quantity}',
+                                            '$quantity',
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: ColorRes.charcoal,
@@ -255,22 +247,36 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                             SizedBox(
                               height: 7,
                             ),
-                            Text(
-                              "Size: ${model.product.size}",
+                            model.product.data[0].sizeName == "" ? Container() : Text(
+                              "Size: ${model.product.data[0].sizeName}",
                               style: TextStyle(fontSize: 13, color: ColorRes.textColor.withOpacity(0.7)),
                             ),
-                            SizedBox(
+                            model.product.data[0].sizeName == "" ? Container() : SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            model.product.data[0].hsnCode == "" ? Container() : Text(
+                              "HSN Code: ${model.product.data[0].hsnCode}",
+                              style: TextStyle(fontSize: 13, color: ColorRes.textColor.withOpacity(0.7)),
+                            ),
+                            model.product.data[0].hsnCode == "" ? Container() : SizedBox(
+                              height: 20,
+                            ),
+                            model.product.data[0].designName == "" ? Container() : Text(
+                              "Design Name: ${model.product.data[0].designName}",
+                              style: TextStyle(fontSize: 13, color: ColorRes.textColor.withOpacity(0.7)),
+                            ),
+                            model.product.data[0].designName == "" ? Container() : SizedBox(
+                              height: 20,
+                            ),
+                            model.product.data[0].description == "" ? Container() : Text(
                               "Description",
                               style: TextStyle(fontSize: 16, color: ColorRes.textColor.withOpacity(0.8)),
                             ),
-                            SizedBox(
+                            model.product.data[0].description == "" ? Container() : SizedBox(
                               height: 7,
                             ),
                             // Text(model.product.description,style: TextStyle(fontSize: 18,color: ColorRes.textColor),maxLines: 5,),
-                            secondHalf.isEmpty
+                            model.product.data[0].description == "" ? Container() : secondHalf.isEmpty
                                 ? new Text(firstHalf,
                                 style:
                                 TextStyle(fontSize: 14, color: ColorRes.dimGray,height: 1.5))
@@ -314,70 +320,70 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                             top: 5, bottom: 10),
                         child: Divider(height: 1, color: ColorRes.gray57),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Select Color",
-                              style:
-                                  TextStyle(fontSize: 18, color: ColorRes.textColor.withOpacity(0.8)),
-                            ),
-                            Container(
-                              height: 40,
-                              child: ListView.builder(
-                                itemCount: model.product.colors.length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, int itemIndex) =>
-                                    GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _currentColor = itemIndex;
-                                    });
-                                  },
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(40),
-                                          child: Container(
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                              color: Color(int.parse(
-                                                  '0xff${model.product.colors[itemIndex]}')),
-                                            ),
-                                            // padding: EdgeInsets.symmetric(horizontal: 5),
-                                          ),
-                                        ),
-                                      ),
-                                      _currentColor != itemIndex
-                                          ? Container(
-                                              width: 40,
-                                              padding:
-                                                  EdgeInsets.symmetric(horizontal: 5),
-                                              color: ColorRes.whiteColor
-                                                  .withOpacity(0.4),
-                                            )
-                                          : Container()
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10, bottom: 10),
-                        child: Divider(height: 1, color: ColorRes.gray57),
-                      ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //         "Select Color",
+                      //         style:
+                      //             TextStyle(fontSize: 18, color: ColorRes.textColor.withOpacity(0.8)),
+                      //       ),
+                      //       Container(
+                      //         height: 40,
+                      //         child: ListView.builder(
+                      //           itemCount: model.product.data[0].colors.length,
+                      //           shrinkWrap: true,
+                      //           scrollDirection: Axis.horizontal,
+                      //           itemBuilder: (BuildContext context, int itemIndex) =>
+                      //               GestureDetector(
+                      //             onTap: () {
+                      //               setState(() {
+                      //                 _currentColor = itemIndex;
+                      //               });
+                      //             },
+                      //             child: Stack(
+                      //               alignment: Alignment.center,
+                      //               children: [
+                      //                 Padding(
+                      //                   padding: const EdgeInsets.symmetric(
+                      //                       horizontal: 10),
+                      //                   child: ClipRRect(
+                      //                     borderRadius: BorderRadius.circular(40),
+                      //                     child: Container(
+                      //                       width: 40,
+                      //                       decoration: BoxDecoration(
+                      //                         color: Color(int.parse(
+                      //                             '0xff${model.product.colors[itemIndex]}')),
+                      //                       ),
+                      //                       // padding: EdgeInsets.symmetric(horizontal: 5),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 _currentColor != itemIndex
+                      //                     ? Container(
+                      //                         width: 40,
+                      //                         padding:
+                      //                             EdgeInsets.symmetric(horizontal: 5),
+                      //                         color: ColorRes.whiteColor
+                      //                             .withOpacity(0.4),
+                      //                       )
+                      //                     : Container()
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       top: 10, bottom: 10),
+                      //   child: Divider(height: 1, color: ColorRes.gray57),
+                      // ),
                       SizedBox(
-                        height: height*0.22,
+                        height: MediaQuery.of(context).size.height*0.22,
                       ),
                     ],
                   ),

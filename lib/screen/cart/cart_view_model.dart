@@ -81,7 +81,6 @@ class CartViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        Utils.showToast("Remove from cart");
       } else {
         //Utils.showToast("Something went wrong");
       }

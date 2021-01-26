@@ -16,20 +16,35 @@ class ProductDetailViewModel {
     this.state = state;
     getProduct();
   }
-  
-  ProductModel product;
 
-  void getProduct() {
-    product = ProductModel(
-      productName: "Brown Velvet Chair",
-      productId: "SA5230",
-      newPrice: 305,
-      oldPrice: 455,
-      size: '21 Dia.',
-      description: 'A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.',
-      productUrl: [Utils.assetImage('product1_full_image'),Utils.assetImage('product1_full_image'),Utils.assetImage('product1_full_image'),],
-      colors: ['B3261F','696969','FFDD00',]
-    );
+  ProductDetailModel product;
+
+  void getProduct() async {
+    await Future.delayed(Duration(milliseconds: 200));
+    showLoader(state.context);
+
+    var responseData = await RestApi.getProductDetails(state.widget.product.itemdetId);
+
+    hideLoader();
+    Map<String, dynamic> jsonData = json.decode(responseData.body);
+    if (responseData != null && jsonData['status'] == "error") {
+      Utils.showToast(jsonData['error']);
+    } else if (responseData != null) {
+      product = productDetailModelFromJson(responseData.body);
+      if (product.data[0].description.length > 200) {
+        state.firstHalf = product.data[0].description.substring(0, 200);
+        state.secondHalf = product.data[0].description
+            .substring(200, product.data[0].description.length);
+      } else {
+        state.firstHalf = product.data[0].description;
+        state.secondHalf = "";
+      }
+      state.setState(() {
+
+      });
+    } else {
+      //Utils.showToast("Something went wrong");
+    }
   }
 
   addToCart(bool show) async {
@@ -40,23 +55,20 @@ class ProductDetailViewModel {
       "qnty" : "1"
     };
 
-    RestApi.addToCartApi(body).then((responseData) {
-      hideLoader();
-      Map<String, dynamic> jsonData = json.decode(responseData.body);
-      if (responseData != null && jsonData['status'] == "error") {
-        Utils.showToast(jsonData['error']);
-      } else if (responseData != null) {
+    var responseData = await RestApi.addToCartApi(body);
 
-        if(show)
-          Utils.showToast("Added to cart");
+    hideLoader();
+    Map<String, dynamic> jsonData = json.decode(responseData.body);
+    if (responseData != null && jsonData['status'] == "error") {
+      Utils.showToast(jsonData['error']);
+    } else if (responseData != null) {
 
-      } else {
-        //Utils.showToast("Something went wrong");
-      }
-    }).catchError((e) {
-      hideLoader();
-      // Utils.showToast(e.toString());
-    }).whenComplete(() {});
+      if(show)
+        Utils.showToast("Added to cart");
+
+    } else {
+      //Utils.showToast("Something went wrong");
+    }
   }
 
   getCartData() async {
