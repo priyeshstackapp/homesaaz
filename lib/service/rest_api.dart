@@ -16,12 +16,13 @@ class RestApi{
   static Future<http.Response> signUp(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "user/signup";
-    print(url + bodyData.toString());
+    print(url);
+    print(bodyData);
    try {
      http.Response response = await http.post(url, headers: {'Authorization': auth}, body: bodyData);
-     Map result = jsonDecode(response.body);
+     print(response.statusCode);
+     print(response.body);
      if(response.statusCode == 200 || response.statusCode == 201) {
-       print(result);
        return response;
      } else if(response.statusCode == 401) {
        Utils.showToast("Unauthorized user");
@@ -82,10 +83,83 @@ class RestApi{
     }
   }
 
+  //Dashboard Api
+  static Future<http.Response> productListApi(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "products/productlist";
+    print(url);
+    print(bodyData);
+    try {
+      http.Response response;
+      if(bodyData==null){
+        response = await http.post(url, headers: {'Authorization': auth});
+      }else{
+        response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      }
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+  }
+
+  //Categories Api
+  static Future<http.Response> categoriesApi() async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "products/all_category";
+    print(url);
+    try {
+      http.Response response = await http.get(url, headers: {'Authorization': auth});
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+  }
+
   //Profile Api
   static Future<http.Response> profileApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "user/get_profile";
+    print(url);
+    print(bodyData);
+    try {
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+       // Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+     // Utils.showToast(e);
+      return null;
+    }
+  }
+
+  //Update Profile Api
+  static Future<http.Response> updateProfileApi(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "user/update_user_profile";
     print(url);
     print(bodyData);
     try {
@@ -157,7 +231,8 @@ class RestApi{
   static Future<Response> deleteAddressApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "user/deleteaddress";
-    print(url + bodyData.toString());
+    print(url);
+    print(bodyData);
     try {
       Response response = await http.post(url, headers: {'Authorization': auth});
       print(response.statusCode);

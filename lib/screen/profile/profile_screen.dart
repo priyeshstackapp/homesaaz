@@ -13,6 +13,11 @@ class ProfileScreenState extends State<ProfileScreen> {
   ProfileScreenViewModel model;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  TextEditingController fName = TextEditingController();
+  TextEditingController lName = TextEditingController();
+
+  bool editMode = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,127 +40,47 @@ class ProfileScreenState extends State<ProfileScreen> {
         key: scaffoldKey,
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
-        /*drawer:Scaffold(
-          backgroundColor: ColorRes.whisper,
-          body: SafeArea(
-            child: Column(
-              children: [
-                Container(
-                  height: height * 0.8,
-                  width: width * width,
-                  color: ColorRes.primaryColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Home",
-                            style: new TextStyle(
-                              fontSize: 20,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          gotoProfileScreen(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Profile",
-                            style: new TextStyle(
-                              fontSize: 20,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "My Cart",
-                            style: new TextStyle(
-                              fontSize: 20,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Favorite",
-                            style: new TextStyle(
-                              fontSize: 20,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "My Orders",
-                            style: new TextStyle(
-                              fontSize: 20,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Help",
-                            style: new TextStyle(
-                              fontSize: 20,
-                              color: ColorRes.dimGray,
-                              fontFamily: 'NeueFrutigerWorld',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: width * 0.08, right: width * 0.1),
-                  alignment: Alignment.bottomRight,
-                  child: InkWell(
-                    onTap: () => Navigator.pop(context),
-                    child: Image.asset(
-                      App.close,
-                      //color: Colors.black,
-                      height: 30,
-                      width: 30,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),*/
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10),
-                commonTitle('Profile'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    commonTitle('Profile'),
+                    InkWell(
+                      onTap: () async {
+                        if(editMode) {
+                          model.profileModel.firstName = fName.text ;
+                          model.profileModel.lastName = lName.text;
+                          await model.updateProfile();
+                          setState(() {
+                            fName.clear();
+                            lName.clear();
+                            editMode = false;
+                          });
+                        }else{
+                          setState(() {
+                            fName.text = model.profileModel.firstName;
+                            lName.text = model.profileModel.lastName;
+                            editMode = true;
+                          });
+                        }
+                      },
+                      child: Text(
+                        editMode ? "Update" : 'Edit',
+                        style: TextStyle(
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontSize: 16,
+                          color: ColorRes.redColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 30),
                model.profileModel ==null ? Container()  :profileDetails(),
               ],
@@ -186,7 +111,8 @@ class ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: EdgeInsets.only(right: media.width * 0.06),
               child: TextFormField(
-                readOnly: true,
+                readOnly: !editMode,
+                controller: fName,
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade100),
@@ -221,7 +147,8 @@ class ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: EdgeInsets.only(right: media.width * 0.06),
               child: TextFormField(
-                readOnly: true,
+                readOnly: !editMode,
+                controller: lName,
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade100),
@@ -369,7 +296,12 @@ class ProfileScreenState extends State<ProfileScreen> {
        Radio(
           activeColor: Theme.of(context).primaryColor,
           value:value,
-          groupValue:model.profileModel.gender == 'male' ? 0 : 1,
+          groupValue:model.profileModel.gender == 'male' ? 0 : 1, onChanged: editMode ? (int value) {
+            model.profileModel.gender = value==9 ? "male" : "female" ;
+            setState(() {
+
+            });
+       } : null,
         ) ,
         Text(
           title, style: TextStyle(fontFamily: 'NeueFrutigerWorld', fontSize: 16, color: ColorRes.charcoal.withOpacity(0.5),

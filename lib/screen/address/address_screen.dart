@@ -155,6 +155,7 @@ class AddressScreenState extends State<AddressScreen> {
               ),
             ),
             model.addressModel.data[index] == null ? Container() : Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 isSelectedIndex == index
                     ? Icon(
@@ -181,6 +182,35 @@ class AddressScreenState extends State<AddressScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10,),
+                InkWell(
+                  onTap: (){
+                    showDialog(
+                      context: context,
+                      builder: (context) => new AlertDialog(
+                        title: new Text('Are you sure?'),
+                        content: new Text('Do you want to exit an App'),
+                        actions: <Widget>[
+                          new FlatButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: new Text('No'),
+                          ),
+                          new FlatButton(
+                            onPressed: () async {
+                              await model.deleteAddressApiCall(model.addressModel.data[index].addressId);
+                            },
+                            child: new Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.delete_forever,
+                    color: ColorRes.redColor,
+                    size: 20,
+                  ),
+                )
               ],
             ),
           ],

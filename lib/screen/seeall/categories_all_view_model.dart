@@ -2,39 +2,31 @@ import 'dart:convert';
 
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/util.dart';
-import 'package:homesaaz/model/home_model.dart';
-import 'package:homesaaz/model/product_list_model.dart';
-import 'package:homesaaz/screen/seeall/seeall_screen.dart';
+import 'package:homesaaz/model/dashboard_model.dart';
+import 'package:homesaaz/screen/seeall/categories_all.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
-class SeeAllScreenViewModel{
+class CategoriesAllViewModel{
+  CategoriesAllState state;
+  List<Category> categories;
 
-  SeeAllScreenState state;
-
-
-  SeeAllScreenViewModel(this.state){
-    newProductData();
+  CategoriesAllViewModel(this.state){
+    categoryApi();
   }
 
-  ProductListModel productListModel;
-
-  newProductData() async {
+  categoryApi() async {
     await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
 
-    Map<String,dynamic> body = state.widget.id==null ? null : {
-      "cat_id" : state.widget.id
-    };
-
-    RestApi.productListApi(body).then((responseData) {
+    RestApi.dahsBoardApi().then((responseData) {
       hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
         print(responseData);
-        productListModel = productListModelFromJson(responseData.body);
+        categories = categoriesFromJson(responseData.body);
         state.setState(() {
 
         });
@@ -48,5 +40,4 @@ class SeeAllScreenViewModel{
 
     });
   }
-
 }

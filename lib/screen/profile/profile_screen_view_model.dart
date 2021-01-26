@@ -44,4 +44,29 @@ class ProfileScreenViewModel {
     }).whenComplete(() {
     });
   }
+
+  updateProfile() async {
+    FocusScope.of(state.context).unfocus();
+    Map<String, dynamic> body = profileModel.toJson();
+    body["uid"] = Injector.loginResponse.uid;
+    await Future.delayed(const Duration(milliseconds: 200), () {
+      showLoader(state.context);
+    });
+    try {
+      var responseData = await RestApi.updateProfileApi(body);
+
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+         Utils.showToast("Update Successfully");
+      } else {
+
+      }
+    }catch (e){
+      print(e);
+      hideLoader();
+    }
+  }
 }

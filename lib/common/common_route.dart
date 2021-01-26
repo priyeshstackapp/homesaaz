@@ -16,6 +16,7 @@ import 'package:homesaaz/screen/my_orders_details/my_orders_detail_screen.dart';
 import 'package:homesaaz/screen/payment/payment_screen.dart';
 import 'package:homesaaz/screen/product_detail/product_detail.dart';
 import 'package:homesaaz/screen/profile/profile_screen.dart';
+import 'package:homesaaz/screen/seeall/categories_all.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
 
@@ -71,14 +72,9 @@ gotoHomeScreen(context) {
       context, MaterialPageRoute(builder: (context) => HomeScreen()));
 }
 
-replaceWithSeeAllScreen(context,title) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => SeeAllScreen(title)));
-}
-
-gotoSeeAllScreen(context,title) {
+gotoSeeAllScreen(context,title, String id) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SeeAllScreen(title)));
+      context, MaterialPageRoute(builder: (context) => SeeAllScreen(title,id)));
 }
 
 replaceWithProductDetailScreen(context,Product product) {
@@ -159,4 +155,9 @@ gotoMyOrderDetailScreen(context, String orderId ) {
 replaceWithMyOrderDetailScreen(context,String orderId) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => MyOrdersDetailScreen(orderId)));
+}
+
+gotoCategoriesAll(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => CategoriesAll()));
 }

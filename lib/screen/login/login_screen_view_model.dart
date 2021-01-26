@@ -33,7 +33,7 @@ class LoginScreenViewModel {
           LoginResponseModel loginResponse = LoginResponseModel.fromJson(jsonData);
           await Injector.updateUserData(loginResponse);
           // await Injector.setLoginRequest(loginRequest);
-          replaceWithHomeScreen(state.context);
+          gotoHomeScreenUntilRemove(state.context);
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
         } else {

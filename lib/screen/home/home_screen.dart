@@ -315,16 +315,19 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                alignment: Alignment.topRight,
-                padding: EdgeInsets.only(right: 20),
-                child: Text(
-                  "See all",
-                  style: new TextStyle(
-                      fontSize: 14,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontWeight: FontWeight.w400),
+              child: InkWell(
+                onTap: () => gotoCategoriesAll(context),
+                child: Container(
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.only(right: 20),
+                  child: Text(
+                    "See all",
+                    style: new TextStyle(
+                        fontSize: 14,
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
             ),
@@ -355,7 +358,7 @@ class HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         gotoSeeAllScreen(
                             context,
-                            model.dashBoardModel.categories[index].categoryName);
+                            model.dashBoardModel.categories[index].categoryName,model.dashBoardModel.categories[index].categoryId);
                       },
                       child: Stack(
                         children: [
@@ -429,7 +432,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                gotoSeeAllScreen(context, "New Products");
+                gotoSeeAllScreen(context, "New Products",null);
               },
               child: Container(
                 padding: EdgeInsets.only(right: 20),
@@ -514,7 +517,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                gotoSeeAllScreen(context, "Trending Products");
+                gotoSeeAllScreen(context, "Trending Products",null);
               },
               child: Container(
                 padding: EdgeInsets.only(right: 20),
@@ -596,7 +599,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                gotoSeeAllScreen(context, "Featured Products");
+                gotoSeeAllScreen(context, "Featured Products",null);
               },
               child: Container(
                 padding: EdgeInsets.only(right: 20),

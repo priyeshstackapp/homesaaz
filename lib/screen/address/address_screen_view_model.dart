@@ -49,29 +49,32 @@ class AddressScreenViewModel {
   }
 
   //Delete Api
- /* void deleteAddressApiCall() {
-    FocusScope.of(state.context).unfocus();
+  deleteAddressApiCall(String addressId) async {
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
-      "address_id" :'22'
+      "address_id" : addressId
     };
-    Future.delayed(const Duration(milliseconds: 400), () {
+    await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
-    RestApi.deleteaddressApi(body).then((responseData) {
+    RestApi.deleteAddressApi(body).then((responseData) {
+      hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
-        Utils.showToast(jsonData['error']);
+        print("responseData");
+        // Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
-        print(responseData);
+        print("responseData");
+        addressListApi();
       } else {
         Utils.showToast("Something went wrong");
       }
     }).catchError((e) {
+      hideLoader();
       Utils.showToast(e.toString());
     }).whenComplete(() {
     });
-  }*/
+  }
 
 /*  listOfData() {
     list.add(AddressModel(

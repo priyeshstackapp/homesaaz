@@ -8,6 +8,8 @@ DashBoardModel dashBoardModelFromJson(String str) => DashBoardModel.fromJson(jso
 
 String dashBoardModelToJson(DashBoardModel data) => json.encode(data.toJson());
 
+List<Category> categoriesFromJson(String json) => List<Category>.from(jsonDecode(json)["categories"].map((x) => Category.fromJson(x)));
+
 class DashBoardModel {
   DashBoardModel({
     this.banners,

@@ -78,6 +78,7 @@ class ProductDetailViewModel {
       }
     }catch(e){
       print(e);
+      hideLoader();
       Utils.showToast(e.toString());
       return null;
     }

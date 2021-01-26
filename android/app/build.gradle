@@ -36,8 +36,8 @@ android {
         applicationId "com.app.homesaaz"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName '1.0'
         multiDexEnabled true
 
     }

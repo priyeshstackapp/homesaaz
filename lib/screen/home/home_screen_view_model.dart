@@ -12,6 +12,7 @@ class HomeScreenViewModel {
   HomeScreenState state;
 
   DashBoardModel dashBoardModel;
+  List<Category> categories;
   HomeScreenViewModel(HomeScreenState state) {
     this.state = state;
     dashBoardApi();

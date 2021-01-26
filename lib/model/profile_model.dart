@@ -44,6 +44,5 @@ class ProfileModel {
     "mobile": mobile,
     "profile_img_name": profileImgName,
     "profile_img": profileImg,
-    "status": status,
   };
 }

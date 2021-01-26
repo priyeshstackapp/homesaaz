@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/screen/home/home_screen.dart';
+import 'package:homesaaz/screen/login/login_screen.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
@@ -77,11 +80,9 @@ class SignUpViewModel {
         // hideLoader();
         Map<String, dynamic> jsonData = json.decode(responseData.body);
         if (responseData != null && jsonData['status'] == "success") {
-          print(responseData);
-          // Navigator.of(loginKey.currentContext).pushReplacementNamed('/Pages', arguments: 1);
+          Navigator.pushAndRemoveUntil(state.context,MaterialPageRoute(builder: (context) => LoginScreen(),),(_)=> false);
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
-          // Html(data: jsonData['status']).toString()
         } else {
           showSnackBar(state.loginKey, 'Something went wrong', isError: true);
         }
