@@ -24,6 +24,8 @@ class SeeAllScreenState extends State<SeeAllScreen> {
 
   SeeAllScreenViewModel model;
 
+  bool isFiltering = false;
+
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
@@ -38,12 +40,58 @@ class SeeAllScreenState extends State<SeeAllScreen> {
           children: [
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                widget.title,
-                style: TextStyle(fontSize: 30, color: ColorRes.textColor),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(fontSize: 30, color: ColorRes.textColor),
+                  ),
+                  widget.cat
+                      ? InkWell(
+                          child: Icon(
+                            Icons.filter_list_alt,
+                            color: ColorRes.redColor,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isFiltering = !isFiltering;
+                            });
+                          },
+                        )
+                      : Container()
+                ],
               ),
             ),
             SizedBox(height: 20),
+            isFiltering ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal:20),
+              child: Container(
+                height: 200,
+                child: GridView.builder(
+                          itemCount: model.subCatModel==null ? 0 : model.subCatModel.categories.length,
+                          shrinkWrap: true,
+                          // physics: NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: 2.4),
+                          itemBuilder: (context, index) => InkWell(
+                            onTap: (){
+                              setState(() {
+                                isFiltering=false;
+                              });
+                              model.newProductData(id: model.subCatModel.categories[index].subcatId);
+                            },
+                            child: Card(
+                              elevation: 3,
+                              child: Center(child: Text(model.subCatModel.categories[index].subcategoryName,style: TextStyle(color: ColorRes.redColor),)),
+                            ),
+                          ),
+                        ),
+              ),
+            )
+                : Container(),
             GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,mainAxisSpacing: 15,childAspectRatio: 0.8),
