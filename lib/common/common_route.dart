@@ -72,9 +72,9 @@ gotoHomeScreen(context) {
       context, MaterialPageRoute(builder: (context) => HomeScreen()));
 }
 
-gotoSeeAllScreen(context,title, String id) {
+gotoSeeAllScreen(context,title, String id,{bool cat = false}) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SeeAllScreen(title,id)));
+      context, MaterialPageRoute(builder: (context) => SeeAllScreen(title,id,cat)));
 }
 
 replaceWithProductDetailScreen(context,Product product) {

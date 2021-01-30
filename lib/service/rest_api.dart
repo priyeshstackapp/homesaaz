@@ -111,6 +111,28 @@ class RestApi{
     }
   }
 
+  //Dashboard Api
+  static Future<http.Response> subCatListApi(String id) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "products/subcategories?cat_id=$id";
+    print(url);
+    try {
+      final response = await http.get(url, headers: {'Authorization': auth});
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+  }
+
   //Categories Api
   static Future<http.Response> categoriesApi() async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));

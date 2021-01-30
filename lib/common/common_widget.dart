@@ -396,64 +396,68 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
 }
 
 Widget myOrdersDetailView(OrderItemsList myOrdersItem, MyOrdersDetailScreenState state) {
-  // List<Widget> array = [];
-  // var filled = ColorRes.darkYellow;
-  // var empty = Colors.grey;
-  // for (var i = 1; i <= 5; i++) {
-  //   array.add(Icon(
-  //     Icons.star,
-  //     color: (myOrdersItem.rating < i ? empty : filled),
-  //   ));
-  // }
-
   return Stack(
     alignment: Alignment.topRight,
     children: [
-      Card(
-        elevation: 3,
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              myOrdersItem.pimage.isNotEmpty ? Image.network(
-                myOrdersItem.pimage,
-                fit: BoxFit.cover,
-                height: 100,
-              ) : Container(),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    myOrdersItem.productName,
-                    style: new TextStyle(
-                        color: ColorRes.charcoal,
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            myOrdersItem.pimage.isNotEmpty ? Image.network(
+              myOrdersItem.pimage,
+              fit: BoxFit.cover,
+              height: 100,
+            ) : Image.asset(
+              App.defaultImage,
+              fit: BoxFit.cover,
+              width: 70,
+              height: 70,
+            ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  myOrdersItem.productName,
+                  style: new TextStyle(
+                      color: ColorRes.charcoal,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Qty: ${myOrdersItem.qnty}',
+                      style: new TextStyle(
+                        fontSize: 14,
+                        color: ColorRes.dimGray,
                         fontFamily: 'NeueFrutigerWorld',
                         fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '${myOrdersItem.price}',
-                    style: new TextStyle(
-                      fontSize: 16,
-                      color: ColorRes.redColor,
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  // Row(
-                  //   children: array,
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  // )
-                ],
-              ),
-            ],
-          ),
+                    Text(
+                      ' ₹${myOrdersItem.price}',
+                      style: new TextStyle(
+                        fontSize: 14,
+                        color: ColorRes.redColor,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                // Row(
+                //   children: array,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                // )
+              ],
+            ),
+          ],
         ),
       ),
     ],

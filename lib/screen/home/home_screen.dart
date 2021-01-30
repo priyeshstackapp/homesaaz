@@ -388,7 +388,7 @@ class HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         gotoSeeAllScreen(
                             context,
-                            model.dashBoardModel.categories[index].categoryName,model.dashBoardModel.categories[index].categoryId);
+                            model.dashBoardModel.categories[index].categoryName,model.dashBoardModel.categories[index].categoryId,cat: true);
                       },
                       child: Stack(
                         children: [
@@ -491,7 +491,7 @@ class HomeScreenState extends State<HomeScreen> {
                          : 0,
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,childAspectRatio: 0.9),
+                  crossAxisCount: 1,childAspectRatio: 0.8),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.newProductName[index];
@@ -576,7 +576,7 @@ class HomeScreenState extends State<HomeScreen> {
                   ? model.dashBoardModel.trendingProducts.length : 0,
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,childAspectRatio: 0.9),
+                  crossAxisCount: 1,childAspectRatio: 0.8),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.trendingProductsName[index];
@@ -664,7 +664,7 @@ class HomeScreenState extends State<HomeScreen> {
                          : 0,
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,childAspectRatio: 0.9),
+                crossAxisCount: 1,childAspectRatio: 0.8),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 //  HomeScreenModel product = model.featuredProductsName[index];

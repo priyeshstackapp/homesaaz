@@ -11,8 +11,9 @@ import 'package:homesaaz/screen/seeall/seeall_screen_view_model.dart';
 class SeeAllScreen extends StatefulWidget {
   final String title;
   final String id;
+  final bool cat;
 
-  SeeAllScreen(this.title, this.id);
+  SeeAllScreen(this.title, this.id, this.cat);
 
   @override
   SeeAllScreenState createState() => SeeAllScreenState();
@@ -36,7 +37,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              margin: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 widget.title,
                 style: TextStyle(fontSize: 30, color: ColorRes.textColor),
@@ -45,7 +46,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
             SizedBox(height: 20),
             GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,mainAxisSpacing: 15,childAspectRatio: 0.9),
+                  crossAxisCount: 2,mainAxisSpacing: 15,childAspectRatio: 0.8),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: model.productListModel!=null && model.productListModel.productList!=null ? model.productListModel.productList.length : 0,
