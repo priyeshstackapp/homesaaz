@@ -7,6 +7,7 @@ import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
+import 'package:homesaaz/service/profile_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -62,25 +63,54 @@ class HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 gotoProfileScreen(context);
               },
-              child: Image.asset(
-                App.user,
-                color: ColorRes.darkRedColor58,
-                height: 16,
-                width: 16,
+              child: Row(
+                children: [
+                  Image.asset(
+                    App.user,
+                    color: ColorRes.darkRedColor58,
+                    height: 16,
+                    width: 16,
+                  ),
+                  SizedBox(width: 5,),
+                  Text(Injector.loginResponse?.name ?? "",style: TextStyle(color: ColorRes.redColor),)
+                ],
               ),
             ),
             InkWell(
               onTap: () {
                 gotoCartScreen(context);
               },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Image.asset(
-                  App.shopping_cart,
-                  color: ColorRes.darkRedColor58,
-                  height: 16,
-                  width: 16,
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    App.shopping_cart,
+                    color: ColorRes.darkRedColor58,
+                    height: 18,
+                    width: 18,
+                  ),
+                  Container(
+                    width: 14,
+                    height: 14,
+                    margin: EdgeInsets.only(left: 20,right: 10,bottom: 20),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: ColorRes.redColor,
+                      borderRadius: BorderRadius.circular(30)
+                    ),
+                    child: StreamBuilder<int>(
+                      stream: cartBloc.getCountData,
+                      builder: (context, AsyncSnapshot<int> snapshot) {
+                        if(snapshot.hasData) {
+                          return Text(snapshot.data.toString(), style: TextStyle(
+                              color: ColorRes.whiteColor, fontSize: 12),);
+                        }else{
+                          return Container();
+                        }
+                      }
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -453,14 +483,15 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: height * 0.4,
-          child: ListView.builder(
+          height: 220,
+          child: GridView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.newProducts.length != 0
                          ? model.dashBoardModel.newProducts.length
                          : 0,
-              // model.newProductName.length,
               shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,childAspectRatio: 0.9),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.newProductName[index];
@@ -469,17 +500,17 @@ class HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           gotoProductDetailScreen(context,model.dashBoardModel.newProducts[index]);
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: productView(
-                            model.dashBoardModel.newProducts[index].productImage,
-                            model.dashBoardModel.newProducts[index].productName,
-                            model.dashBoardModel.newProducts[index].discountedPrice.toString(),
-                            model.dashBoardModel.newProducts[index].price,
-                            /*  product.productUrl,
-                                product.productName,
-                                product.productPriceBefore,
-                                product.productPriceAfter,*/
+                        child: Card(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 7),
+                            margin: EdgeInsets.symmetric(horizontal: 7),
+                            child: productView(
+                              model.dashBoardModel.newProducts[index].productImage,
+                              model.dashBoardModel.newProducts[index].productName,
+                              model.dashBoardModel.newProducts[index].discountedPrice,
+                              model.dashBoardModel.newProducts[index].price,
+                                true
+                            ),
                           ),
                         ),
                       )
@@ -489,6 +520,7 @@ class HomeScreenState extends State<HomeScreen> {
                       );
               }),
         ),
+        SizedBox(height: 18),
       ],
     );
   }
@@ -538,11 +570,13 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: height * 0.4,
-          child: ListView.builder(
+          height: 220,
+          child: GridView.builder(
               itemCount: model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
                   ? model.dashBoardModel.trendingProducts.length : 0,
               shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,childAspectRatio: 0.9),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.trendingProductsName[index];
@@ -551,17 +585,17 @@ class HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           gotoProductDetailScreen(context,model.dashBoardModel.trendingProducts[index]);
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: productView(
-                            model.dashBoardModel.trendingProducts[index].productImage,
-                            model.dashBoardModel.trendingProducts[index].productName,
-                            model.dashBoardModel.trendingProducts[index].discountedPrice.toString(),
-                            model.dashBoardModel.trendingProducts[index].price,
-                            /*  product.productUrl,
-                                product.productName,
-                                product.productPriceBefore,
-                                product.productPriceAfter,*/
+                        child: Card(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 7),
+                            margin: EdgeInsets.symmetric(horizontal: 7),
+                            child: productView(
+                              model.dashBoardModel.trendingProducts[index].productImage,
+                              model.dashBoardModel.trendingProducts[index].productName,
+                              model.dashBoardModel.trendingProducts[index].discountedPrice,
+                              model.dashBoardModel.trendingProducts[index].price,
+                                true
+                            ),
                           ),
                         ),
                       )
@@ -571,6 +605,8 @@ class HomeScreenState extends State<HomeScreen> {
                       );
               }),
         ),
+
+        SizedBox(height: 18),
       ],
     );
   }
@@ -620,13 +656,15 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: height * 0.4,
-          child: ListView.builder(
+          height: 220,
+          child: GridView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.featuredProducts.length != 0
                          ? model.dashBoardModel.featuredProducts.length
                          : 0,
               shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,childAspectRatio: 0.9),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 //  HomeScreenModel product = model.featuredProductsName[index];
@@ -636,17 +674,17 @@ class HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           gotoProductDetailScreen(context,model.dashBoardModel.featuredProducts[index]);
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: productView(
-                            model.dashBoardModel.featuredProducts[index].productImage,
-                            model.dashBoardModel.featuredProducts[index].productName,
-                            model.dashBoardModel.featuredProducts[index].discountedPrice.toString(),
-                            model.dashBoardModel.featuredProducts[index].price,
-                            /*  product.productUrl,
-                                product.productName,
-                                product.productPriceBefore,
-                                product.productPriceAfter,*/
+                        child: Card(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 7),
+                            margin: EdgeInsets.symmetric(horizontal: 7),
+                            child: productView(
+                              model.dashBoardModel.featuredProducts[index].productImage,
+                              model.dashBoardModel.featuredProducts[index].productName,
+                              model.dashBoardModel.featuredProducts[index].discountedPrice,
+                              model.dashBoardModel.featuredProducts[index].price,
+                              true
+                            ),
                           ),
                         ),
                       )
@@ -657,6 +695,8 @@ class HomeScreenState extends State<HomeScreen> {
               },
           ),
         ),
+
+        SizedBox(height: 18),
       ],
     );
   }

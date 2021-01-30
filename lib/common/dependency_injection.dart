@@ -1,20 +1,24 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:homesaaz/common/prefkeys.dart';
+import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/login_ref_model.dart';
+import 'package:homesaaz/service/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rxdart/rxdart.dart';
 
 class Injector {
 
   static File profileImage;
   static SharedPreferences sharedPreferences;
   static LoginResponseModel loginResponse;
+  static CartModel cartModel;
+
   // static LoginRequest loginRequest;
 
   static getInstance() async {
     sharedPreferences = await SharedPreferences.getInstance();
     getUserData();
-
   }
 
   // static setLoginRequest(LoginResponseModel loginReq) async {
@@ -37,6 +41,11 @@ class Injector {
         sharedPreferences.getString(PrefKeys.user).isNotEmpty) {
       loginResponse = LoginResponseModel.fromJson(jsonDecode(sharedPreferences.getString(PrefKeys.user)));
     }
+  }
+
+  static updateCartData(CartModel cart){
+    Injector.cartModel = cart;
+    cartBloc.updateCart();
   }
 
 }

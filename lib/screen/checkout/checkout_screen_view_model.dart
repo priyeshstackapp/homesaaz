@@ -17,15 +17,34 @@ class CheckoutScreenViewModel {
   CheckoutScreenState state;
 
   CheckoutScreenViewModel(this.state){
-    newProductData();
+    getCartData();
   }
 
   CartModel cartModel;
 
-  newProductData() {
-    state.setState(() {
-      cartModel = state.widget.cartModel;
+  getCartData() async {
+
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+    };
+    await Future.delayed(const Duration(milliseconds: 200), () {
+      showLoader(state.context);
     });
+    RestApi.getCartItems(body).then((responseData) {
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        cartModel = cartModelFromJson(responseData.body);
+        state.setState(() {});
+      } else {
+        //Utils.showToast("Something went wrong");
+      }
+      hideLoader();
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
   }
 
   removeFromCart(CartProduct product) async {
@@ -42,8 +61,9 @@ class CheckoutScreenViewModel {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
         cartModel.products.remove(product);
+        Injector.updateCartData(cartModel);
         state.setState(() {});
-        Utils.showToast("Remove from cart");
+        getCartData();
       } else {
         //Utils.showToast("Something went wrong");
       }
@@ -78,6 +98,7 @@ class CheckoutScreenViewModel {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
         gotoConfirmationScreen(state.context);
+        Injector.updateCartData(CartModel());
       } else {
         //Utils.showToast("Something went wrong");
       }
@@ -103,7 +124,7 @@ class CheckoutScreenViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        Utils.showToast("Remove from cart");
+        getCartData();
       } else {
         //Utils.showToast("Something went wrong");
       }
@@ -128,7 +149,7 @@ class CheckoutScreenViewModel {
 
     final String mid = 'HemMfq82154903427549';
     final String key = 'ozCqcxy@kSQ6iX2h';
-    final int amount = 150;
+    final int amount = cartModel.totalAmount;
 
     String orderId = DateTime.now().millisecondsSinceEpoch.toString();
 

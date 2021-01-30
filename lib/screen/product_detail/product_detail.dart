@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
@@ -106,10 +107,18 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                         //     ),
                         //   ],
                         // ),
-                        child: Image.network(
-                          model.product.data[0].productImage,
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(context).size.width,
+                        child: CachedNetworkImage(
+                          imageUrl: model.product.data[0].productImage,
+                          imageBuilder: (context, imageProvider) => Container(
+                              width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,),
+                            ),
+                          ),
+                          placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                          errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
                         ),
                       ),
                       // Container(
@@ -178,7 +187,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    "\$${model.product.data[0].price}",
+                                    "₹${model.product.data[0].price}",
                                     style:
                                     TextStyle(fontSize: 22, color: ColorRes.redColor),
                                   ),
@@ -397,6 +406,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                   InkWell(
                     onTap: () async {
                       await model.addToCart(true);
+                      await model.getCartData();
                     },
                     child: Container(
                       color: ColorRes.whisper,

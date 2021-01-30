@@ -34,7 +34,7 @@ class CartModel {
     promocode: json["promocode"],
     actualCartSubtotal: json["actual_cart_subtotal"],
     cartSubtotal: json["cart_subtotal"],
-    shippingCharges: json["shipping_charges"],
+    shippingCharges: int.parse(json["shipping_charges"].toString()),
     totalItems: json["total_items"],
     totalDiscount: json["total_discount"],
     totalAmount: json["total_amount"],

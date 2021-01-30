@@ -22,35 +22,14 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   SharedPreferences prefs;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController addressCont = new TextEditingController();
-  // final TextEditingController cityCont = new TextEditingController();
-  final TextEditingController stateCont = new TextEditingController();
-  final TextEditingController postalCodeCont = new TextEditingController();
-  final TextEditingController houseNoCont = new TextEditingController();
-  final TextEditingController mobileCont = new TextEditingController();
+  TextEditingController addressCont = new TextEditingController();
+  TextEditingController cityCont = new TextEditingController();
+  TextEditingController stateCont = new TextEditingController();
+  TextEditingController postalCodeCont = new TextEditingController();
+  TextEditingController houseNoCont = new TextEditingController();
+  TextEditingController mobileCont = new TextEditingController();
+  TextEditingController landmarkCont = new TextEditingController();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    if(widget.edit){
-      List<String> addr = widget.addressData.address.split(',');
-      houseNoCont.text = widget.addressData.addressTitle.trim();
-      postalCodeCont.text = addr[addr.length-1].trim();
-      // cityCont.text = addr[addr.length-3];
-      stateCont.text = addr[addr.length-2].trim();
-      // addr.removeAt(addr.length-1);
-      addr.removeAt(addr.length-1);
-      addr.removeAt(addr.length-1);
-      String lane = '';
-      addr.forEach((element) {
-        lane = lane + element + "," ;
-      });
-      addressCont.text = lane.trim();
-      mobileCont.text = widget.addressData.mobile.trim();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +105,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
         children: [
           //name
           Text(
-            'House/Flat no.',
+            'Flat No./Building/House',
             style: TextStyle(
               fontFamily: 'NeueFrutigerWorld',
               fontSize: 16,
@@ -196,41 +175,75 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           ),
           SizedBox(height: 20),
 
-          // //City
-          // Text(
-          //   'City',
-          //   style: TextStyle(
-          //     fontFamily: 'NeueFrutigerWorld',
-          //     fontSize: 16,
-          //     color: ColorRes.textColor,
-          //   ),
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.only(right: media.width * 0.06),
-          //   child: TextFormField(
-          //     //readOnly: true,
-          //     controller: cityCont,
-          //     validator: validateCity,
-          //     decoration: InputDecoration(
-          //       enabledBorder: UnderlineInputBorder(
-          //         borderSide: BorderSide(color: Colors.grey.shade100),
-          //       ),
-          //       focusedBorder: UnderlineInputBorder(
-          //         borderSide: BorderSide(color: Colors.grey.shade100),
-          //       ),
-          //       //filled: true,
-          //       fillColor: const Color(0xFFFFFFFF),
-          //       hintText: 'Enter city',
-          //       hintStyle: TextStyle(
-          //         fontFamily: 'NeueFrutigerWorld',
-          //         fontSize: 14,
-          //         color: ColorRes.charcoal.withOpacity(0.7),
-          //       ),
-          //       contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(height: 20),
+          Text(
+            'Landmark (Optional)',
+            style: TextStyle(
+              fontFamily: 'NeueFrutigerWorld',
+              fontSize: 16,
+              color: ColorRes.textColor,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: media.width * 0.06),
+            child: TextFormField(
+              //readOnly: true,
+              controller: landmarkCont,
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade100),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade100),
+                ),
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
+                hintText: 'Enter landmark',
+                hintStyle: TextStyle(
+                  fontFamily: 'NeueFrutigerWorld',
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
+                ),
+                contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+
+          //City
+          Text(
+            'City',
+            style: TextStyle(
+              fontFamily: 'NeueFrutigerWorld',
+              fontSize: 16,
+              color: ColorRes.textColor,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: media.width * 0.06),
+            child: TextFormField(
+              //readOnly: true,
+              controller: cityCont,
+              validator: validateCity,
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade100),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade100),
+                ),
+                //filled: true,
+                fillColor: const Color(0xFFFFFFFF),
+                hintText: 'Enter city',
+                hintStyle: TextStyle(
+                  fontFamily: 'NeueFrutigerWorld',
+                  fontSize: 14,
+                  color: ColorRes.charcoal.withOpacity(0.7),
+                ),
+                contentPadding: EdgeInsets.only(left: 0.0, bottom: 10),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
           Text(
             'State',
             style: TextStyle(

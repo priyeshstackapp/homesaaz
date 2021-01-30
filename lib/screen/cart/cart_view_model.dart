@@ -56,8 +56,9 @@ class CartViewModel {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
         cartModel.products.remove(product);
+        Injector.updateCartData(cartModel);
         state.setState(() {});
-        Utils.showToast("Remove from cart");
+        getCartData();
       } else {
         //Utils.showToast("Something went wrong");
       }
@@ -81,6 +82,7 @@ class CartViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
+        getCartData();
       } else {
         //Utils.showToast("Something went wrong");
       }

@@ -119,14 +119,6 @@ gotoCartScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => CartScreen()));
 }
-replaceWithPaymentScreen(context) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => PaymentScreen()));
-}
-gotoPaymentScreen(context, {AddressData address}) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => PaymentScreen(addressData: address)));
-}
 replaceWithAddCardScreen(context) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => AddCardScreen()));

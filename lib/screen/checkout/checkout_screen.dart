@@ -65,6 +65,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             int quant = int.parse(cartItem.itemqty);
                             quant ++ ;
                             cartItem.itemqty = quant.toString();
+                            model.cartModel.products[index] = cartItem;
                           });
                         },() async {
                           if (int.parse(cartItem.itemqty) != 1) {
@@ -73,6 +74,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                               int quant = int.parse(cartItem.itemqty);
                               quant -- ;
                               cartItem.itemqty = quant.toString();
+                              model.cartModel.products[index] = cartItem;
                             });
                           }
                         });
@@ -279,7 +281,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
             alignment: Alignment.topRight,
             padding: EdgeInsets.only(right: 20),
             child: Text(
-              rightText,
+              "₹ "+rightText,
               style: new TextStyle(
                   fontSize: 17,
                   color: ColorRes.charcoal,
@@ -313,7 +315,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           alignment: Alignment.topRight,
           padding: EdgeInsets.only(right: 20),
           child: Text(
-            model.cartModel.totalAmount.toString(),
+            "₹ "+model.cartModel.totalAmount.toString(),
             style: new TextStyle(
                 fontSize: 17,
                 color: ColorRes.charcoal,

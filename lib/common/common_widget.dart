@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/loder_show.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/my_order_model.dart';
@@ -10,6 +11,7 @@ import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
 import 'package:homesaaz/screen/my_orders_details/my_orders_detail_screen.dart';
+import 'package:homesaaz/service/profile_bloc.dart';
 import 'package:rating_bar/rating_bar.dart';
 
 Widget gradientButton(context, {String title}) {
@@ -163,21 +165,38 @@ class CustomTextFieldShadow extends StatelessWidget {
   }
 }
 
-Widget productView(
-    String imageUrl, String productName, String oldPrice, String newPrice) {
+Widget productView(String imageUrl, String productName, int discount, String price,bool home) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      imageUrl.isNotEmpty
-          ? Image.network(imageUrl)
-          : Image.asset(App.product_name_first, fit: BoxFit.cover),
+      ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        child: imageUrl!=null && imageUrl.isNotEmpty
+            ? Image.network(imageUrl,fit: BoxFit.cover,height: 160,)
+            : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 160),
+      ),
+      SizedBox(
+        height: 5,
+      ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Text(
+            productName,
+            style: new TextStyle(
+              color: ColorRes.charcoal,
+              fontFamily: 'NeueFrutigerWorld',
+              fontWeight: FontWeight.w400,
+            ),
+            maxLines: 2,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          home? Row(
             children: [
               Text(
-                '$newPrice',
+                discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
                 style: new TextStyle(
                   fontSize: 16,
                   color: ColorRes.charcoal,
@@ -185,10 +204,10 @@ Widget productView(
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              oldPrice == "" ? Container() : Padding(
+              discount == 0 ? Container() : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '$oldPrice',
+                  '₹ $price',
                   style: TextStyle(
                     fontSize: 16,
                     color: ColorRes.charcoal,
@@ -199,16 +218,49 @@ Widget productView(
                 ),
               ),
             ],
+          ) : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
+                    style: new TextStyle(
+                      fontSize: 16,
+                      color: ColorRes.charcoal,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  discount == 0 ? Container() : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '₹ $price',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w200,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                color: ColorRes.redColor,
+                child: Text(
+                  "Add to cart",
+                  style: TextStyle(
+                    color: ColorRes.whiteColor,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12
+                  ),
+                ),)
+            ],
           ),
-          Text(
-            productName,
-            style: new TextStyle(
-              color: ColorRes.charcoal,
-              fontFamily: 'NeueFrutigerWorld',
-              fontWeight: FontWeight.w400,
-            ),
-            maxLines: 2,
-          ),
+
         ],
       ),
     ],
@@ -260,7 +312,7 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
                   Row(
                     children: [
                       Text(
-                        '${cartItem.itemprice}',
+                        cartItem.itemNewPrice == 0 ? '₹ ${cartItem.itemSubtotal}' : "${int.parse(cartItem.itemprice)-cartItem.itemNewPrice}",
                         style: new TextStyle(
                           fontSize: 16,
                           color: ColorRes.redColor,
@@ -268,10 +320,10 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      Padding(
+                      cartItem.itemNewPrice == 0 ? Container() : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '${cartItem.itemSubtotal}',
+                          '₹ ${cartItem.itemSubtotal}',
                           style: TextStyle(
                             fontSize: 16,
                             color: ColorRes.charcoal,
@@ -475,25 +527,54 @@ Widget commonAppbar(context) {
         onTap: () {
           replaceWithProfileScreen(context);
         },
-        child: Image.asset(
-          App.user,
-          color: ColorRes.darkRedColor58,
-          height: 16,
-          width: 16,
+        child: Row(
+          children: [
+            Image.asset(
+              App.user,
+              color: ColorRes.darkRedColor58,
+              height: 16,
+              width: 16,
+            ),
+            SizedBox(width: 5,),
+            StreamBuilder<int>(
+                stream: cartBloc.getCountData,
+                builder: (context, AsyncSnapshot<int> snapshot) {
+                  if(snapshot.hasData) {
+                    return Text(snapshot.data.toString(), style: TextStyle(
+                        color: ColorRes.whiteColor, fontSize: 12),);
+                  }else{
+                    return Container();
+                  }
+                }
+            )
+          ],
         ),
       ),
-      GestureDetector(
+      InkWell(
         onTap: () {
-          replaceWithCartScreen(context);
+          gotoCartScreen(context);
         },
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Image.asset(
-            App.shopping_cart,
-            color: ColorRes.darkRedColor58,
-            height: 16,
-            width: 16,
-          ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              App.shopping_cart,
+              color: ColorRes.darkRedColor58,
+              height: 18,
+              width: 18,
+            ),
+            Container(
+              width: 14,
+              height: 14,
+              margin: EdgeInsets.only(left: 20,right: 10,bottom: 20),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: ColorRes.redColor,
+                  borderRadius: BorderRadius.circular(30)
+              ),
+              child: Text(Injector.cartModel?.products?.length!=null ? Injector.cartModel?.products?.length.toString() : "0" ,style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),),
+            ),
+          ],
         ),
       ),
     ],

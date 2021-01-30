@@ -38,6 +38,10 @@ dependencies:
   flutter_slidable: ^0.5.7
   http: ^0.12.1
 
+  cached_network_image: ^2.5.0
+
+  rxdart: ^0.25.0
+
   # paytm
   paytm: ^2.0.0
 

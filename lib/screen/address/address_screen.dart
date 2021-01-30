@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
@@ -99,6 +100,15 @@ class AddressScreenState extends State<AddressScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            isSelectedIndex == index
+                ? Icon(
+              Icons.radio_button_on_outlined,
+              color: ColorRes.redColor,
+              size: 20,
+            )
+                : Icon(Icons.radio_button_off,
+                color: ColorRes.dimGray, size: 20),
+            SizedBox(width: 20,),
             Expanded(
               flex: 9,
               child: Column(
@@ -157,15 +167,6 @@ class AddressScreenState extends State<AddressScreen> {
             model.addressModel.data[index] == null ? Container() : Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                isSelectedIndex == index
-                    ? Icon(
-                        Icons.radio_button_on_outlined,
-                        color: ColorRes.redColor,
-                        size: 20,
-                      )
-                    : Icon(Icons.radio_button_off,
-                        color: ColorRes.dimGray, size: 20),
-                SizedBox(height: 10,),
                 InkWell(
                   onTap: () async {
                     var res = await gotoCreateAddressScreen(context, true, model.addressModel.data[index]);
@@ -173,16 +174,9 @@ class AddressScreenState extends State<AddressScreen> {
                       model.addressListApi();
                     }
                   },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontSize: 16,
-                      color: ColorRes.redColor,
-                    ),
-                  ),
+                  child: Image.asset(App.editIcon,height: 20,),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 15,),
                 InkWell(
                   onTap: (){
                     showDialog(
@@ -206,11 +200,7 @@ class AddressScreenState extends State<AddressScreen> {
                       ),
                     );
                   },
-                  child: Icon(
-                    Icons.delete_forever,
-                    color: ColorRes.redColor,
-                    size: 20,
-                  ),
+                  child: Image.asset(App.deleteIcon,height: 20,),
                 )
               ],
             ),

@@ -37,6 +37,8 @@ class App {
   static const backIcon = rootIcon + 'back.png';
   static const cartIcon = rootIcon + 'cartIcon.png';
   static const userIcon = rootIcon + 'userIcon.png';
+  static const deleteIcon = rootIcon + 'delete_icon.png';
+  static const editIcon = rootIcon + 'edit_icon.png';
   static const menuIcon = rootIcon + 'menuIcon.png';
   static const searchIcon = rootIcon + 'searchIcon.png';
   static const cencelIcon = rootIcon + 'Cencel.png';
@@ -51,6 +53,7 @@ class App {
   static const appNameImage = rootImage + 'appNameLogo.png';
   static const bannerImage = rootImage + 'banner.png';
   static const VectorVisaCreditCard = rootImage + 'VectorVisaCreditCard.png';
+  static const defaultImage = rootImage + 'default.jpg';
   static const cat1 = HomeImage + 'cat1.png';
   static const cat2 = HomeImage + 'cat2.png';
   static const cat3 = HomeImage + 'cat3.png';

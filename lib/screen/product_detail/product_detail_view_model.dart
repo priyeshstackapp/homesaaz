@@ -84,6 +84,7 @@ class ProductDetailViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
+        Injector.updateCartData(cartModelFromJson(responseData.body));
         return cartModelFromJson(responseData.body);
       } else {
         return null;

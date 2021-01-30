@@ -51,3 +51,51 @@ class AddressData {
     "mobile": mobile,
   };
 }
+
+FullAddressModel fullAddressModelFromJson(String str) => FullAddressModel.fromJson(json.decode(str));
+
+String fullAddressModelToJson(FullAddressModel data) => json.encode(data.toJson());
+
+class FullAddressModel {
+  FullAddressModel({
+    this.address,
+    this.flat,
+    this.landmark,
+    this.city,
+    this.state,
+    this.pincode,
+    this.mobile,
+    this.status,
+  });
+
+  String address;
+  String flat;
+  String landmark;
+  String city;
+  String state;
+  String pincode;
+  String mobile;
+  String status;
+
+  factory FullAddressModel.fromJson(Map<String, dynamic> json) => FullAddressModel(
+    address: json["address"],
+    flat: json["flat"],
+    landmark: json["landmark"],
+    city: json["city"],
+    state: json["state"],
+    pincode: json["pincode"],
+    mobile: json["mobile"],
+    status: json["status"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "address": address,
+    "flat": flat,
+    "landmark": landmark,
+    "city": city,
+    "state": state,
+    "pincode": pincode,
+    "mobile": mobile,
+    "status": status,
+  };
+}
