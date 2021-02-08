@@ -165,7 +165,7 @@ class CustomTextFieldShadow extends StatelessWidget {
   }
 }
 
-Widget productView(String imageUrl, String productName, int discount, String price,bool home) {
+Widget productView(String imageUrl, String productName, int discount, String price,Function addToCart,bool stockOut) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -178,90 +178,74 @@ Widget productView(String imageUrl, String productName, int discount, String pri
       SizedBox(
         height: 5,
       ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            productName,
-            style: new TextStyle(
-              color: ColorRes.charcoal,
-              fontFamily: 'NeueFrutigerWorld',
-              fontWeight: FontWeight.w400,
+      Container(
+        width: 200,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              productName,
+              style: new TextStyle(
+                color: ColorRes.charcoal,
+                fontFamily: 'NeueFrutigerWorld',
+                fontWeight: FontWeight.w400,
+              ),
+              maxLines: 2,
             ),
-            maxLines: 2,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          home? Row(
-            children: [
-              Text(
-                discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
-                style: new TextStyle(
-                  fontSize: 16,
-                  color: ColorRes.charcoal,
-                  fontFamily: 'NeueFrutigerWorld',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              discount == 0 ? Container() : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '₹ $price',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: ColorRes.charcoal,
-                    fontFamily: 'NeueFrutigerWorld',
-                    fontWeight: FontWeight.w200,
-                    decoration: TextDecoration.lineThrough,
-                  ),
-                ),
-              ),
-            ],
-          ) : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
-                    style: new TextStyle(
-                      fontSize: 16,
-                      color: ColorRes.charcoal,
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  discount == 0 ? Container() : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '₹ $price',
-                      style: TextStyle(
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
+                      style: new TextStyle(
                         fontSize: 16,
                         color: ColorRes.charcoal,
                         fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w200,
-                        decoration: TextDecoration.lineThrough,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Container(
-                color: ColorRes.redColor,
-                child: Text(
-                  "Add to cart",
-                  style: TextStyle(
-                    color: ColorRes.whiteColor,
-                    fontFamily: 'NeueFrutigerWorld',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12
-                  ),
-                ),)
-            ],
-          ),
+                    discount == 0 ? Container() : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '₹ $price',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: ColorRes.charcoal,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w200,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                !stockOut ? InkWell(
+                  onTap: () async {
+                    addToCart.call();
+                  },
+                  child: Container(
+                    color: ColorRes.redColor,
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      "Add to cart",
+                      style: TextStyle(
+                        color: ColorRes.whiteColor,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12
+                      ),
+                    ),),
+                ) : Container()
+              ],
+            ),
 
-        ],
+          ],
+        ),
       ),
     ],
   );
@@ -471,49 +455,60 @@ Widget myOrdersView(MyOrderData myOrdersItem) {
     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
     child: Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            'Order no: ' + myOrdersItem.orderNo,
-            style: new TextStyle(
-                color: ColorRes.gray57,
-                fontFamily: 'NeueFrutigerWorld',
-                fontWeight: FontWeight.w400,
-                fontSize: 16),
+          Image.asset(
+            App.defaultImage,
+            fit: BoxFit.cover,
+            width: 120,
+            height: 70,
           ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            myOrdersItem.orderStatus,
-            style: new TextStyle(
-                color: ColorRes.charcoal,
-                fontFamily: 'NeueFrutigerWorld',
-                fontWeight: FontWeight.w400,
-                fontSize: 16),
-          ),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(width: 10,),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Order no: ' + myOrdersItem.orderNo,
+                style: new TextStyle(
+                    color: ColorRes.gray57,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                myOrdersItem.orderStatus,
+                style: new TextStyle(
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16),
+              ),
+              SizedBox(
+                height: 5,
+              ),
 
-          Text(
-            '${myOrdersItem.orderDate} - ${myOrdersItem.orderTime}',
-            style: new TextStyle(
-              fontSize: 16,
-              color: ColorRes.redColor,
-              fontFamily: 'NeueFrutigerWorld',
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          Text(
-            '\$${myOrdersItem.orderTotal}',
-            style: new TextStyle(
-              fontSize: 16,
-              color: ColorRes.redColor,
-              fontFamily: 'NeueFrutigerWorld',
-              fontWeight: FontWeight.w400,
-            ),
+              Text(
+                '${myOrdersItem.orderDate} - ${myOrdersItem.orderTime}',
+                style: new TextStyle(
+                  fontSize: 16,
+                  color: ColorRes.redColor,
+                  fontFamily: 'NeueFrutigerWorld',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Text(
+                '₹ ${myOrdersItem.orderTotal}',
+                style: new TextStyle(
+                  fontSize: 16,
+                  color: ColorRes.redColor,
+                  fontFamily: 'NeueFrutigerWorld',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -529,7 +524,7 @@ Widget commonAppbar(context) {
     actions: [
       GestureDetector(
         onTap: () {
-          replaceWithProfileScreen(context);
+          gotoProfileScreen(context);
         },
         child: Row(
           children: [
@@ -540,17 +535,7 @@ Widget commonAppbar(context) {
               width: 16,
             ),
             SizedBox(width: 5,),
-            StreamBuilder<int>(
-                stream: cartBloc.getCountData,
-                builder: (context, AsyncSnapshot<int> snapshot) {
-                  if(snapshot.hasData) {
-                    return Text(snapshot.data.toString(), style: TextStyle(
-                        color: ColorRes.whiteColor, fontSize: 12),);
-                  }else{
-                    return Container();
-                  }
-                }
-            )
+            Text(Injector.loginResponse?.name ?? "",style: TextStyle(color: ColorRes.redColor),)
           ],
         ),
       ),
@@ -576,7 +561,17 @@ Widget commonAppbar(context) {
                   color: ColorRes.redColor,
                   borderRadius: BorderRadius.circular(30)
               ),
-              child: Text(Injector.cartModel?.products?.length!=null ? Injector.cartModel?.products?.length.toString() : "0" ,style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),),
+              child: StreamBuilder<int>(
+                  stream: cartBloc.getCountData,
+                  builder: (context, AsyncSnapshot<int> snapshot) {
+                    if(snapshot.hasData) {
+                      return Text(snapshot.data.toString(), style: TextStyle(
+                          color: ColorRes.whiteColor, fontSize: 12),);
+                    }else{
+                      return Container();
+                    }
+                  }
+              ),
             ),
           ],
         ),

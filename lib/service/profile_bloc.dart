@@ -7,7 +7,7 @@ class CartBloc {
 
   Stream<int> get getCountData => getCount.stream;
 
-  Future<void> updateCart() async {
+  Future<void> updateCart({int count}) async {
     getCount.sink.add(Injector.cartModel?.products?.length ?? 0);
   }
 }

@@ -3,6 +3,7 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/model/product_list_model.dart';
@@ -108,10 +109,21 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                   },
                   child: Card(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 7,vertical: 7),
+                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
                       margin: EdgeInsets.symmetric(horizontal: 7),
-                      child: productView(product.productImage, product.productName,
-                          product.discountedPrice, product.price,false),
+                      child: productView(
+                          product.productImage,
+                          product.productName,
+                          product.discountedPrice,
+                          product.price, () {
+                        if (product.itemdetId == null) {
+                          Utils.showToast("Item id is null");
+                        } else {
+                          model.addToCart(product.itemdetId);
+                        }
+                      },
+                          false
+                      ),
                     ),
                   ),
                 );

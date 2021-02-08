@@ -364,7 +364,7 @@ class RestApi{
     } catch(e) {
       print(e);
       Utils.showToast(e);
-      return null;
+      throw e;
     }
     return null;
   }

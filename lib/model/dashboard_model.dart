@@ -94,6 +94,7 @@ class Product {
     this.price,
     this.discountedPrice,
     this.discountAvailable,
+    this.stockStatus,
   });
 
   String itemdetId;
@@ -102,24 +103,26 @@ class Product {
   String price;
   int discountedPrice;
   DiscountAvailable discountAvailable;
+  String stockStatus;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     itemdetId: json["itemdet_id"],
     productName: json["product_name"],
-    // productName: productNameValues.map[json["product_name"]],
     productImage: json["product_image"],
     price: json["price"],
     discountedPrice: json["discounted_price"],
     discountAvailable: discountAvailableValues.map[json["discount_available"]],
+    stockStatus: json["stock_status"],
   );
 
   Map<String, dynamic> toJson() => {
     "itemdet_id": itemdetId,
-    "product_name": productNameValues.reverse[productName],
+    "product_name": productName,
     "product_image": productImage,
     "price": price,
     "discounted_price": discountedPrice,
     "discount_available": discountAvailableValues.reverse[discountAvailable],
+    "stock_status": stockStatus,
   };
 }
 
@@ -127,13 +130,6 @@ enum DiscountAvailable { NO }
 
 final discountAvailableValues = EnumValues({
   "no": DiscountAvailable.NO
-});
-
-enum ProductName { CURTAIN_CLOTH, SHEER_FABRICS }
-
-final productNameValues = EnumValues({
-  "CURTAIN CLOTH": ProductName.CURTAIN_CLOTH,
-  "SHEER FABRICS": ProductName.SHEER_FABRICS
 });
 
 class EnumValues<T> {

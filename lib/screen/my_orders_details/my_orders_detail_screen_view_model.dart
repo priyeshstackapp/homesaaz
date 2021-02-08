@@ -27,21 +27,25 @@ class MyOrdersDetailScreenViewModel {
     await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
-    RestApi.getSingleOrderData(body).then((responseData) {
-      hideLoader();
-      Map<String, dynamic> jsonData = json.decode(responseData.body);
-      if (responseData != null && jsonData['status'] == "error") {
-        Utils.showToast(jsonData['error']);
-      } else if (responseData != null) {
-        orderDetailsModel = orderDetailsModelFromJson(responseData.body);
-        state.setState(() {});
-      } else {
-        //Utils.showToast("Something went wrong");
-      }
-    }).catchError((e) {
-      hideLoader();
-      // Utils.showToast(e.toString());
-    }).whenComplete(() {});
+     var responseData = await RestApi.getSingleOrderData(body);
+
+    Map<String, dynamic> jsonData = json.decode(responseData.body);
+
+    hideLoader();
+
+    if (responseData != null && jsonData['status'] == "error") {
+      Utils.showToast(jsonData['error']);
+    } else if (responseData != null &&  jsonData['status'] == "success") {
+      print("Response Successfully");
+      orderDetailsModel = orderDetailsModelFromJson(responseData.body);
+      print(orderDetailsModel.toJson());
+      state.setState(() {});
+    } else {
+      Utils.showToast("Something went wrong");
+      state.setState(() {});
+    }
+
+
   }
 
 }

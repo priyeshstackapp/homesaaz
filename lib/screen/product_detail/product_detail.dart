@@ -18,7 +18,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class ProductDetailScreenState extends State<ProductDetailScreen> {
   ProductDetailViewModel model;
-  // CarouselController carouselController = CarouselController();
+  CarouselController carouselController = CarouselController();
   int quantity =1;
   int _current = 0;
   int _currentColor = 0;
@@ -49,121 +49,114 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        // child: Stack(
-                        //   alignment: Alignment.centerLeft,
-                        //   children: [
-                        //     CarouselSlider.builder(
-                        //       itemCount: model.product.data[0].productImage.length,
-                        //       carouselController: carouselController,
-                        //       itemBuilder: (BuildContext context, int itemIndex) =>
-                        //           Container(
-                        //         child: Container(
-                        //           margin: EdgeInsets.symmetric(horizontal: 5),
-                        //           child: Image.network(
-                        //             model.product.data[0].productImage[itemIndex],
-                        //             fit: BoxFit.cover,
-                        //             width: MediaQuery.of(context).size.width,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       options: CarouselOptions(
-                        //         autoPlay: false,
-                        //         viewportFraction: 1.0,
-                        //         enlargeCenterPage: false,
-                        //         onPageChanged: (index, reason) {
-                        //           setState(() {
-                        //             _current = index;
-                        //           });
-                        //         },
-                        //       ),
-                        //     ),
-                        //     Positioned(
-                        //       bottom: 0,
-                        //       child: Padding(
-                        //         padding: const EdgeInsets.only(left: 20, bottom: 5),
-                        //         child: Container(
-                        //           height: 20,
-                        //           child: ListView.builder(
-                        //             itemCount: model.product.productUrl.length,
-                        //             shrinkWrap: true,
-                        //             scrollDirection: Axis.horizontal,
-                        //             physics: NeverScrollableScrollPhysics(),
-                        //             itemBuilder: (context, index) {
-                        //               return Container(
-                        //                 width: 6,
-                        //                 height: 6,
-                        //                 margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        //                 decoration: BoxDecoration(
-                        //                   shape: BoxShape.circle,
-                        //                   color: _current == index
-                        //                       ? ColorRes.redColor
-                        //                       : ColorRes.whiteColor,
-                        //                 ),
-                        //               );
-                        //             },
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            CarouselSlider.builder(
+                              itemCount: 1,
+                              carouselController: carouselController,
+                              itemBuilder: (BuildContext context, int itemIndex) =>
+                                  Container(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  child: CachedNetworkImage(
+                                    imageUrl: model.product.data[0].productImage,
+                                    placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                                    errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                                  ),
+                                ),
+                              ),
+                              options: CarouselOptions(
+                                autoPlay: false,
+                                viewportFraction: 1.0,
+                                enlargeCenterPage: false,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20, bottom: 5),
+                                child: Container(
+                                  height: 20,
+                                  child: ListView.builder(
+                                    itemCount: 1,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        width: 6,
+                                        height: 6,
+                                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: _current == index
+                                              ? ColorRes.redColor
+                                              : ColorRes.whiteColor,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // child: CachedNetworkImage(
+                        //   imageUrl: model.product.data[0].productImage,
+                        //   placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                        //   errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
                         // ),
-                        child: CachedNetworkImage(
-                          imageUrl: model.product.data[0].productImage,
-                          imageBuilder: (context, imageProvider) => Container(
-                              width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        height: 40,
+                        child: ListView.builder(
+                          itemCount: 1,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int itemIndex) =>
+                              Opacity(
+                            opacity: 1,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _current = itemIndex;
+                                  carouselController.animateToPage(_current);
+                                });
+                              },
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 80,
+                                    padding: EdgeInsets.symmetric(horizontal: 7),
+                                    child: CachedNetworkImage(
+                                      imageUrl: model.product.data[0].productImage,
+                                      placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                                      errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                                    ),
+                                  ),
+                                  _current != itemIndex
+                                      ? Container(
+                                          width: 70,
+                                          padding:
+                                              EdgeInsets.symmetric(horizontal: 7),
+                                          color:
+                                              ColorRes.whiteColor.withOpacity(0.4),
+                                        )
+                                      : Container()
+                                ],
+                              ),
                             ),
                           ),
-                          placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
-                          errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
                         ),
                       ),
-                      // Container(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 15),
-                      //   height: 40,
-                      //   child: ListView.builder(
-                      //     itemCount: model.product.productUrl.length,
-                      //     shrinkWrap: true,
-                      //     scrollDirection: Axis.horizontal,
-                      //     itemBuilder: (BuildContext context, int itemIndex) =>
-                      //         Opacity(
-                      //       opacity: 1,
-                      //       child: GestureDetector(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             _current = itemIndex;
-                      //             carouselController.animateToPage(_current);
-                      //           });
-                      //         },
-                      //         child: Stack(
-                      //           alignment: Alignment.center,
-                      //           children: [
-                      //             Container(
-                      //               width: 80,
-                      //               padding: EdgeInsets.symmetric(horizontal: 7),
-                      //               child: Image.asset(
-                      //                 model.product.productUrl[itemIndex],
-                      //                 fit: BoxFit.contain,
-                      //               ),
-                      //             ),
-                      //             _current != itemIndex
-                      //                 ? Container(
-                      //                     width: 70,
-                      //                     padding:
-                      //                         EdgeInsets.symmetric(horizontal: 7),
-                      //                     color:
-                      //                         ColorRes.whiteColor.withOpacity(0.4),
-                      //                   )
-                      //                 : Container()
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
@@ -184,26 +177,33 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left:8.0),
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "₹${model.product.data[0].price}",
-                                    style:
-                                    TextStyle(fontSize: 22, color: ColorRes.redColor),
+                                  Row(
+                                    children: [
+                                    Text(
+                                      "₹${model.product.data[0].price}",
+                                      style:
+                                      TextStyle(fontSize: 22, color: ColorRes.redColor),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    model.product.data[0].discountedPrice ==0 ? Container() : Text(
+                                      "\$${model.product.data[0].discountedPrice}",
+                                      style: TextStyle(fontSize: 22, color: ColorRes.dimGray.withOpacity(0.7)),
+                                    ),
+                                    ],
                                   ),
                                   SizedBox(
-                                    width: 10,
-                                  ),
-                                  model.product.data[0].discountedPrice ==0 ? Container() : Text(
-                                    "\$${model.product.data[0].discountedPrice}",
-                                    style: TextStyle(fontSize: 22, color: ColorRes.dimGray.withOpacity(0.7)),
-                                  ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.30,
+                                    height: 10,
                                   ),
                                   Container(
                                     color: ColorRes.creamColor,
+                                    width: 100,
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         GestureDetector(
                                             child: Padding(

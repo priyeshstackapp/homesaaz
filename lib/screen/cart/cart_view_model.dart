@@ -17,14 +17,16 @@ class CartViewModel {
 
   CartModel cartModel;
 
-  getCartData() async {
+  getCartData({bool show = true}) async {
 
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
     };
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      showLoader(state.context);
-    });
+    if(show){
+      await Future.delayed(const Duration(milliseconds: 200), () {
+        showLoader(state.context);
+      });
+    }
     RestApi.getCartItems(body).then((responseData) {
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
@@ -35,7 +37,9 @@ class CartViewModel {
       } else {
         //Utils.showToast("Something went wrong");
       }
-      hideLoader();
+      if(show) {
+        hideLoader();
+      }
     }).catchError((e) {
       hideLoader();
       // Utils.showToast(e.toString());
@@ -58,7 +62,7 @@ class CartViewModel {
         cartModel.products.remove(product);
         Injector.updateCartData(cartModel);
         state.setState(() {});
-        getCartData();
+        getCartData(show: false);
       } else {
         //Utils.showToast("Something went wrong");
       }
@@ -82,7 +86,7 @@ class CartViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        getCartData();
+        getCartData(show: false);
       } else {
         //Utils.showToast("Something went wrong");
       }

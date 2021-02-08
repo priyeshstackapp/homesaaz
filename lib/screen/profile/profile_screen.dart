@@ -40,52 +40,62 @@ class ProfileScreenState extends State<ProfileScreen> {
         key: scaffoldKey,
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                height: height-120,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 10),
                     commonTitle('Profile'),
-                    InkWell(
-                      onTap: () async {
-                        if(editMode) {
-                          model.profileModel.firstName = fName.text ;
-                          model.profileModel.lastName = lName.text;
-                          await model.updateProfile();
-                          setState(() {
-                            fName.clear();
-                            lName.clear();
-                            editMode = false;
-                          });
-                        }else{
-                          setState(() {
-                            fName.text = model.profileModel.firstName;
-                            lName.text = model.profileModel.lastName;
-                            editMode = true;
-                          });
-                        }
-                      },
-                      child: Text(
-                        editMode ? "Update" : 'Edit',
-                        style: TextStyle(
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontSize: 16,
-                          color: ColorRes.redColor,
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: 30),
+                   model.profileModel ==null ? Container()  :profileDetails(),
                   ],
                 ),
-                SizedBox(height: 30),
-               model.profileModel ==null ? Container()  :profileDetails(),
-              ],
+              ),
             ),
-          ),
+            InkWell(
+              onTap: () async {
+                if(editMode) {
+                  model.profileModel.firstName = fName.text ;
+                  model.profileModel.lastName = lName.text;
+                  await model.updateProfile();
+                  setState(() {
+                    fName.clear();
+                    lName.clear();
+                    editMode = false;
+                  });
+                }else{
+                  setState(() {
+                    fName.text = model.profileModel.firstName;
+                    lName.text = model.profileModel.lastName;
+                    editMode = true;
+                  });
+                }
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: height * 0.06,
+                width: width * 0.92,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                // margin: EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: ColorRes.red,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Text( editMode ? "Update" : 'Edit',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w500),),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -8,6 +8,9 @@ import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/model/product_model.dart';
 import 'package:homesaaz/screen/product_detail/product_detail.dart';
 import 'package:homesaaz/service/rest_api.dart';
+import 'package:html/dom.dart';
+import 'package:html/parser.dart' show parse;
+
 
 class ProductDetailViewModel {
   ProductDetailScreenState state;
@@ -31,6 +34,9 @@ class ProductDetailViewModel {
       Utils.showToast(jsonData['error']);
     } else if (responseData != null) {
       product = productDetailModelFromJson(responseData.body);
+      Document agreements = parse(product.data[0].description);
+      String parsedString = parse(agreements.body.text).documentElement.text;
+      product.data[0].description = parsedString;
       if (product.data[0].description.length > 200) {
         state.firstHalf = product.data[0].description.substring(0, 200);
         state.secondHalf = product.data[0].description
@@ -52,7 +58,7 @@ class ProductDetailViewModel {
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : state.widget.product.itemdetId.toString(),
-      "qnty" : "1"
+      "qnty" : "${state.quantity}"
     };
 
     var responseData = await RestApi.addToCartApi(body);

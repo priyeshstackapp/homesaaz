@@ -79,7 +79,7 @@ class AddressScreenState extends State<AddressScreen> {
                   ),
                 ),
               ),
-              addAddressAndContinueButton(),
+              widget.cartModel!=null ? addAddressAndContinueButton() : Container(),
             ],
           ),
         ),
@@ -174,7 +174,7 @@ class AddressScreenState extends State<AddressScreen> {
                       model.addressListApi();
                     }
                   },
-                  child: Image.asset(App.editIcon,height: 20,),
+                  child: Image.asset(App.editIcon, color: ColorRes.redColor,height: 20,),
                 ),
                 SizedBox(height: 15,),
                 InkWell(
@@ -182,8 +182,8 @@ class AddressScreenState extends State<AddressScreen> {
                     showDialog(
                       context: context,
                       builder: (context) => new AlertDialog(
-                        title: new Text('Are you sure?'),
-                        content: new Text('Do you want to exit an App'),
+                        title: new Text('Confirmation'),
+                        content: new Text('Do you want to delete this address?'),
                         actions: <Widget>[
                           new FlatButton(
                             onPressed: () => Navigator.of(context).pop(false),
@@ -200,7 +200,7 @@ class AddressScreenState extends State<AddressScreen> {
                       ),
                     );
                   },
-                  child: Image.asset(App.deleteIcon,height: 20,),
+                  child: Image.asset(App.deleteIcon,color: ColorRes.redColor,height: 20,),
                 )
               ],
             ),

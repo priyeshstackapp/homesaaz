@@ -181,10 +181,13 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         //Favorite
                         InkWell(
+                          onTap: () {
+                            gotoAddressScreen(context, null);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Text(
-                              "Favorite",
+                              "Manage Address",
                               style: new TextStyle(
                                 fontSize: 24,
                                 color: ColorRes.dimGray,
@@ -483,15 +486,15 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: 220,
-          child: GridView.builder(
+          height: 240,
+          child: ListView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.newProducts.length != 0
                          ? model.dashBoardModel.newProducts.length
                          : 0,
               shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,childAspectRatio: 0.8),
+              // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //     crossAxisCount: 1,childAspectRatio: 0.9),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.newProductName[index];
@@ -500,18 +503,32 @@ class HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           gotoProductDetailScreen(context,model.dashBoardModel.newProducts[index]);
                         },
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 7),
-                            margin: EdgeInsets.symmetric(horizontal: 7),
-                            child: productView(
-                              model.dashBoardModel.newProducts[index].productImage,
-                              model.dashBoardModel.newProducts[index].productName,
-                              model.dashBoardModel.newProducts[index].discountedPrice,
-                              model.dashBoardModel.newProducts[index].price,
-                                true
+                        child: Stack(
+                          children: [
+                            Card(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 7),
+                                margin: EdgeInsets.symmetric(horizontal: 7),
+                                child: productView(
+                                  model.dashBoardModel.newProducts[index].productImage,
+                                  model.dashBoardModel.newProducts[index].productName,
+                                  model.dashBoardModel.newProducts[index].discountedPrice,
+                                  model.dashBoardModel.newProducts[index].price,() async {
+                                  model.addToCart(model.dashBoardModel.newProducts[index].itemdetId);
+                                },
+                                    model.dashBoardModel.newProducts[index].stockStatus=="outofstock"
+                                ),
+                              ),
                             ),
-                          ),
+                            model.dashBoardModel.newProducts[index].stockStatus=="outofstock" ? RotationTransition(
+                              turns: AlwaysStoppedAnimation( -45 / 360),
+                              child: Container(
+                                  color: ColorRes.redColor,
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.only(top: 30),
+                                  child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
+                            ) : Container()
+                          ],
                         ),
                       )
                     : Container(
@@ -585,18 +602,33 @@ class HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           gotoProductDetailScreen(context,model.dashBoardModel.trendingProducts[index]);
                         },
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 7),
-                            margin: EdgeInsets.symmetric(horizontal: 7),
-                            child: productView(
-                              model.dashBoardModel.trendingProducts[index].productImage,
-                              model.dashBoardModel.trendingProducts[index].productName,
-                              model.dashBoardModel.trendingProducts[index].discountedPrice,
-                              model.dashBoardModel.trendingProducts[index].price,
-                                true
+                        child: Stack(
+                          children: [
+                            Card(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 7),
+                                margin: EdgeInsets.symmetric(horizontal: 7),
+                                child: productView(
+                                  model.dashBoardModel.trendingProducts[index].productImage,
+                                  model.dashBoardModel.trendingProducts[index].productName,
+                                  model.dashBoardModel.trendingProducts[index].discountedPrice,
+                                  model.dashBoardModel.trendingProducts[index].price,
+                                        () async {
+                                      model.addToCart(model.dashBoardModel.trendingProducts[index].itemdetId);
+                                    },
+                                  model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock"
+                                ),
+                              ),
                             ),
-                          ),
+                            model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock" ? RotationTransition(
+                              turns: AlwaysStoppedAnimation( -45 / 360),
+                              child: Container(
+                                  color: ColorRes.redColor,
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.only(top: 30),
+                                  child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
+                            ) : Container()
+                          ],
                         ),
                       )
                     : Container(
@@ -674,18 +706,33 @@ class HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           gotoProductDetailScreen(context,model.dashBoardModel.featuredProducts[index]);
                         },
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 7),
-                            margin: EdgeInsets.symmetric(horizontal: 7),
-                            child: productView(
-                              model.dashBoardModel.featuredProducts[index].productImage,
-                              model.dashBoardModel.featuredProducts[index].productName,
-                              model.dashBoardModel.featuredProducts[index].discountedPrice,
-                              model.dashBoardModel.featuredProducts[index].price,
-                              true
+                        child: Stack(
+                          children: [
+                            Card(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 7),
+                                margin: EdgeInsets.symmetric(horizontal: 7),
+                                child: productView(
+                                  model.dashBoardModel.featuredProducts[index].productImage,
+                                  model.dashBoardModel.featuredProducts[index].productName,
+                                  model.dashBoardModel.featuredProducts[index].discountedPrice,
+                                  model.dashBoardModel.featuredProducts[index].price,
+                                        () async {
+                                      model.addToCart(model.dashBoardModel.featuredProducts[index].itemdetId);
+                                    },
+                                    model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock"
+                                ),
+                              ),
                             ),
-                          ),
+                            model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock" ? RotationTransition(
+                              turns: AlwaysStoppedAnimation( -45 / 360),
+                              child: Container(
+                                  color: ColorRes.redColor,
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.only(top: 30),
+                                  child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
+                            ) : Container()
+                          ],
                         ),
                       )
                     : Container(
