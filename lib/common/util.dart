@@ -25,7 +25,7 @@ class Utils{
   static showToast(String message) {
     Fluttertoast.showToast(
         msg: message,
-        toastLength: Toast.LENGTH_SHORT,
+        // toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
         backgroundColor: Colors.red,

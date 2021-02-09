@@ -182,6 +182,22 @@ class HomeScreenState extends State<HomeScreen> {
                         //Favorite
                         InkWell(
                           onTap: () {
+                            gotoWishScreen(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "My Wish List",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
                             gotoAddressScreen(context, null);
                           },
                           child: Padding(
@@ -516,7 +532,10 @@ class HomeScreenState extends State<HomeScreen> {
                                   model.dashBoardModel.newProducts[index].price,() async {
                                   model.addToCart(model.dashBoardModel.newProducts[index].itemdetId);
                                 },
-                                    model.dashBoardModel.newProducts[index].stockStatus=="outofstock"
+                                    model.dashBoardModel.newProducts[index].stockStatus=="outofstock",
+                                    (){
+                                    model.addToWish(model.dashBoardModel.newProducts[index].itemdetId);
+                                    }
                                 ),
                               ),
                             ),
@@ -616,7 +635,10 @@ class HomeScreenState extends State<HomeScreen> {
                                         () async {
                                       model.addToCart(model.dashBoardModel.trendingProducts[index].itemdetId);
                                     },
-                                  model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock"
+                                  model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock",
+                                        (){
+                                      model.addToWish(model.dashBoardModel.trendingProducts[index].itemdetId);
+                                    }
                                 ),
                               ),
                             ),
@@ -720,7 +742,10 @@ class HomeScreenState extends State<HomeScreen> {
                                         () async {
                                       model.addToCart(model.dashBoardModel.featuredProducts[index].itemdetId);
                                     },
-                                    model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock"
+                                    model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock",
+                                        (){
+                                      model.addToWish(model.dashBoardModel.featuredProducts[index].itemdetId);
+                                    }
                                 ),
                               ),
                             ),
@@ -731,7 +756,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   padding: EdgeInsets.all(5),
                                   margin: EdgeInsets.only(top: 30),
                                   child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
-                            ) : Container()
+                            ) : Container(),
                           ],
                         ),
                       )

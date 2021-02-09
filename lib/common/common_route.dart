@@ -19,6 +19,7 @@ import 'package:homesaaz/screen/profile/profile_screen.dart';
 import 'package:homesaaz/screen/seeall/categories_all.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
+import 'package:homesaaz/screen/wish/wish_screen.dart';
 
 import '../app.dart';
 
@@ -118,6 +119,11 @@ replaceWithCartScreen(context) {
 gotoCartScreen(context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => CartScreen()));
+}
+
+gotoWishScreen(context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => WishScreen()));
 }
 replaceWithAddCardScreen(context) {
   Navigator.pushReplacement(

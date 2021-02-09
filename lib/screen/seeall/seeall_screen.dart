@@ -122,7 +122,14 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                           model.addToCart(product.itemdetId);
                         }
                       },
-                          false
+                          false,
+                              (){
+                                if (product.itemdetId == null) {
+                                  Utils.showToast("Item id is null");
+                                } else {
+                                  model.addToWish(product.itemdetId);
+                                }
+                          }
                       ),
                     ),
                   ),

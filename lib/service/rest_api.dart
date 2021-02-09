@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class RestApi{
-  static String baseUrl = "http://projects.doorsstudio.com/homesaaz/api/";
+  // static String baseUrl = "http://projects.doorsstudio.com/homesaaz/api/";
+  static String baseUrl = "https://homesaaz.in/api/";
   static String username = 'admin';
   static String password = '1234';
   static Future getLoginApi(){
@@ -205,6 +206,84 @@ class RestApi{
   static Future<Response> addressListApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "user/addresslist";
+    print(url);
+    print(bodyData);
+    try {
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+     // Utils.showToast(e);
+      return null;
+    }
+    return null;
+  }
+
+  //Add to wish Api
+  static Future addToWishListApi(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "user/addto_wishlist";
+    print(url);
+    print(bodyData);
+    try {
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200) {
+        Map<String, dynamic> jsonData = json.decode(response.body);
+        if (response != null && jsonData['status'] == "error") {
+          Utils.showToast(jsonData['msg']);
+        } else {
+          Utils.showToast("Added to Wish List");
+        }
+
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+      } else{
+        Utils.showToast("Something went wrong");
+      }
+    } catch(e) {
+      print(e);
+     // Utils.showToast(e);
+      Utils.showToast("Something went wrong");
+    }
+  }
+
+  //Remove from wish Api
+  static Future<Response> removeWishApi(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "user/remove_wishlist";
+    print(url);
+    print(bodyData);
+    try {
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+     // Utils.showToast(e);
+      return null;
+    }
+    return null;
+  }
+
+  //Get wish list Api
+  static Future<Response> getWishListApi(Map<String, dynamic> bodyData) async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "user/get_wishlist";
     print(url);
     print(bodyData);
     try {

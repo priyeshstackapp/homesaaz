@@ -1,63 +1,72 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
-import 'package:homesaaz/model/dashboard_model.dart';
-import 'package:homesaaz/model/home_model.dart';
-import 'package:homesaaz/screen/home/home_screen.dart';
-import 'package:homesaaz/service/profile_bloc.dart';
+import 'package:homesaaz/model/wish_model.dart';
+import 'package:homesaaz/screen/wish/wish_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
-class HomeScreenViewModel {
-  HomeScreenState state;
+class WishViewModel {
+  WishScreenState state;
 
-  DashBoardModel dashBoardModel;
-  List<Category> categories;
-  HomeScreenViewModel(HomeScreenState state) {
-    this.state = state;
-    dashBoardApi();
+  WishViewModel(this.state){
+    getWishData();
   }
 
-  void dashBoardApi() async {
+  WishModel wishModel;
 
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      showLoader(state.context);
-    });
+  getWishData({bool show = true}) async {
 
-    final responseData = await RestApi.dahsBoardApi();
-
-    try{
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+    };
+    if(show){
+      await Future.delayed(const Duration(milliseconds: 200), () {
+        showLoader(state.context);
+      });
+    }
+    RestApi.getWishListApi(body).then((responseData) {
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        dashBoardModel = dashBoardModelFromJson(responseData.body);
-
-        Map<String, dynamic> body = {
-          "uid": Injector.loginResponse.uid,
-        };
-        final cartModelRes = await RestApi.getCartItems(body);
-
-        Map<String, dynamic> jsonData = json.decode(cartModelRes.body);
-        if (cartModelRes != null && jsonData['status'] == "error") {
-          Utils.showToast(jsonData['error']);
-        } else if (cartModelRes != null) {
-          Injector.updateCartData(cartModelFromJson(cartModelRes.body));
-        }
-
+        wishModel = wishModelFromJson(responseData.body);
         state.setState(() {});
       } else {
         Utils.showToast("Something went wrong");
       }
-    }catch(e){
-      print(e);
-      Utils.showToast("Something went wrong");
-    }
+      if(show) {
+        hideLoader();
+      }
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
+  }
 
-    hideLoader();
+  removeFromCart(WishProduct product) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : product.itemdetId.toString(),
+    };
+
+    RestApi.removeWishApi(body).then((responseData) {
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        getWishData(show: false);
+      } else {
+        Utils.showToast("Something went wrong");
+      }
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
   }
 
   addToCart(String id) async {
@@ -75,24 +84,11 @@ class HomeScreenViewModel {
     if (responseData != null && jsonData['status'] == "error") {
       Utils.showToast(jsonData['error']);
     } else if (responseData != null) {
-        Utils.showToast("Added to cart");
-        getCartData();
+      Utils.showToast("Added to cart");
+      getCartData();
     } else {
       //Utils.showToast("Something went wrong");
     }
-  }
-
-  addToWish(String id) async {
-    showLoader(state.context);
-    Map<String, dynamic> body = {
-      "uid": Injector.loginResponse.uid,
-      "item_id" : id,
-      "qnty" : "1"
-    };
-
-    await RestApi.addToWishListApi(body);
-    hideLoader();
-
   }
 
   getCartData() async {

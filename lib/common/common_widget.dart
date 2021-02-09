@@ -7,6 +7,7 @@ import 'package:homesaaz/common/loder_show.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/my_order_model.dart';
 import 'package:homesaaz/model/order_details_model.dart';
+import 'package:homesaaz/model/wish_model.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/screen/checkout/checkout_screen.dart';
 import 'package:homesaaz/screen/my_orders/my_orders_screen.dart';
@@ -165,88 +166,106 @@ class CustomTextFieldShadow extends StatelessWidget {
   }
 }
 
-Widget productView(String imageUrl, String productName, int discount, String price,Function addToCart,bool stockOut) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        child: imageUrl!=null && imageUrl.isNotEmpty
-            ? Image.network(imageUrl,fit: BoxFit.cover,height: 160,)
-            : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 160),
-      ),
-      SizedBox(
-        height: 5,
-      ),
-      Container(
-        width: 200,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              productName,
-              style: new TextStyle(
-                color: ColorRes.charcoal,
-                fontFamily: 'NeueFrutigerWorld',
-                fontWeight: FontWeight.w400,
-              ),
-              maxLines: 2,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+Widget productView(String imageUrl, String productName, int discount, String price,Function addToCart,bool stockOut,VoidCallback addToWish) {
+  return Stack(
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            child: imageUrl!=null && imageUrl.isNotEmpty
+                ? Image.network(imageUrl,fit: BoxFit.cover,height: 160,)
+                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 160),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            width: 200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  productName,
+                  style: new TextStyle(
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 2,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
-                      style: new TextStyle(
-                        fontSize: 16,
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    discount == 0 ? Container() : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '₹ $price',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                          fontWeight: FontWeight.w200,
-                          decoration: TextDecoration.lineThrough,
+                    Row(
+                      children: [
+                        Text(
+                          discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
+                          style: new TextStyle(
+                            fontSize: 16,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
+                        discount == 0 ? Container() : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '₹ $price',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w200,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    !stockOut ? InkWell(
+                      onTap: () async {
+                        addToCart.call();
+                      },
+                      child: Container(
+                        color: ColorRes.redColor,
+                        padding: EdgeInsets.all(5),
+                        child: Text(
+                          "Add to cart",
+                          style: TextStyle(
+                            color: ColorRes.whiteColor,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12
+                          ),
+                        ),),
+                    ) : Container()
                   ],
                 ),
-                !stockOut ? InkWell(
-                  onTap: () async {
-                    addToCart.call();
-                  },
-                  child: Container(
-                    color: ColorRes.redColor,
-                    padding: EdgeInsets.all(5),
-                    child: Text(
-                      "Add to cart",
-                      style: TextStyle(
-                        color: ColorRes.whiteColor,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12
-                      ),
-                    ),),
-                ) : Container()
+
               ],
             ),
-
-          ],
-        ),
+          ),
+        ],
       ),
+      Positioned(
+        right: 0,
+        child: InkWell(
+          onTap: addToWish,
+          child: Container(
+              decoration: BoxDecoration(
+                  color: ColorRes.redColor,
+                  borderRadius: BorderRadius.circular(30)
+              ),
+              margin: EdgeInsets.only(right: 7,top: 7),
+              padding: EdgeInsets.all(7),
+              child: Image.asset('assets/icon/heart.png',height: 20,width: 20,color: ColorRes.whiteColor,)),
+        ),
+      )
     ],
   );
 }
@@ -263,11 +282,9 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image.network(
-                cartItem.pimage,
-                fit: BoxFit.cover,
-                height: 100,
-              ),
+              cartItem.pimage!=null && cartItem.pimage.isNotEmpty
+                  ? Image.network(cartItem.pimage,fit: BoxFit.cover,height: 100,)
+                  : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 100),
               SizedBox(
                 width: 20,
               ),
@@ -358,6 +375,111 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
                       ],
                     ),
                   ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      GestureDetector(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          child: Icon(
+            Icons.clear,
+            size: 20,
+            color: ColorRes.charcoal.withOpacity(0.5),
+          ),
+        ),
+        onTap: removeButton,
+      )
+    ],
+  );
+}
+
+Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallback addToCard) {
+  return Stack(
+    alignment: Alignment.topRight,
+    children: [
+      Card(
+        elevation: 3,
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              cartItem.productImage!=null && cartItem.productImage.isNotEmpty
+                  ? Image.network(cartItem.productImage,fit: BoxFit.cover,height: 100,)
+                  : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 100),
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cartItem.productName,
+                    style: new TextStyle(
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Product Code: ${cartItem.itemdetId}',
+                    style: new TextStyle(
+                        color: ColorRes.gray57,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 11),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        cartItem.discountedPrice == 0 ? '₹ ${cartItem.price}' : "${int.parse(cartItem.price)-cartItem.discountedPrice}",
+                        style: new TextStyle(
+                          fontSize: 16,
+                          color: ColorRes.redColor,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      cartItem.discountedPrice == 0 ? Container() : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '₹ ${cartItem.price}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: ColorRes.charcoal,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w200,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  InkWell(
+                    onTap: addToCard,
+                    child: Container(
+                      color: ColorRes.redColor,
+                      padding: EdgeInsets.all(5),
+                      child: Text(
+                        "Add to cart",
+                        style: TextStyle(
+                            color: ColorRes.whiteColor,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12
+                        ),
+                      ),),
+                  )
                 ],
               ),
             ],

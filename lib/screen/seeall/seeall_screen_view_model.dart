@@ -113,6 +113,18 @@ class SeeAllScreenViewModel{
     }
   }
 
+  addToWish(String id) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : id,
+      "qnty" : "1"
+    };
+
+    await RestApi.addToWishListApi(body);
+    hideLoader();
+  }
+
   getCartData() async {
 
     Map<String, dynamic> body = {
