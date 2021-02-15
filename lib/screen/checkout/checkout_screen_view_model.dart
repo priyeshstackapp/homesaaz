@@ -89,15 +89,13 @@ class CheckoutScreenViewModel {
       "device" : Platform.isAndroid ? "android" : "ios"
     };
 
-    print(jsonEncode(body));
-
     RestApi.placeOrder(body).then((responseData) {
       hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if (responseData != null) {
-        gotoConfirmationScreen(state.context);
+        gotoConfirmationScreen(state.context,jsonData['order_no'],jsonData['order_id'].toString(),);
         Injector.updateCartData(CartModel());
       } else {
         //Utils.showToast("Something went wrong");

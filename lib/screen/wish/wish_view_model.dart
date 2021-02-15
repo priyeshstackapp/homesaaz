@@ -46,11 +46,11 @@ class WishViewModel {
     }).whenComplete(() {});
   }
 
-  removeFromCart(WishProduct product) async {
+  removeFromCart(String id) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
-      "item_id" : product.itemdetId.toString(),
+      "item_id" : id,
     };
 
     RestApi.removeWishApi(body).then((responseData) {
@@ -69,12 +69,12 @@ class WishViewModel {
     }).whenComplete(() {});
   }
 
-  addToCart(String id) async {
+  addToCart(String id,int count) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : id,
-      "qnty" : "1"
+      "qnty" : "$count"
     };
 
     var responseData = await RestApi.addToCartApi(body);
@@ -85,6 +85,7 @@ class WishViewModel {
       Utils.showToast(jsonData['error']);
     } else if (responseData != null) {
       Utils.showToast("Added to cart");
+      await removeFromCart(id);
       getCartData();
     } else {
       //Utils.showToast("Something went wrong");

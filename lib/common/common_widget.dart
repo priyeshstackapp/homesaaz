@@ -166,7 +166,8 @@ class CustomTextFieldShadow extends StatelessWidget {
   }
 }
 
-Widget productView(String imageUrl, String productName, int discount, String price,Function addToCart,bool stockOut,VoidCallback addToWish) {
+Widget productView(String imageUrl, String productName, int discount,
+    String price, Function addToCart, bool stockOut, VoidCallback addToWish,VoidCallback increment,VoidCallback decrement,int count) {
   return Stack(
     children: [
       Column(
@@ -175,8 +176,8 @@ Widget productView(String imageUrl, String productName, int discount, String pri
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(12)),
             child: imageUrl!=null && imageUrl.isNotEmpty
-                ? Image.network(imageUrl,fit: BoxFit.cover,height: 160,)
-                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 160),
+                ? Image.network(imageUrl,fit: BoxFit.cover,height: 140,)
+                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 140),
           ),
           SizedBox(
             height: 5,
@@ -227,7 +228,49 @@ Widget productView(String imageUrl, String productName, int discount, String pri
                         ),
                       ],
                     ),
-                    !stockOut ? InkWell(
+                  ],
+                ),
+                SizedBox(height: 7,),
+             !stockOut ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      color: ColorRes.creamColor,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:5,vertical: 2),
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 20,
+                                  color: ColorRes.charcoal,
+                                ),
+                              ),
+                              onTap: decrement),
+                          Text(
+                            '$count',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:5,vertical: 2),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20,
+                                  color: ColorRes.charcoal,
+                                ),
+                              ),
+                              onTap: increment),
+                        ],
+                      ),
+                    ),
+                    InkWell(
                       onTap: () async {
                         addToCart.call();
                       },
@@ -237,16 +280,15 @@ Widget productView(String imageUrl, String productName, int discount, String pri
                         child: Text(
                           "Add to cart",
                           style: TextStyle(
-                            color: ColorRes.whiteColor,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12
+                              color: ColorRes.whiteColor,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12
                           ),
                         ),),
-                    ) : Container()
+                    )
                   ],
-                ),
-
+                ) : Container()
               ],
             ),
           ),
@@ -288,94 +330,96 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
               SizedBox(
                 width: 20,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cartItem.itemname,
-                    style: new TextStyle(
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Product Code: ${cartItem.itemid}',
-                    style: new TextStyle(
-                        color: ColorRes.gray57,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 11),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        cartItem.itemNewPrice == 0 ? '₹ ${cartItem.itemSubtotal}' : "${int.parse(cartItem.itemprice)-cartItem.itemNewPrice}",
-                        style: new TextStyle(
-                          fontSize: 16,
-                          color: ColorRes.redColor,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      cartItem.itemname,
+                      style: new TextStyle(
+                          color: ColorRes.charcoal,
                           fontFamily: 'NeueFrutigerWorld',
                           fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      cartItem.itemNewPrice == 0 ? Container() : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '₹ ${cartItem.itemSubtotal}',
-                          style: TextStyle(
+                          fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Product Code: ${cartItem.itemid}',
+                      style: new TextStyle(
+                          color: ColorRes.gray57,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 11),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          cartItem.itemNewPrice == 0 ? '₹ ${cartItem.itemSubtotal}' : "${int.parse(cartItem.itemprice)-cartItem.itemNewPrice}",
+                          style: new TextStyle(
                             fontSize: 16,
-                            color: ColorRes.charcoal,
+                            color: ColorRes.redColor,
                             fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w200,
-                            decoration: TextDecoration.lineThrough,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    color: ColorRes.creamColor,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                                color: ColorRes.charcoal,
-                              ),
-                            ),
-                            onTap: decrement),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                        cartItem.itemNewPrice == 0 ? Container() : Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            '${cartItem.itemqty}',
+                            '₹ ${cartItem.itemSubtotal}',
                             style: TextStyle(
                               fontSize: 16,
                               color: ColorRes.charcoal,
                               fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w200,
+                              decoration: TextDecoration.lineThrough,
                             ),
                           ),
                         ),
-                        GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: ColorRes.charcoal,
-                              ),
-                            ),
-                            onTap: increment),
                       ],
                     ),
-                  ),
-                ],
+                    Container(
+                      color: ColorRes.creamColor,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 20,
+                                  color: ColorRes.charcoal,
+                                ),
+                              ),
+                              onTap: decrement),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              '${cartItem.itemqty}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: ColorRes.charcoal,
+                                fontFamily: 'NeueFrutigerWorld',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20,
+                                  color: ColorRes.charcoal,
+                                ),
+                              ),
+                              onTap: increment),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -396,7 +440,7 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
   );
 }
 
-Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallback addToCard) {
+Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallback addToCard,VoidCallback increment,VoidCallback decrement,) {
   return Stack(
     alignment: Alignment.topRight,
     children: [
@@ -414,73 +458,120 @@ Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallba
               SizedBox(
                 width: 20,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cartItem.productName,
-                    style: new TextStyle(
-                        color: ColorRes.charcoal,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Product Code: ${cartItem.itemdetId}',
-                    style: new TextStyle(
-                        color: ColorRes.gray57,
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 11),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        cartItem.discountedPrice == 0 ? '₹ ${cartItem.price}' : "${int.parse(cartItem.price)-cartItem.discountedPrice}",
-                        style: new TextStyle(
-                          fontSize: 16,
-                          color: ColorRes.redColor,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      cartItem.productName,
+                      style: new TextStyle(
+                          color: ColorRes.charcoal,
                           fontFamily: 'NeueFrutigerWorld',
                           fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      cartItem.discountedPrice == 0 ? Container() : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '₹ ${cartItem.price}',
-                          style: TextStyle(
+                          fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Product Code: ${cartItem.itemdetId}',
+                      style: new TextStyle(
+                          color: ColorRes.gray57,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 11),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          cartItem.discountedPrice == 0 ? '₹ ${cartItem.price}' : "${int.parse(cartItem.price)-cartItem.discountedPrice}",
+                          style: new TextStyle(
                             fontSize: 16,
-                            color: ColorRes.charcoal,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w200,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  InkWell(
-                    onTap: addToCard,
-                    child: Container(
-                      color: ColorRes.redColor,
-                      padding: EdgeInsets.all(5),
-                      child: Text(
-                        "Add to cart",
-                        style: TextStyle(
-                            color: ColorRes.whiteColor,
+                            color: ColorRes.redColor,
                             fontFamily: 'NeueFrutigerWorld',
                             fontWeight: FontWeight.w400,
-                            fontSize: 12
+                          ),
                         ),
-                      ),),
-                  )
-                ],
+                        cartItem.discountedPrice == 0 ? Container() : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '₹ ${cartItem.price}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w200,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      color: ColorRes.creamColor,
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 20,
+                                  color: ColorRes.charcoal,
+                                ),
+                              ),
+                              onTap: decrement),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              '${cartItem.count}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: ColorRes.charcoal,
+                                fontFamily: 'NeueFrutigerWorld',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20,
+                                  color: ColorRes.charcoal,
+                                ),
+                              ),
+                              onTap: increment),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    InkWell(
+                      onTap: addToCard,
+                      child: Container(
+                        color: ColorRes.redColor,
+                        padding: EdgeInsets.all(5),
+                        child: Text(
+                          "Add to cart",
+                          style: TextStyle(
+                              color: ColorRes.whiteColor,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12
+                          ),
+                        ),),
+                    ),
+
+                  ],
+                ),
               ),
             ],
           ),

@@ -105,9 +105,9 @@ gotoCreateAddressScreen(context,bool edit,AddressData addressData) async {
       context, MaterialPageRoute(builder: (context) => CreateAddressScreen(edit,addressData)));
   return res;
 }
-gotoConfirmationScreen(context) {
+gotoConfirmationScreen(context, String orderId, String id) {
   Navigator.pushAndRemoveUntil(context,
-      App.createRoute(page: ConfirmationScreen()),
+      App.createRoute(page: ConfirmationScreen(orderId,id)),
           (Route<dynamic> route) => false);
 }
 

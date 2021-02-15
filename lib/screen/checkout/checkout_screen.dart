@@ -33,8 +33,41 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
       appBar: commonAppbar(context),
-      body: Stack(alignment: Alignment.bottomCenter, children: [
-        Column(
+      bottomNavigationBar: model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
+      InkWell(
+        onTap: () {
+          if(select==null){
+            Utils.showToast('Please select payment method');
+          }else{
+            if(select=='Paytm Wallet'){
+              model.generateTxnToken(0);
+            }else{
+              model.placeOrder();
+            }
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          height: height * 0.07,
+          width: width * 0.92,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: ColorRes.red,
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Text(
+            'Buy',
+            style: new TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontFamily: 'NeueFrutigerWorld',
+                fontWeight: FontWeight.w500),
+          ),
+        ),
+      ) :
+      Container(),
+      body: SingleChildScrollView(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
@@ -45,129 +78,93 @@ class CheckoutScreenState extends State<CheckoutScreen> {
             SizedBox(height: 10),
             model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
             Container(
-              height: height * 0.69,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    //list of Checkout Product
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: model.cartModel.products.length,
-                      itemBuilder: (context, index) {
-                        CartProduct cartItem = model.cartModel.products[index];
-                        return cartProductView(cartItem,(){
-                          model.removeFromCart(cartItem);
-                        },() async {
-                          await model.updateQuantity(cartItem, 'plus');
+              // height: height * 0.69,
+              child: Column(
+                children: [
+                  //list of Checkout Product
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: model.cartModel.products.length,
+                    itemBuilder: (context, index) {
+                      CartProduct cartItem = model.cartModel.products[index];
+                      return cartProductView(cartItem,(){
+                        model.removeFromCart(cartItem);
+                      },() async {
+                        await model.updateQuantity(cartItem, 'plus');
+                        setState(() {
+                          int quant = int.parse(cartItem.itemqty);
+                          quant ++ ;
+                          cartItem.itemqty = quant.toString();
+                          model.cartModel.products[index] = cartItem;
+                        });
+                      },() async {
+                        if (int.parse(cartItem.itemqty) != 1) {
+                          await model.updateQuantity(cartItem, 'minus');
                           setState(() {
                             int quant = int.parse(cartItem.itemqty);
-                            quant ++ ;
+                            quant -- ;
                             cartItem.itemqty = quant.toString();
                             model.cartModel.products[index] = cartItem;
                           });
-                        },() async {
-                          if (int.parse(cartItem.itemqty) != 1) {
-                            await model.updateQuantity(cartItem, 'minus');
-                            setState(() {
-                              int quant = int.parse(cartItem.itemqty);
-                              quant -- ;
-                              cartItem.itemqty = quant.toString();
-                              model.cartModel.products[index] = cartItem;
-                            });
-                          }
-                        });
-                      },
+                        }
+                      });
+                    },
+                  ),
+                  //Address Show
+                  addressData(),
+
+                  //payment card Details
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5, bottom: 10, left: 20, right: 20),
+                    child: Divider(
+                        height: 1, color: ColorRes.gray57.withOpacity(0.5)),
+                  ),
+                  paymentCard(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5, bottom: 10, left: 20, right: 20),
+                    child: Divider(height: 1, color: ColorRes.gray57),
+                  ),
+
+                  //Total Payment
+                  totalPayment(),
+
+                  SizedBox(height: 20),
+
+                  Text(
+                    'Payment method',
+                    style: TextStyle(
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontSize: 22,
+                      color: ColorRes.redColor,
+                      fontWeight: FontWeight.bold
                     ),
-                    //Address Show
-                    addressData(),
+                  ),
 
-                    //payment card Details
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 5, bottom: 10, left: 20, right: 20),
-                      child: Divider(
-                          height: 1, color: ColorRes.gray57.withOpacity(0.5)),
-                    ),
-                    paymentCard(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 5, bottom: 10, left: 20, right: 20),
-                      child: Divider(height: 1, color: ColorRes.gray57),
-                    ),
+                  SizedBox(height: 10),
 
-                    //Total Payment
-                    totalPayment(),
+                  Column(
+                    children: [
+                      addRadioButton(0, 'Paytm Wallet'),
+                      addRadioButton(1, 'Cash on delivery'),
+                    ],
+                  ),
 
-                    SizedBox(height: 20),
-
-                    Text(
-                      'Payment method',
-                      style: TextStyle(
-                        fontFamily: 'NeueFrutigerWorld',
-                        fontSize: 22,
-                        color: ColorRes.redColor,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-
-                    Column(
-                      children: [
-                        addRadioButton(0, 'Paytm Wallet'),
-                        addRadioButton(1, 'Paytm UPI'),
-                        addRadioButton(2, 'Cash on delivery'),
-                      ],
-                    )
-
-                  ],
-                ),
+                  SizedBox(height: 10),
+                ],
               ),
             ) :
             Container(),
           ],
         ),
-        //Buy Button
-        model.cartModel!=null && model.cartModel.products!=null && model.cartModel.products.isNotEmpty?
-        InkWell(
-          onTap: () {
-            if(select==null){
-              Utils.showToast('Please select payment method');
-            }else{
-              if(select=='Paytm Wallet'){
-                model.generateTxnToken(0);
-              }else if(select=='Paytm UPI'){
-                model.generateTxnToken(2);
-              }else{
-                model.placeOrder();
-              }
-            }
-          },
-          child: Container(
-            alignment: Alignment.center,
-            height: height * 0.07,
-            width: width * 0.92,
-            margin: EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              color: ColorRes.red,
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Text(
-              'Buy',
-              style: new TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontFamily: 'NeueFrutigerWorld',
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-        ) :
-        Container(),
-      ]),
+      ),
     );
   }
 
-  List paymentOptions=["Paytm Wallet","Paytm UPI","Cash on delivery"];
+  List paymentOptions=["Paytm Wallet","Cash on delivery"];
 
   String select;
 
@@ -193,55 +190,55 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   //Address
   Widget addressData() {
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
+      padding: EdgeInsets.all(15),
       color: ColorRes.whiteColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            flex: 8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                widget.addressData == null
-                    ? Container()
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.addressData.addressTitle,
-                            style: new TextStyle(
-                              fontSize: 18,
-                              color: ColorRes.charcoal,
-                              fontFamily: 'NeueFrutigerWorld',
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal:10,vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex: 8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.addressData.addressTitle,
+                              style: new TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: ColorRes.charcoal,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                              maxLines: 5,
                             ),
-                            maxLines: 5,
-                          ),
-                          Text(
-                            widget.addressData.address,
-                            style: new TextStyle(
-                              fontSize: 18,
-                              color: ColorRes.charcoal,
-                              fontFamily: 'NeueFrutigerWorld',
+                            Text(
+                              widget.addressData.address,
+                              style: new TextStyle(
+                                fontSize: 18,
+                                color: ColorRes.charcoal,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                              maxLines: 5,
                             ),
-                            maxLines: 5,
-                          ),
-                        ],
-                      )
-              ],
+                          ],
+                        )
+                ],
+              ),
             ),
-          ),
-          widget.addressData == null
-              ? Container()
-              : Flexible(
-                  flex: 2,
-                  child: CircleAvatar(
-                    radius: 5.0,
-                    backgroundColor: ColorRes.cornflowerBlue,
-                  ),
-                )
-        ],
+           Flexible(
+                    flex: 2,
+                    child: CircleAvatar(
+                      radius: 5.0,
+                      backgroundColor: ColorRes.cornflowerBlue,
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }
@@ -281,7 +278,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
             alignment: Alignment.topRight,
             padding: EdgeInsets.only(right: 20),
             child: Text(
-              "₹ "+rightText,
+              leftText =="Discount" ? "- ₹ $rightText" : leftText =="Shipping" ? "+ ₹ $rightText" : "₹ $rightText",
               style: new TextStyle(
                   fontSize: 17,
                   color: ColorRes.charcoal,

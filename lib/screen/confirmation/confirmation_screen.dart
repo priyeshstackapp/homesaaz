@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homesaaz/common/colorres.dart';
@@ -7,6 +8,11 @@ import '../../app.dart';
 import 'confirmation_screen_view_model.dart';
 
 class ConfirmationScreen extends StatefulWidget {
+
+  String orderId;
+  String id;
+  ConfirmationScreen(this.orderId, this.id);
+
   @override
   ConfirmationScreenState createState() => ConfirmationScreenState();
 }
@@ -83,6 +89,36 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
                       fontFamily: 'NeueFrutigerWorld',
                       fontWeight: FontWeight.w400),
                 ),
+                SizedBox(height: 20),
+                RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(children: [
+                  TextSpan(
+                    text: "Your order id is ",
+                    style: new TextStyle(
+                        fontSize: 14,
+                        height: 1.5,
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400),
+                  ),
+                  TextSpan(
+                      text: "${widget.orderId}",
+                    style: TextStyle(color: ColorRes.red,fontSize: 18,fontWeight: FontWeight.bold,decoration: TextDecoration.underline),
+                    recognizer: TapGestureRecognizer()..onTap = (){
+                        gotoMyOrderDetailScreen(context, widget.id);
+                    }
+                  ),
+                  TextSpan(
+                    text: "\nClick here to track order",
+                    style: new TextStyle(
+                        fontSize: 14,
+                        height: 1.5,
+                        color: ColorRes.charcoal,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w400),
+                  ),
+                ])),
               ],
             ),
             //Spacer(),

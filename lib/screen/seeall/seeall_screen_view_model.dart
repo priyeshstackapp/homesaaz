@@ -31,7 +31,9 @@ class SeeAllScreenViewModel{
       showLoader(state.context);
     });
 
-    Map<String,dynamic> body = state.widget.id==null ? null : {
+    Map<String,dynamic> body = id =="" ? {
+      "cat_id" : state.widget.id
+    } : {
       "cat_id" : state.widget.id,
       "subcat_id":id
     };
@@ -86,12 +88,12 @@ class SeeAllScreenViewModel{
   }
 
 
-  addToCart(String id) async {
+  addToCart(String id, int count) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : id,
-      "qnty" : "1"
+      "qnty" : "$count"
     };
 
     try{
@@ -117,8 +119,7 @@ class SeeAllScreenViewModel{
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
-      "item_id" : id,
-      "qnty" : "1"
+      "item_id" : id
     };
 
     await RestApi.addToWishListApi(body);

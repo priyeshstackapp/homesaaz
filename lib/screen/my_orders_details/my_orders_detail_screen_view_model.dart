@@ -38,7 +38,6 @@ class MyOrdersDetailScreenViewModel {
     } else if (responseData != null &&  jsonData['status'] == "success") {
       print("Response Successfully");
       orderDetailsModel = orderDetailsModelFromJson(responseData.body);
-      print(orderDetailsModel.toJson());
       state.setState(() {});
     } else {
       Utils.showToast("Something went wrong");

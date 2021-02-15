@@ -25,8 +25,6 @@ class SeeAllScreenState extends State<SeeAllScreen> {
 
   SeeAllScreenViewModel model;
 
-  bool isFiltering = false;
-
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
@@ -41,64 +39,49 @@ class SeeAllScreenState extends State<SeeAllScreen> {
           children: [
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(fontSize: 30, color: ColorRes.textColor),
-                  ),
-                  widget.cat
-                      ? InkWell(
-                          child: Icon(
-                            Icons.filter_list_alt,
-                            color: ColorRes.redColor,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              isFiltering = !isFiltering;
-                            });
-                          },
-                        )
-                      : Container()
-                ],
+              child: Text(
+                widget.title,
+                style: TextStyle(fontSize: 30, color: ColorRes.textColor),
               ),
             ),
             SizedBox(height: 20),
-            isFiltering ? Padding(
+            widget.cat ? Padding(
               padding: const EdgeInsets.symmetric(horizontal:20),
               child: Container(
-                height: 200,
-                child: GridView.builder(
+                height: 100,
+                child: ListView.builder(
                           itemCount: model.subCatModel==null ? 0 : model.subCatModel.categories.length,
                           shrinkWrap: true,
-                          // physics: NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              mainAxisSpacing: 15,
-                              childAspectRatio: 2.4),
+                          scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => InkWell(
                             onTap: (){
-                              setState(() {
-                                isFiltering=false;
-                              });
                               model.newProductData(id: model.subCatModel.categories[index].subcatId);
                             },
                             child: Card(
                               elevation: 3,
-                              child: Center(child: Text(model.subCatModel.categories[index].subcategoryName,style: TextStyle(color: ColorRes.redColor),)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                child: Column(
+                                  children: [
+                                    model.subCatModel.categories[index].subcategoryImage.isNotEmpty ? Image.network(model.subCatModel.categories[index].subcategoryImage,height: 60,width: 100,) : Image.asset(App.defaultImage,height: 60,width: 100,fit: BoxFit.cover,),
+                                    SizedBox(height: 10,),
+                                    Text(model.subCatModel.categories[index].subcategoryName,style: TextStyle(color: ColorRes.redColor),),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
               ),
-            )
-                : Container(),
-            GridView.builder(
+            ) : Container(),
+            widget.cat ? SizedBox(height: 20) : Container() ,
+            model.productListModel!=null && model.productListModel.productList!=null&& model.productListModel.productList.isNotEmpty
+                ? GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,mainAxisSpacing: 15,childAspectRatio: 0.8),
+                  crossAxisCount: 2,mainAxisSpacing: 15,childAspectRatio: 0.7),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: model.productListModel!=null && model.productListModel.productList!=null ? model.productListModel.productList.length : 0,
+              itemCount: model.productListModel.productList.length,
               itemBuilder: (context, index) {
                 ProductList product = model.productListModel.productList[index];
 
@@ -119,7 +102,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                         if (product.itemdetId == null) {
                           Utils.showToast("Item id is null");
                         } else {
-                          model.addToCart(product.itemdetId);
+                          model.addToCart(product.itemdetId,product.count);
                         }
                       },
                           false,
@@ -129,13 +112,26 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                                 } else {
                                   model.addToWish(product.itemdetId);
                                 }
-                          }
+                          },() async {
+                        setState(() {
+                          product.count ++;
+                        });
+                      }, () async {
+                        if (product.count != 1) {
+                          setState(() {
+                            product.count --;
+                          });
+                        }
+                      },product.count
                       ),
                     ),
                   ),
                 );
               },
             )
+                : Align(
+                alignment: Alignment.center,
+                child: Text("No Product found!"))
           ],
         ),
       ),

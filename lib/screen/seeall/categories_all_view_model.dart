@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/util.dart';
-import 'package:homesaaz/model/dashboard_model.dart';
+import 'package:homesaaz/model/all_categories_model.dart';
 import 'package:homesaaz/screen/seeall/categories_all.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
 class CategoriesAllViewModel{
   CategoriesAllState state;
-  List<Category> categories;
+  AllCategoriesModel categories;
 
   CategoriesAllViewModel(this.state){
     categoryApi();
@@ -19,14 +19,14 @@ class CategoriesAllViewModel{
       showLoader(state.context);
     });
 
-    RestApi.dahsBoardApi().then((responseData) {
+    RestApi.allCategories().then((responseData) {
       hideLoader();
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
         print(responseData);
-        categories = categoriesFromJson(responseData.body);
+        categories = allCategoriesModelFromJson(responseData.body);
         state.setState(() {
 
         });

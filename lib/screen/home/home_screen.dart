@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -293,7 +295,27 @@ class HomeScreenState extends State<HomeScreen> {
 
               //Top Banner --  imageApp.banner_top
               model.dashBoardModel != null && model.dashBoardModel.banners.length != 0
-                  ? Image.network(model.dashBoardModel.banners[0].imageUrl,fit: BoxFit.cover, width: MediaQuery.of(context).size.width)
+                  ? CarouselSlider.builder(
+                itemCount: model.dashBoardModel.banners.length,
+                // carouselController: carouselController,
+                itemBuilder: (BuildContext context, int itemIndex) {
+                  return Container(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: CachedNetworkImage(
+                        imageUrl: model.dashBoardModel.banners[itemIndex].imageUrl,
+                        placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                        errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                      ),
+                    ),
+                  );
+                },
+                options: CarouselOptions(
+                  autoPlay: true,
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: false,
+                ),
+              )
                   : Container(),
 
               SizedBox(height: 14),
@@ -411,10 +433,13 @@ class HomeScreenState extends State<HomeScreen> {
                       },
                       child: Stack(
                         children: [
-                          Image.network(
-                            model.dashBoardModel.categories[index].categoryImage,
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              model.dashBoardModel.categories[index].categoryImage,
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                            ),
                           ),
                           Container(
                             decoration: BoxDecoration(
@@ -502,7 +527,7 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: 240,
+          height: 260,
           child: ListView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.newProducts.length != 0
@@ -530,12 +555,28 @@ class HomeScreenState extends State<HomeScreen> {
                                   model.dashBoardModel.newProducts[index].productName,
                                   model.dashBoardModel.newProducts[index].discountedPrice,
                                   model.dashBoardModel.newProducts[index].price,() async {
-                                  model.addToCart(model.dashBoardModel.newProducts[index].itemdetId);
+                                 await  model.addToCart(model.dashBoardModel.newProducts[index].itemdetId,model.dashBoardModel.newProducts[index].count);
+                                 model.dashBoardModel.newProducts[index].count = 1;
+                                 setState(() {
+
+                                 });
                                 },
                                     model.dashBoardModel.newProducts[index].stockStatus=="outofstock",
                                     (){
                                     model.addToWish(model.dashBoardModel.newProducts[index].itemdetId);
-                                    }
+                                    },() async {
+                                  print("increment ${model.dashBoardModel.newProducts[index].count}");
+                                  setState(() {
+                                    model.dashBoardModel.newProducts[index].count ++;
+                                  });
+                                    print("increment ${model.dashBoardModel.newProducts[index].count}");
+                                }, () async {
+                                  if (model.dashBoardModel.newProducts[index].count != 1) {
+                                    setState(() {
+                                      model.dashBoardModel.newProducts[index].count --;
+                                    });
+                                  }
+                                },model.dashBoardModel.newProducts[index].count
                                 ),
                               ),
                             ),
@@ -606,7 +647,7 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: 220,
+          height: 260,
           child: GridView.builder(
               itemCount: model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
                   ? model.dashBoardModel.trendingProducts.length : 0,
@@ -633,12 +674,26 @@ class HomeScreenState extends State<HomeScreen> {
                                   model.dashBoardModel.trendingProducts[index].discountedPrice,
                                   model.dashBoardModel.trendingProducts[index].price,
                                         () async {
-                                      model.addToCart(model.dashBoardModel.trendingProducts[index].itemdetId);
+                                      await model.addToCart(model.dashBoardModel.trendingProducts[index].itemdetId,model.dashBoardModel.trendingProducts[index].count);
+                                      model.dashBoardModel.trendingProducts[index].count = 1;
+                                      setState(() {
+
+                                      });
                                     },
                                   model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock",
                                         (){
                                       model.addToWish(model.dashBoardModel.trendingProducts[index].itemdetId);
-                                    }
+                                    },() async {
+                                  setState(() {
+                                    model.dashBoardModel.trendingProducts[index].count ++;
+                                  });
+                                }, () async {
+                                  if (model.dashBoardModel.trendingProducts[index].count != 1) {
+                                    setState(() {
+                                      model.dashBoardModel.trendingProducts[index].count --;
+                                    });
+                                  }
+                                },model.dashBoardModel.trendingProducts[index].count
                                 ),
                               ),
                             ),
@@ -710,7 +765,7 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: 220,
+          height: 260,
           child: GridView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.featuredProducts.length != 0
@@ -740,12 +795,26 @@ class HomeScreenState extends State<HomeScreen> {
                                   model.dashBoardModel.featuredProducts[index].discountedPrice,
                                   model.dashBoardModel.featuredProducts[index].price,
                                         () async {
-                                      model.addToCart(model.dashBoardModel.featuredProducts[index].itemdetId);
+                                      await model.addToCart(model.dashBoardModel.featuredProducts[index].itemdetId,model.dashBoardModel.featuredProducts[index].count);
+                                      model.dashBoardModel.featuredProducts[index].count = 1;
+                                      setState(() {
+
+                                      });
                                     },
                                     model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock",
                                         (){
                                       model.addToWish(model.dashBoardModel.featuredProducts[index].itemdetId);
-                                    }
+                                    },() async {
+                                  setState(() {
+                                    model.dashBoardModel.featuredProducts[index].count ++;
+                                  });
+                                }, () async {
+                                  if (model.dashBoardModel.featuredProducts[index].count != 1) {
+                                    setState(() {
+                                      model.dashBoardModel.featuredProducts[index].count --;
+                                    });
+                                  }
+                                },model.dashBoardModel.featuredProducts[index].count
                                 ),
                               ),
                             ),

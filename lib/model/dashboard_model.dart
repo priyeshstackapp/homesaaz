@@ -102,6 +102,7 @@ class Product {
   String productImage;
   String price;
   int discountedPrice;
+  int count = 1;
   DiscountAvailable discountAvailable;
   String stockStatus;
 

@@ -60,12 +60,12 @@ class HomeScreenViewModel {
     hideLoader();
   }
 
-  addToCart(String id) async {
+  addToCart(String id, int count) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : id,
-      "qnty" : "1"
+      "qnty" : "$count"
     };
 
     var responseData = await RestApi.addToCartApi(body);
@@ -87,7 +87,6 @@ class HomeScreenViewModel {
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : id,
-      "qnty" : "1"
     };
 
     await RestApi.addToWishListApi(body);

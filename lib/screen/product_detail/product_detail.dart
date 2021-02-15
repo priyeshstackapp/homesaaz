@@ -209,15 +209,17 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                             child: Padding(
                                               padding: const EdgeInsets.all(5),
                                               child: Icon(
-                                                Icons.add,
+                                                Icons.remove,
                                                 size: 20,
                                                 color: ColorRes.charcoal,
                                               ),
                                             ),
                                             onTap: () {
-                                              setState(() {
-                                                quantity++;
-                                              });
+                                              if (quantity != 1) {
+                                                setState(() {
+                                                  quantity--;
+                                                });
+                                              }
                                             }),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -235,17 +237,15 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                             child: Padding(
                                               padding: const EdgeInsets.all(5),
                                               child: Icon(
-                                                Icons.remove,
+                                                Icons.add,
                                                 size: 20,
                                                 color: ColorRes.charcoal,
                                               ),
                                             ),
                                             onTap: () {
-                                              if (quantity != 1) {
-                                                setState(() {
-                                                  quantity--;
-                                                });
-                                              }
+                                              setState(() {
+                                                quantity++;
+                                              });
                                             }),
                                       ],
                                     ),

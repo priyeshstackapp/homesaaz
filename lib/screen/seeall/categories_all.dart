@@ -42,8 +42,8 @@ class CategoriesAllState extends State<CategoriesAll> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: model.categories != null &&
-                    model.categories.length != 0
-                    ? model.categories.length : 0,
+                    model.categories.categories.isNotEmpty
+                    ? model.categories.categories.length : 0,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 13.0,
@@ -57,12 +57,12 @@ class CategoriesAllState extends State<CategoriesAll> {
                     onTap: () {
                       gotoSeeAllScreen(
                           context,
-                          model.categories[index].categoryName,model.categories[index].categoryId);
+                          model.categories.categories[index].categoryName,model.categories.categories[index].catId,cat: true);
                     },
                     child: Stack(
                       children: [
                         Image.network(
-                          model.categories[index].categoryImage,
+                          model.categories.categories[index].categoryImage,
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
                         ),
@@ -81,7 +81,7 @@ class CategoriesAllState extends State<CategoriesAll> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              model.categories[index].categoryName,
+                              model.categories.categories[index].categoryName,
                               // model.categoriesName[index],
                               style: new TextStyle(
                                   fontSize: 12,

@@ -39,6 +39,7 @@ class WishProduct {
   String productImage;
   String price;
   int discountedPrice;
+  int count = 1;
   String discountAvailable;
 
   factory WishProduct.fromJson(Map<String, dynamic> json) => WishProduct(

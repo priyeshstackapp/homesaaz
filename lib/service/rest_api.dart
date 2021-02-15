@@ -84,6 +84,28 @@ class RestApi{
     }
   }
 
+  //All categories Api
+  static Future<http.Response> allCategories() async {
+    final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String url = baseUrl + "products/all_category";
+    print(url);
+    try {
+      http.Response response = await http.get(url, headers: {'Authorization': auth});
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if(response.statusCode == 401) {
+        Utils.showToast("Unauthorized user");
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      Utils.showToast(e);
+      return null;
+    }
+  }
+
   //Dashboard Api
   static Future<http.Response> productListApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));

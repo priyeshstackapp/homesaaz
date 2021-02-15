@@ -46,6 +46,7 @@ class AddressScreenState extends State<AddressScreen> {
         key: _formKey,
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
+        bottomNavigationBar: widget.cartModel!=null ? addAddressAndContinueButton() : Container(),
         body: SafeArea(
           child: Stack(
             alignment: Alignment.bottomCenter,
@@ -53,33 +54,30 @@ class AddressScreenState extends State<AddressScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 19),
                 child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10),
-                        commonTitle('Address'),
-                        SizedBox(height: 20),
+                  height: MediaQuery.of(context).size.height -150,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
+                      commonTitle('Address'),
+                      SizedBox(height: 20),
 
-                        //Show List of Address
-                        model.addressModel != null ? Container(
-                          height: height * 0.57,
-                          child: ListView.builder(
-                            itemCount: model.addressModel.data.length == null ? null :model.addressModel.data.length,
-                            //itemCount: listOfAddress.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return addressData(index);
-                            },
-                          ),
-                        ) : Container(),
-                      ],
-                    ),
+                      //Show List of Address
+                      model.addressModel != null ? Expanded(
+                        child: ListView.builder(
+                          itemCount: model.addressModel.data.length == null ? null :model.addressModel.data.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return addressData(index);
+                          },
+                        ),
+                      ) : Container(),
+                    ],
                   ),
                 ),
               ),
-              widget.cartModel!=null ? addAddressAndContinueButton() : Container(),
+
             ],
           ),
         ),
@@ -89,122 +87,104 @@ class AddressScreenState extends State<AddressScreen> {
 
   //List of Address
   Widget addressData(int index) {
-    return InkResponse(
+    return InkWell(
       onTap: () {
         isSelectedIndex = index;
         setState(() {});
       },
-      child: Container(
-        padding: EdgeInsets.only(right: 10, bottom: 20),
-        color: ColorRes.whiteColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            isSelectedIndex == index
-                ? Icon(
-              Icons.radio_button_on_outlined,
-              color: ColorRes.redColor,
-              size: 20,
-            )
-                : Icon(Icons.radio_button_off,
-                color: ColorRes.dimGray, size: 20),
-            SizedBox(width: 20,),
-            Expanded(
-              flex: 9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        model.addressModel.data[index].addressTitle +',',
-                        style: new TextStyle(
-                          fontSize: 18,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                        ),
-                        maxLines: 10,
-                      ),
-                      Text(
-                        model.addressModel.data[index].address,
-                        style: new TextStyle(
-                          fontSize: 18,
-                          color: ColorRes.charcoal,
-                          fontFamily: 'NeueFrutigerWorld',
-                        ),
-                        maxLines: 10,
-                      ),
-                      /*  Text(
-                              //'Shewrapara, Mirpur, Delhi-1216  ' +
-                              listOfAddress[index]['address'] + ', ',
-                              // data[index]['city'],
-                              style: new TextStyle(
-                                fontSize: 18,
-                                color: ColorRes.charcoal,
-                                fontFamily: 'NeueFrutigerWorld',
-                              ),
-                              maxLines: 5,
-                            ),
-                            Text(
-                              listOfAddress[index]['city'] +
-                                  '-' +
-                                  listOfAddress[index]['postalCode'],
-                              // data[index]['city'],
-                              style: new TextStyle(
-                                fontSize: 18,
-                                color: ColorRes.charcoal,
-                                fontFamily: 'NeueFrutigerWorld',
-                              ),
-                              maxLines: 5,
-                            ),*/
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            model.addressModel.data[index] == null ? Container() : Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical:5),
+        child: Card(
+          child: Container(
+            padding: EdgeInsets.only(right: 10,left: 10, bottom: 10),
+            color: ColorRes.whiteColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () async {
-                    var res = await gotoCreateAddressScreen(context, true, model.addressModel.data[index]);
-                    if(res!=null){
-                      model.addressListApi();
-                    }
-                  },
-                  child: Image.asset(App.editIcon, color: ColorRes.redColor,height: 20,),
-                ),
-                SizedBox(height: 15,),
-                InkWell(
-                  onTap: (){
-                    showDialog(
-                      context: context,
-                      builder: (context) => new AlertDialog(
-                        title: new Text('Confirmation'),
-                        content: new Text('Do you want to delete this address?'),
-                        actions: <Widget>[
-                          new FlatButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: new Text('No'),
+                isSelectedIndex == index
+                    ? Icon(
+                  Icons.radio_button_on_outlined,
+                  color: ColorRes.redColor,
+                  size: 20,
+                )
+                    : Icon(Icons.radio_button_off,
+                    color: ColorRes.dimGray, size: 20),
+                SizedBox(width: 20,),
+                Expanded(
+                  flex: 9,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            model.addressModel.data[index].addressTitle +',',
+                            style: new TextStyle(
+                              fontSize: 18,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
+                            maxLines: 10,
                           ),
-                          new FlatButton(
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              await model.deleteAddressApiCall(model.addressModel.data[index].addressId);
-                            },
-                            child: new Text('Yes'),
+                          Text(
+                            model.addressModel.data[index].address,
+                            style: new TextStyle(
+                              fontSize: 18,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                            ),
+                            maxLines: 10,
                           ),
                         ],
                       ),
-                    );
-                  },
-                  child: Image.asset(App.deleteIcon,color: ColorRes.redColor,height: 20,),
-                )
+                    ],
+                  ),
+                ),
+                model.addressModel.data[index] == null ? Container() : Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        var res = await gotoCreateAddressScreen(context, true, model.addressModel.data[index]);
+                        if(res!=null){
+                          model.addressListApi();
+                        }
+                      },
+                      child: Image.asset(App.editIcon, color: ColorRes.redColor,height: 20,),
+                    ),
+                    SizedBox(height: 15,),
+                    InkWell(
+                      onTap: (){
+                        showDialog(
+                          context: context,
+                          builder: (context) => new AlertDialog(
+                            title: new Text('Confirmation'),
+                            content: new Text('Do you want to delete this address?'),
+                            actions: <Widget>[
+                              new FlatButton(
+                                onPressed: () => Navigator.of(context).pop(false),
+                                child: new Text('No'),
+                              ),
+                              new FlatButton(
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                  await model.deleteAddressApiCall(model.addressModel.data[index].addressId);
+                                },
+                                child: new Text('Yes'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Image.asset(App.deleteIcon,color: ColorRes.redColor,height: 20,),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -216,7 +196,7 @@ class AddressScreenState extends State<AddressScreen> {
     double width = media.width;
     double height = media.height;
     return Container(
-      height: height * 0.18,
+      height: 120,
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.end,
         //crossAxisAlignment: CrossAxisAlignment.end,

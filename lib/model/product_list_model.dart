@@ -35,6 +35,7 @@ class ProductList {
   String productImage;
   String price;
   int discountedPrice;
+  int count = 1;
   String discountAvailable;
 
   factory ProductList.fromJson(Map<String, dynamic> json) => ProductList(

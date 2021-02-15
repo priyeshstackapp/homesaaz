@@ -48,8 +48,17 @@ class WishScreenState extends State<WishScreen> {
               itemBuilder: (context, index) {
                 WishProduct cartItem = model.wishModel.data[index];
                 return wishProductView(cartItem,
-                        () => model.removeFromCart(cartItem),
-                        () => model.addToCart(model.wishModel.data[index].itemdetId)
+                        () => model.removeFromCart(cartItem.itemdetId),
+                        () => model.addToCart(model.wishModel.data[index].itemdetId,model.wishModel.data[index].count),
+                        () => setState(() {
+                          model.wishModel.data[index].count ++;
+                        }), () async {
+                      if (model.wishModel.data[index].count != 1) {
+                        setState(() {
+                          model.wishModel.data[index].count --;
+                        });
+                      }
+                    }
                 );
               },),
           ) : Align(
