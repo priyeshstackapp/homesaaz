@@ -46,7 +46,6 @@ class AddressScreenState extends State<AddressScreen> {
         key: _formKey,
         backgroundColor: ColorRes.primaryColor,
         appBar: commonAppbar(context),
-        bottomNavigationBar: widget.cartModel!=null ? addAddressAndContinueButton() : Container(),
         body: SafeArea(
           child: Stack(
             alignment: Alignment.bottomCenter,
@@ -77,7 +76,7 @@ class AddressScreenState extends State<AddressScreen> {
                   ),
                 ),
               ),
-
+              widget.cartModel!=null ? addAddressAndContinueButton() : Container(),
             ],
           ),
         ),
@@ -195,67 +194,63 @@ class AddressScreenState extends State<AddressScreen> {
     Size media = MediaQuery.of(context).size;
     double width = media.width;
     double height = media.height;
-    return Container(
-      height: 120,
-      child: Column(
-        //mainAxisAlignment: MainAxisAlignment.end,
-        //crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () async {
-             var res = await gotoCreateAddressScreen(context, false, null);
-             if(res!=null){
-               model.addressListApi();
-             }
-            },
-            child: DottedBorder(
-              color: ColorRes.red,
-              dashPattern: [4, 4],
-              strokeWidth: 1,
-              child: Container(
-                alignment: Alignment.center,
-                height: height * 0.07,
-                width: width * 0.9,
-                decoration: BoxDecoration(
-                  color: ColorRes.whiteColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Text(
-                  '+ Add Address',
-                  style: new TextStyle(
-                      fontSize: 20,
-                      color: ColorRes.textColor,
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              gotoCheckoutScreen(context, model.addressModel.data[isSelectedIndex],widget.cartModel);
-            },
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          onTap: () async {
+           var res = await gotoCreateAddressScreen(context, false, null);
+           if(res!=null){
+             model.addressListApi();
+           }
+          },
+          child: DottedBorder(
+            color: ColorRes.red,
+            dashPattern: [4, 4],
+            strokeWidth: 1,
             child: Container(
               alignment: Alignment.center,
               height: height * 0.07,
-              width: width * 0.92,
+              width: width * 0.9,
               decoration: BoxDecoration(
-                color: ColorRes.red,
+                color: ColorRes.whiteColor,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: Text(
-                'Continue To Payment',
+                '+ Add Address',
                 style: new TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: ColorRes.textColor,
                     fontFamily: 'NeueFrutigerWorld',
                     fontWeight: FontWeight.w500),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 10),
+        InkWell(
+          onTap: () {
+            gotoCheckoutScreen(context, model.addressModel.data[isSelectedIndex],widget.cartModel);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            height: height * 0.07,
+            width: width * 0.92,
+            decoration: BoxDecoration(
+              color: ColorRes.red,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Text(
+              'Continue To Payment',
+              style: new TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontFamily: 'NeueFrutigerWorld',
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

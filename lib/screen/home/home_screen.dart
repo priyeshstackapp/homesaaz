@@ -8,6 +8,8 @@ import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
+import 'package:homesaaz/common/util.dart';
+import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 import 'package:homesaaz/service/profile_bloc.dart';
 
@@ -63,7 +65,11 @@ class HomeScreenState extends State<HomeScreen> {
           actions: [
             InkWell(
               onTap: () {
-                gotoProfileScreen(context);
+                if(Utils.checkLogin()) {
+                  gotoProfileScreen(context);
+                }else{
+                  gotoLoginScreen(context);
+                }
               },
               child: Row(
                 children: [
@@ -80,7 +86,11 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                gotoCartScreen(context);
+                if(Utils.checkLogin()) {
+                  gotoCartScreen(context);
+                }else{
+                  gotoLoginScreen(context);
+                }
               },
               child: Stack(
                 alignment: Alignment.center,
@@ -321,27 +331,72 @@ class HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 14),
 
               categories(),
-              SizedBox(height: height * 0.05),
+              SizedBox(height: 50),
 
               //New Products
               newProduct(),
 
               //Center Banner
-              Image.asset(App.banner_center, fit: BoxFit.cover, width: MediaQuery.of(context).size.width),
+              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[0].displayStatus =="show"
+                  ? InkWell(
+                  onTap: (){
+                    if(model.dashBoardModel.staticBanner[0].actionType=="product"){
+                      gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[0].actionId));
+                    }else{
+                      gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[0].actionId,cat: true);
+                    }
+                  },
+                  child: Image.network(model.dashBoardModel.staticBanner[0].bannerImg,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width))
+                  : Container(),
+              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
+                  ? SizedBox(height: 50) : Container(),
+
               SizedBox(height: height * 0.05),
 
               //Trending Products
               trendingProducts(),
 
               //Bottom Banner
-              Image.asset(App.banner_bottom, fit: BoxFit.cover, width: MediaQuery.of(context).size.width),
-              SizedBox(height: height * 0.05),
+              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[1].displayStatus =="show"
+                  ? InkWell(
+                  onTap: (){
+                    if(model.dashBoardModel.staticBanner[1].actionType=="product"){
+                      gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[1].actionId));
+                    }else{
+                      gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[1].actionId,cat: true);
+                    }
+                  },
+                  child: Image.network(model.dashBoardModel.staticBanner[1].bannerImg,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width))
+                  : Container(),
+              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
+                  ? SizedBox(height: 50) : Container(),
 
               //Featured Products
               featuredProducts(),
+              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[2].displayStatus =="show"
+                  ? InkWell(
+                  onTap: (){
+                    if(model.dashBoardModel.staticBanner[2].actionType=="product"){
+                      gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[2].actionId));
+                    }else{
+                      gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[2].actionId,cat: true);
+                    }
+                  },
+                  child: Image.network(model.dashBoardModel.staticBanner[2].bannerImg,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width))
+                  : Container(),
+              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
+                  ? SizedBox(height: 50) : Container(),
             ],
           ),
         ),
+
+
       ),
     );
   }
@@ -484,9 +539,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   //New Products
   Widget newProduct() {
-    Size media = MediaQuery.of(context).size;
-    double width = media.width;
-    double height = media.height;
     return Column(
       children: [
         //New Products title
@@ -562,21 +614,32 @@ class HomeScreenState extends State<HomeScreen> {
                                  });
                                 },
                                     model.dashBoardModel.newProducts[index].stockStatus=="outofstock",
-                                    (){
-                                    model.addToWish(model.dashBoardModel.newProducts[index].itemdetId);
+                                    () async {
+                                    await model.addToWish(model.dashBoardModel.newProducts[index].itemdetId);
+                                    model.dashBoardModel.newProducts[index].wishlistStatus = true;
+                                    setState(() {
+
+                                    });
                                     },() async {
-                                  print("increment ${model.dashBoardModel.newProducts[index].count}");
+                                  if(model.dashBoardModel.newProducts[index].productexistInCart){
+                                    await model.updateQuantity(model.dashBoardModel.newProducts[index].itemdetId, "plus");
+                                  }
                                   setState(() {
                                     model.dashBoardModel.newProducts[index].count ++;
                                   });
-                                    print("increment ${model.dashBoardModel.newProducts[index].count}");
+
                                 }, () async {
-                                  if (model.dashBoardModel.newProducts[index].count != 1) {
+                                  if (model.dashBoardModel.newProducts[index].count != 1 || model.dashBoardModel.newProducts[index].count != 0) {
+                                    if(model.dashBoardModel.newProducts[index].productexistInCart){
+                                      await model.updateQuantity(model.dashBoardModel.newProducts[index].itemdetId, "minus");
+                                    }
                                     setState(() {
                                       model.dashBoardModel.newProducts[index].count --;
                                     });
                                   }
-                                },model.dashBoardModel.newProducts[index].count
+                                },model.dashBoardModel.newProducts[index].count,
+                                  model.dashBoardModel.newProducts[index].wishlistStatus,
+                                  model.dashBoardModel.newProducts[index].productexistInCart,
                                 ),
                               ),
                             ),
@@ -681,19 +744,31 @@ class HomeScreenState extends State<HomeScreen> {
                                       });
                                     },
                                   model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock",
-                                        (){
-                                      model.addToWish(model.dashBoardModel.trendingProducts[index].itemdetId);
+                                        () async {
+                                      await model.addToWish(model.dashBoardModel.trendingProducts[index].itemdetId);
+                                      model.dashBoardModel.trendingProducts[index].wishlistStatus = true;
+                                      setState(() {
+
+                                      });
                                     },() async {
+                                  if(model.dashBoardModel.newProducts[index].productexistInCart){
+                                    await model.updateQuantity(model.dashBoardModel.newProducts[index].itemdetId, "plus");
+                                  }
                                   setState(() {
                                     model.dashBoardModel.trendingProducts[index].count ++;
                                   });
                                 }, () async {
-                                  if (model.dashBoardModel.trendingProducts[index].count != 1) {
+                                  if (model.dashBoardModel.trendingProducts[index].count != 1 || model.dashBoardModel.trendingProducts[index].count != 0) {
+                                    if(model.dashBoardModel.trendingProducts[index].productexistInCart){
+                                      await model.updateQuantity(model.dashBoardModel.trendingProducts[index].itemdetId, "minus");
+                                    }
                                     setState(() {
                                       model.dashBoardModel.trendingProducts[index].count --;
                                     });
                                   }
-                                },model.dashBoardModel.trendingProducts[index].count
+                                },model.dashBoardModel.trendingProducts[index].count,
+                                  model.dashBoardModel.trendingProducts[index].wishlistStatus,
+                                  model.dashBoardModel.trendingProducts[index].productexistInCart,
                                 ),
                               ),
                             ),
@@ -802,19 +877,31 @@ class HomeScreenState extends State<HomeScreen> {
                                       });
                                     },
                                     model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock",
-                                        (){
-                                      model.addToWish(model.dashBoardModel.featuredProducts[index].itemdetId);
+                                        () async {
+                                      await model.addToWish(model.dashBoardModel.featuredProducts[index].itemdetId);
+                                      model.dashBoardModel.featuredProducts[index].wishlistStatus = true;
+                                      setState(() {
+
+                                      });
                                     },() async {
+                                  if(model.dashBoardModel.featuredProducts[index].productexistInCart){
+                                    await model.updateQuantity(model.dashBoardModel.featuredProducts[index].itemdetId, "plus");
+                                  }
                                   setState(() {
                                     model.dashBoardModel.featuredProducts[index].count ++;
                                   });
                                 }, () async {
-                                  if (model.dashBoardModel.featuredProducts[index].count != 1) {
+                                  if (model.dashBoardModel.featuredProducts[index].count != 1 || model.dashBoardModel.featuredProducts[index].count != 0) {
+                                    if(model.dashBoardModel.featuredProducts[index].productexistInCart){
+                                      await model.updateQuantity(model.dashBoardModel.featuredProducts[index].itemdetId, "minus");
+                                    }
                                     setState(() {
                                       model.dashBoardModel.featuredProducts[index].count --;
                                     });
                                   }
-                                },model.dashBoardModel.featuredProducts[index].count
+                                },model.dashBoardModel.featuredProducts[index].count,
+                                  model.dashBoardModel.featuredProducts[index].wishlistStatus,
+                                  model.dashBoardModel.featuredProducts[index].productexistInCart,
                                 ),
                               ),
                             ),

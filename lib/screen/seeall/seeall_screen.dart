@@ -122,7 +122,9 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                             product.count --;
                           });
                         }
-                      },product.count
+                      },product.count,
+                        false,
+                        false,
                       ),
                     ),
                   ),

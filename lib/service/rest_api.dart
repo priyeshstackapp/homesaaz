@@ -606,9 +606,14 @@ class RestApi{
         body: bodyData,
         headers: {'Content-type': "application/json"},
       );
+      print(response.statusCode);
       print(response.body);
-      String txnToken = response.body;
-      return txnToken;
+      if(response.statusCode==200){
+        String txnToken = response.body;
+        return txnToken;
+      }else{
+        return null;
+      }
     } catch (e) {
       print(e);
       return null;

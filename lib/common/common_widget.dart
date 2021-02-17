@@ -166,8 +166,19 @@ class CustomTextFieldShadow extends StatelessWidget {
   }
 }
 
-Widget productView(String imageUrl, String productName, int discount,
-    String price, Function addToCart, bool stockOut, VoidCallback addToWish,VoidCallback increment,VoidCallback decrement,int count) {
+Widget productView(
+    String imageUrl,
+    String productName,
+    int discount,
+    String price,
+    Function addToCart,
+    bool stockOut,
+    VoidCallback addToWish,
+    VoidCallback increment,
+    VoidCallback decrement,
+    int count,
+    bool wishlistStatus,
+    bool productexistInCart) {
   return Stack(
     children: [
       Column(
@@ -270,7 +281,7 @@ Widget productView(String imageUrl, String productName, int discount,
                         ],
                       ),
                     ),
-                    InkWell(
+                    productexistInCart ? Container() : InkWell(
                       onTap: () async {
                         addToCart.call();
                       },
@@ -294,7 +305,7 @@ Widget productView(String imageUrl, String productName, int discount,
           ),
         ],
       ),
-      Positioned(
+      wishlistStatus ? Container() : Positioned(
         right: 0,
         child: InkWell(
           onTap: addToWish,

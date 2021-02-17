@@ -8,8 +8,6 @@ DashBoardModel dashBoardModelFromJson(String str) => DashBoardModel.fromJson(jso
 
 String dashBoardModelToJson(DashBoardModel data) => json.encode(data.toJson());
 
-List<Category> categoriesFromJson(String json) => List<Category>.from(jsonDecode(json)["categories"].map((x) => Category.fromJson(x)));
-
 class DashBoardModel {
   DashBoardModel({
     this.banners,
@@ -17,6 +15,7 @@ class DashBoardModel {
     this.trendingProducts,
     this.featuredProducts,
     this.categories,
+    this.staticBanner,
   });
 
   List<Banner> banners;
@@ -24,6 +23,7 @@ class DashBoardModel {
   List<Product> trendingProducts;
   List<Product> featuredProducts;
   List<Category> categories;
+  List<StaticBanner> staticBanner;
 
   factory DashBoardModel.fromJson(Map<String, dynamic> json) => DashBoardModel(
     banners: List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
@@ -31,6 +31,7 @@ class DashBoardModel {
     trendingProducts: List<Product>.from(json["trending_products"].map((x) => Product.fromJson(x))),
     featuredProducts: List<Product>.from(json["featured_products"].map((x) => Product.fromJson(x))),
     categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
+    staticBanner: List<StaticBanner>.from(json["static_banner"].map((x) => StaticBanner.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +40,7 @@ class DashBoardModel {
     "trending_products": List<dynamic>.from(trendingProducts.map((x) => x.toJson())),
     "featured_products": List<dynamic>.from(featuredProducts.map((x) => x.toJson())),
     "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+    "static_banner": List<dynamic>.from(staticBanner.map((x) => x.toJson())),
   };
 }
 
@@ -95,6 +97,9 @@ class Product {
     this.discountedPrice,
     this.discountAvailable,
     this.stockStatus,
+    this.wishlistStatus,
+    this.productexistInCart,
+    this.count,
   });
 
   String itemdetId;
@@ -102,9 +107,11 @@ class Product {
   String productImage;
   String price;
   int discountedPrice;
-  int count = 1;
+  int count;
   DiscountAvailable discountAvailable;
   String stockStatus;
+  bool wishlistStatus;
+  bool productexistInCart;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     itemdetId: json["itemdet_id"],
@@ -114,6 +121,9 @@ class Product {
     discountedPrice: json["discounted_price"],
     discountAvailable: discountAvailableValues.map[json["discount_available"]],
     stockStatus: json["stock_status"],
+    wishlistStatus: json["wishlist_status"],
+    productexistInCart: json["productexist_in_cart"],
+    count: json["prodqty"] == 0 ? 1: json["prodqty"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -124,6 +134,9 @@ class Product {
     "discounted_price": discountedPrice,
     "discount_available": discountAvailableValues.reverse[discountAvailable],
     "stock_status": stockStatus,
+    "wishlist_status": wishlistStatus,
+    "productexist_in_cart": productexistInCart,
+    "prodqty": count,
   };
 }
 
@@ -132,6 +145,34 @@ enum DiscountAvailable { NO }
 final discountAvailableValues = EnumValues({
   "no": DiscountAvailable.NO
 });
+
+class StaticBanner {
+  StaticBanner({
+    this.bannerImg,
+    this.actionType,
+    this.actionId,
+    this.displayStatus,
+  });
+
+  String bannerImg;
+  String actionType;
+  String actionId;
+  String displayStatus;
+
+  factory StaticBanner.fromJson(Map<String, dynamic> json) => StaticBanner(
+    bannerImg: json["banner_img"],
+    actionType: json["action_type"],
+    actionId: json["action_id"],
+    displayStatus: json["display_status"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "banner_img": bannerImg,
+    "action_type": actionType,
+    "action_id": actionId,
+    "display_status": displayStatus,
+  };
+}
 
 class EnumValues<T> {
   Map<String, T> map;

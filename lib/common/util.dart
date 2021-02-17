@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 
 class Utils{
 
@@ -31,5 +32,9 @@ class Utils{
         backgroundColor: Colors.red,
         textColor: Colors.black
     );
+  }
+
+  static bool checkLogin() {
+    return Injector.loginResponse != null;
   }
 }

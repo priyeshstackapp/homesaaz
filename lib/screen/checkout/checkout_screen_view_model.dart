@@ -171,36 +171,40 @@ class CheckoutScreenViewModel {
 
     String txnToken = await RestApi.paytm(body);
 
-    var paytmResponse = await Paytm.payWithPaytm(
-        mid, orderId, txnToken, amount.toString(), callBackUrl, testing);
+    if(txnToken!=null && txnToken.isNotEmpty){
+      var paytmResponse = await Paytm.payWithPaytm(
+          mid, orderId, txnToken, amount.toString(), callBackUrl, testing);
 
 
-    print('-----------------------');
-    print(paytmResponse.values);
-    print('-----------------------');
-    hideLoader();
-    if(paytmResponse['error']){
-      Utils.showToast(paytmResponse['errorMessage']);
-      print("PAYTM Error ${paytmResponse['errorMessage']}");
-    }else{
-      if(paytmResponse['response']!=null){
-        if(paytmResponse['response']['STATUS'] == 'TXN_SUCCESS'){
-          print("SUCCESS!!!!");
-          placeOrder(orderId: paytmResponse['response']['ORDERID'],response: paytmResponse['response'].toString());
-          Utils.showToast('Payment successfully received');
-          print(paytmResponse['response']['STATUS']);
-        }else if(paytmResponse['response']['STATUS'] == 'TXN_FAILURE'){
-          print("FAIL!!!!");
-          Utils.showToast('Payment failed');
-          print(paytmResponse['response']['STATUS']);
-        } else{
-          print("Unknown Status");
-          Utils.showToast('Something went wrong while transaction');
-          print(paytmResponse['response']['STATUS']);
+      print('-----------------------');
+      print(paytmResponse.values);
+      print('-----------------------');
+      hideLoader();
+      if(paytmResponse['error']){
+        Utils.showToast(paytmResponse['errorMessage']);
+        print("PAYTM Error ${paytmResponse['errorMessage']}");
+      }else{
+        if(paytmResponse['response']!=null){
+          if(paytmResponse['response']['STATUS'] == 'TXN_SUCCESS'){
+            print("SUCCESS!!!!");
+            placeOrder(orderId: paytmResponse['response']['ORDERID'],response: paytmResponse['response'].toString());
+            Utils.showToast('Payment successfully received');
+            print(paytmResponse['response']['STATUS']);
+          }else if(paytmResponse['response']['STATUS'] == 'TXN_FAILURE'){
+            print("FAIL!!!!");
+            Utils.showToast('Payment failed');
+            print(paytmResponse['response']['STATUS']);
+          } else{
+            print("Unknown Status");
+            Utils.showToast('Something went wrong while transaction');
+            print(paytmResponse['response']['STATUS']);
+          }
+
         }
-
       }
+      print('-----------------------');
+    }else{
+      hideLoader();
     }
-    print('-----------------------');
   }
 }

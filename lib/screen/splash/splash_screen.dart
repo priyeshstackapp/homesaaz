@@ -16,11 +16,13 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
 
-    if(Injector.loginResponse == null) {
-      Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithLoginScreen(context));
-    } else {
-      Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithHomeScreen(context));
-    }
+    Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithHomeScreen(context));
+
+    // if(Injector.loginResponse == null) {
+    //   Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithLoginScreen(context));
+    // } else {
+    //   Future.delayed(Duration(seconds: 4)).then((onValue) => replaceWithHomeScreen(context));
+    // }
   }
 
   @override

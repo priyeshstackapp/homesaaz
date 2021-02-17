@@ -31,9 +31,7 @@ class SeeAllScreenViewModel{
       showLoader(state.context);
     });
 
-    Map<String,dynamic> body = id =="" ? {
-      "cat_id" : state.widget.id
-    } : {
+    Map<String,dynamic> body = id =="" ? null : {
       "cat_id" : state.widget.id,
       "subcat_id":id
     };

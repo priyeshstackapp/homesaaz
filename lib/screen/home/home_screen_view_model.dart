@@ -36,16 +36,19 @@ class HomeScreenViewModel {
       } else if (responseData != null) {
         dashBoardModel = dashBoardModelFromJson(responseData.body);
 
-        Map<String, dynamic> body = {
-          "uid": Injector.loginResponse.uid,
-        };
-        final cartModelRes = await RestApi.getCartItems(body);
+        if(Utils.checkLogin()) {
 
-        Map<String, dynamic> jsonData = json.decode(cartModelRes.body);
-        if (cartModelRes != null && jsonData['status'] == "error") {
-          Utils.showToast(jsonData['error']);
-        } else if (cartModelRes != null) {
-          Injector.updateCartData(cartModelFromJson(cartModelRes.body));
+          Map<String, dynamic> body = {
+            "uid": Injector.loginResponse.uid,
+          };
+          final cartModelRes = await RestApi.getCartItems(body);
+
+          Map<String, dynamic> jsonData = json.decode(cartModelRes.body);
+          if (cartModelRes != null && jsonData['status'] == "error") {
+            Utils.showToast(jsonData['error']);
+          } else if (cartModelRes != null) {
+            Injector.updateCartData(cartModelFromJson(cartModelRes.body));
+          }
         }
 
         state.setState(() {});
@@ -119,6 +122,29 @@ class HomeScreenViewModel {
       return null;
     }
 
+  }
+
+  updateQuantity(String product,String action) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : product,
+      "action" : action
+    };
+
+    RestApi.updateProductQuantity(body).then((responseData) {
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+      } else {
+        //Utils.showToast("Something went wrong");
+      }
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
   }
 
 }
