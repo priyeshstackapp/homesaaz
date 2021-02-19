@@ -4,7 +4,6 @@ import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
-import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/model/product_list_model.dart';
 import 'package:homesaaz/model/sub_cat_model.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
@@ -34,13 +33,15 @@ class SeeAllScreenViewModel{
 
     Map<String,dynamic> body = id =="" ? {
       'offset': state.offset.toString(),
-      'limit' : '20'
+      'limit' : '20',
+      "uid": Injector.loginResponse==null ? "": Injector.loginResponse.uid,
     } :
     {
       "cat_id" : state.widget.id,
       "subcat_id":id,
       'offset': state.offset.toString(),
-      'limit' : '20'
+      'limit' : '20',
+      "uid": Injector.loginResponse==null ? "": Injector.loginResponse.uid,
     };
 
     RestApi.productListApi(body).then((responseData) {

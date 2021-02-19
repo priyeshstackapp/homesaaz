@@ -4,7 +4,6 @@ import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
-import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/cart/cart_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 

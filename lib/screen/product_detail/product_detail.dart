@@ -5,6 +5,7 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
 import 'package:homesaaz/screen/product_detail/product_detail_view_model.dart';
 
@@ -110,11 +111,16 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                               top: 10,
                               child: InkWell(
                                 onTap: () async {
-                                  await model.removeFromCart(model.product.data[0].itemdetId);
-                                  model.product.data[0].wishlistStatus = !model.product.data[0].wishlistStatus;
-                                  setState(() {
+                                  if(Injector.loginResponse==null){
+                                    gotoLoginScreen(context,isBack: true);
+                                  }else {
+                                    await model.removeFromCart(model.product.data[0].itemdetId);
+                                    model.product.data[0].wishlistStatus =
+                                    !model.product.data[0].wishlistStatus;
+                                    setState(() {
 
-                                  });
+                                    });
+                                  }
                                 },
                                 child: Image.asset('assets/icon/heart.png',height: 30,width: 30),
                               ),
@@ -123,11 +129,15 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                               top: 10,
                               child: InkWell(
                                 onTap: () async {
-                                  await model.addToWish(model.product.data[0].itemdetId);
-                                  model.product.data[0].wishlistStatus = !model.product.data[0].wishlistStatus;
-                                  setState(() {
+                                  if(Injector.loginResponse==null){
+                                    gotoLoginScreen(context,isBack: true);
+                                  }else {
+                                    await model.addToWish(model.product.data[0].itemdetId);
+                                    model.product.data[0].wishlistStatus = !model.product.data[0].wishlistStatus;
+                                    setState(() {
 
-                                  });
+                                    });
+                                  }
                                 },
                                 child: Image.asset('assets/icon/heart_outline.png',height: 30,width: 30),
                               ),
@@ -430,10 +440,16 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 50,
               child: Row(
                 children: [
-                  InkWell(
+                  !model.product.data[0].productexistInCart ? InkWell(
                     onTap: () async {
-                      await model.addToCart(true);
-                      await model.getCartData();
+                      if(Injector.loginResponse==null){
+                        gotoLoginScreen(context,isBack: true);
+                      }else {
+                        await model.addToCart(true);
+                        await model.getCartData();
+                        model.product.data[0].productexistInCart = !model.product.data[0].productexistInCart;
+                        setState(() {});
+                      }
                     },
                     child: Container(
                       color: ColorRes.whisper,
@@ -445,18 +461,24 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
-                  ),
+                  ) : Container() ,
                   InkWell(
                     onTap: () async {
-                      await model.addToCart(false);
-                      var cart = await model.getCartData();
-                      if(cart!=null){
-                        gotoAddressScreen(context,cart);
+                      if(Injector.loginResponse==null){
+                        gotoLoginScreen(context,isBack: true);
+                      }else {
+                        await model.addToCart(false);
+                        var cart = await model.getCartData();
+                        model.product.data[0].productexistInCart = !model.product.data[0].productexistInCart;
+                        setState(() {});
+                        if (cart != null) {
+                          gotoAddressScreen(context, cart);
+                        }
                       }
                     },
                     child: Container(
                       color: ColorRes.red,
-                      width: MediaQuery.of(context).size.width/2,
+                      width: model.product.data[0].productexistInCart ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width/2,
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(10),
                       child: Text(

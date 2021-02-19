@@ -33,7 +33,11 @@ class LoginScreenViewModel {
           LoginResponseModel loginResponse = LoginResponseModel.fromJson(jsonData);
           await Injector.updateUserData(loginResponse);
           // await Injector.setLoginRequest(loginRequest);
-          gotoHomeScreenUntilRemove(state.context);
+          if(state.widget.isBack){
+            Navigator.pop(state.context);
+          }else{
+            gotoHomeScreenUntilRemove(state.context);
+          }
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
         } else {
@@ -54,16 +58,16 @@ class LoginScreenViewModel {
   }
 
   bool validate() {
-  /*  if (state.emailCont.text == '') {
-      showSnackBar(state.scaffoldKey, 'Enter  valid email', isError: true);
+    if (state.emailCont.text == '') {
+      showSnackBar(state.loginKey, 'Enter  valid email', isError: true);
       return false;
     } else if (!isEmail(state.emailCont.text.trim())) {
-      showSnackBar(state.scaffoldKey,'Enter valid email',isError: true);
+      showSnackBar(state.loginKey,'Enter valid email',isError: true);
       return false;
     }else if (state.passwordCont.text == '') {
-      showSnackBar(state.scaffoldKey, 'Enter password', isError: true);
+      showSnackBar(state.loginKey, 'Enter password', isError: true);
       return false;
-    }*/
+    }
      return true;
   }
   bool isEmail(String em) {

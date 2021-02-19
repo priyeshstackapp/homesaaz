@@ -10,6 +10,9 @@ import 'package:homesaaz/screen/login/login_screen_view_model.dart';
 
 
 class LoginScreen extends StatefulWidget {
+  bool isBack;
+  LoginScreen({this.isBack});
+
   @override
   LoginScreenState createState() => LoginScreenState();
 }

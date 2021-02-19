@@ -3,9 +3,9 @@ import 'package:homesaaz/app.dart';
 import 'package:homesaaz/common/colorres.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
+import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
-import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/model/product_list_model.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen_view_model.dart';
 
@@ -132,26 +132,34 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                           product.productName,
                           product.discountedPrice,
                           product.price, () {
-                        if (product.itemdetId == null) {
-                          Utils.showToast("Item id is null");
-                        } else {
-                          model.addToCart(product.itemdetId,product.count);
+                        if(Injector.loginResponse==null){
+                          gotoLoginScreen(context,isBack: true);
+                        }else {
+                          if (product.itemdetId == null) {
+                            Utils.showToast("Item id is null");
+                          } else {
+                            model.addToCart(product.itemdetId, product.count);
+                          }
                         }
                       },
                           false,
                               () async {
-                                if (product.itemdetId == null) {
-                                  Utils.showToast("Item id is null");
-                                } else {
-                                  // if(product.wishlistStatus) {
-                                  //   await model.removeFromCart(product.itemdetId);
-                                  // }else{
-                                  //   await model.addToWish(product.itemdetId);
-                                  // }
-                                  // product.wishlistStatus = !product.wishlistStatus;
-                                  // setState(() {
-                                  //
-                                  // });
+                                if(Injector.loginResponse==null){
+                                  gotoLoginScreen(context,isBack: true);
+                                }else{
+                                  if (product.itemdetId == null) {
+                                    Utils.showToast("Item id is null");
+                                  } else {
+                                    if(product.wishlistStatus) {
+                                      await model.removeFromCart(product.itemdetId);
+                                    }else{
+                                      await model.addToWish(product.itemdetId);
+                                    }
+                                    product.wishlistStatus = !product.wishlistStatus;
+                                    setState(() {
+
+                                    });
+                                  }
                                 }
                           },() async {
                         setState(() {
@@ -164,8 +172,8 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                           });
                         }
                       },product.count,
-                        false,
-                        false,
+                        product.wishlistStatus,
+                        product.productexistInCart,
                         context
                       ),
                     ),

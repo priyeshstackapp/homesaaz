@@ -1,25 +1,8 @@
+// To parse this JSON data, do
+//
+//     final productDetailModel = productDetailModelFromJson(jsonString);
+
 import 'dart:convert';
-
-class ProductModel{
-  String productName;
-  String productId;
-  List<String> productUrl;
-  int oldPrice;
-  int newPrice;
-  String size;
-  String description;
-  List<String> colors;
-
-  ProductModel(
-      {this.productName,
-      this.productUrl,
-      this.oldPrice,
-        this.productId,
-      this.newPrice,
-      this.size,
-      this.description,
-      this.colors});
-}
 
 ProductDetailModel productDetailModelFromJson(String str) => ProductDetailModel.fromJson(json.decode(str));
 
@@ -62,7 +45,9 @@ class Datum {
     this.sku,
     this.colorName,
     this.description,
-    this.wishlistStatus = false,
+    this.wishlistStatus,
+    this.productexistInCart,
+    this.prodqty,
   });
 
   String itemdetId;
@@ -81,6 +66,8 @@ class Datum {
   String colorName;
   String description;
   bool wishlistStatus;
+  bool productexistInCart;
+  int prodqty;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     itemdetId: json["itemdet_id"],
@@ -98,6 +85,9 @@ class Datum {
     sku: json["sku"],
     colorName: json["color_name"],
     description: json["description"],
+    wishlistStatus: json["wishlist_status"],
+    productexistInCart: json["productexist_in_cart"],
+    prodqty: json["prodqty"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -116,5 +106,8 @@ class Datum {
     "sku": sku,
     "color_name": colorName,
     "description": description,
+    "wishlist_status": wishlistStatus,
+    "productexist_in_cart": productexistInCart,
+    "prodqty": prodqty,
   };
 }

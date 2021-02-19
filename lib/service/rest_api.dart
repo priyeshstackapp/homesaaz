@@ -63,12 +63,13 @@ class RestApi{
   }
 
   //Dashboard Api
-  static Future<http.Response> dahsBoardApi() async {
+  static Future<http.Response> dahsBoardApi(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "home/dashboard";
     print(url);
+    print(bodyData);
     try {
-      http.Response response = await http.post(url, headers: {'Authorization': auth});
+      http.Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
       print(response.statusCode);
       print(response.body);
       if(response.statusCode == 200 || response.statusCode == 201) {
@@ -416,13 +417,14 @@ class RestApi{
 
 
   // Get Product details
-  static Future<Response> getProductDetails(String productId) async {
+  static Future<Response> getProductDetails(String productId, Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url = baseUrl + "products/product_detail?pid=$productId";
     print(url);
+    print(bodyData);
 
     try {
-      Response response = await http.get(url, headers: {'Authorization': auth});
+      Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
       if(response.statusCode == 200 || response.statusCode == 201) {
         print(response.statusCode);
         print(response.body);

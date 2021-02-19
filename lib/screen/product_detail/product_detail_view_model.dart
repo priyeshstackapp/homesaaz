@@ -26,7 +26,11 @@ class ProductDetailViewModel {
     await Future.delayed(Duration(milliseconds: 200));
     showLoader(state.context);
 
-    var responseData = await RestApi.getProductDetails(state.widget.product.itemdetId);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse==null ? "": Injector.loginResponse.uid,
+    };
+
+    var responseData = await RestApi.getProductDetails(state.widget.product.itemdetId,body);
 
     hideLoader();
     Map<String, dynamic> jsonData = json.decode(responseData.body);

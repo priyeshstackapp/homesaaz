@@ -116,7 +116,6 @@ class Product {
     this.wishlistStatus,
     this.productexistInCart,
     this.count,
-    this.prodqty,
   });
 
   String itemdetId;
@@ -129,7 +128,6 @@ class Product {
   String stockStatus;
   bool wishlistStatus;
   bool productexistInCart;
-  int prodqty;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     itemdetId: json["itemdet_id"],
@@ -141,7 +139,7 @@ class Product {
     stockStatus: json["stock_status"],
     wishlistStatus: json["wishlist_status"],
     productexistInCart: json["productexist_in_cart"],
-    prodqty: json["prodqty"],
+    count: json["prodqty"].toString() == '0' ? 1 : int.parse(json["prodqty"].toString()),
   );
 
   Map<String, dynamic> toJson() => {
@@ -154,7 +152,6 @@ class Product {
     "stock_status": stockStatus,
     "wishlist_status": wishlistStatus,
     "productexist_in_cart": productexistInCart,
-    "prodqty": prodqty,
   };
 }
 

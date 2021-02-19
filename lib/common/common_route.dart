@@ -31,9 +31,9 @@ replaceWithLoginScreen(context) {
       context, MaterialPageRoute(builder: (context) => LoginScreen()));
 }
 
-gotoLoginScreen(context) {
+gotoLoginScreen(context, {bool isBack = false}) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      context, MaterialPageRoute(builder: (context) => LoginScreen(isBack: isBack)));
 }
 gotoLoginScreenUntilRemove(context) {
   Navigator.pushAndRemoveUntil(context,

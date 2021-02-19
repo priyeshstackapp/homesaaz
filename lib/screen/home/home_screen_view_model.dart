@@ -6,9 +6,7 @@ import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
-import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
-import 'package:homesaaz/service/profile_bloc.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
 class HomeScreenViewModel {
@@ -27,9 +25,13 @@ class HomeScreenViewModel {
       showLoader(state.context);
     });
 
-    final responseData = await RestApi.dahsBoardApi();
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse==null ? "": Injector.loginResponse.uid,
+    };
 
-    try{
+    final responseData = await RestApi.dahsBoardApi(body);
+
+    // try{
       Map<String, dynamic> jsonData = json.decode(responseData.body);
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
@@ -55,10 +57,10 @@ class HomeScreenViewModel {
       } else {
         Utils.showToast("Something went wrong");
       }
-    }catch(e){
-      print(e);
-      Utils.showToast("Something went wrong");
-    }
+    // }catch(e){
+    //   print(e);
+    //   Utils.showToast("Something went wrong");
+    // }
 
     hideLoader();
   }
