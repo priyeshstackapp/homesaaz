@@ -105,6 +105,33 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               ),
                             ),
+                            model.product.data[0].wishlistStatus ? Positioned(
+                              right: 0,
+                              top: 10,
+                              child: InkWell(
+                                onTap: () async {
+                                  await model.removeFromCart(model.product.data[0].itemdetId);
+                                  model.product.data[0].wishlistStatus = !model.product.data[0].wishlistStatus;
+                                  setState(() {
+
+                                  });
+                                },
+                                child: Image.asset('assets/icon/heart.png',height: 30,width: 30),
+                              ),
+                            ) : Positioned(
+                              right: 0,
+                              top: 10,
+                              child: InkWell(
+                                onTap: () async {
+                                  await model.addToWish(model.product.data[0].itemdetId);
+                                  model.product.data[0].wishlistStatus = !model.product.data[0].wishlistStatus;
+                                  setState(() {
+
+                                  });
+                                },
+                                child: Image.asset('assets/icon/heart_outline.png',height: 30,width: 30),
+                              ),
+                            )
                           ],
                         ),
                         // child: CachedNetworkImage(
@@ -175,83 +202,83 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                             SizedBox(
                               height: 10,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left:8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                    Text(
-                                      "₹${model.product.data[0].price}",
-                                      style:
-                                      TextStyle(fontSize: 22, color: ColorRes.redColor),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    model.product.data[0].discountedPrice ==0 ? Container() : Text(
-                                      "\$${model.product.data[0].discountedPrice}",
-                                      style: TextStyle(fontSize: 22, color: ColorRes.dimGray.withOpacity(0.7)),
-                                    ),
-                                    ],
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                  Text(
+                                    "₹${model.product.data[0].price}",
+                                    style:
+                                    TextStyle(fontSize: 22, color: ColorRes.redColor),
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    width: 10,
                                   ),
-                                  Container(
-                                    color: ColorRes.creamColor,
-                                    width: 100,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: Icon(
-                                                Icons.remove,
-                                                size: 20,
-                                                color: ColorRes.charcoal,
-                                              ),
-                                            ),
-                                            onTap: () {
-                                              if (quantity != 1) {
-                                                setState(() {
-                                                  quantity--;
-                                                });
-                                              }
-                                            }),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Text(
-                                            '$quantity',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: ColorRes.charcoal,
-                                              fontFamily: 'NeueFrutigerWorld',
-                                              fontWeight: FontWeight.w500,
+                                  model.product.data[0].discountedPrice ==0 ? Container() : Text(
+                                    "\$${model.product.data[0].discountedPrice}",
+                                    style: TextStyle(fontSize: 22, color: ColorRes.dimGray.withOpacity(0.7)),
+                                  ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  width: 100,
+                                  decoration: BoxDecoration(border: Border.all(color: ColorRes.dimGray.withOpacity(0.1)),borderRadius: BorderRadius.circular(8)),
+                                  padding: EdgeInsets.symmetric(horizontal:5,vertical: 3),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                          child: Container(
+                                            decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                                            padding: const EdgeInsets.all(5),
+                                            child: Icon(
+                                              Icons.remove,
+                                              size: MediaQuery.of(context).size.width/25,
+                                              color: ColorRes.whiteColor,
                                             ),
                                           ),
-                                        ),
-                                        GestureDetector(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: Icon(
-                                                Icons.add,
-                                                size: 20,
-                                                color: ColorRes.charcoal,
-                                              ),
-                                            ),
-                                            onTap: () {
+                                          onTap: () {
+                                            if (quantity != 1) {
                                               setState(() {
-                                                quantity++;
+                                                quantity--;
                                               });
-                                            }),
-                                      ],
-                                    ),
+                                            }
+                                          }),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Text(
+                                          '$quantity',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: ColorRes.charcoal,
+                                            fontFamily: 'NeueFrutigerWorld',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                          child: Container(
+                                            decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                                            padding: const EdgeInsets.all(5),
+                                            child: Icon(
+                                              Icons.add,
+                                              size: MediaQuery.of(context).size.width/25,
+                                              color: ColorRes.whiteColor,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              quantity++;
+                                            });
+                                          }),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 7,

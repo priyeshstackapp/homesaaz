@@ -25,6 +25,34 @@ class SeeAllScreenState extends State<SeeAllScreen> {
 
   SeeAllScreenViewModel model;
 
+  ScrollController controller;
+  bool isPaging = true;
+  int offset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new ScrollController()..addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (controller.position.extentAfter < 100) {
+      if(model.canPaging){
+        setState(() {
+          isPaging = true;
+        });
+        offset = offset + 20;
+        model.newProductDataPaging(id: widget.cat ? widget.id: "");
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
@@ -33,56 +61,57 @@ class SeeAllScreenState extends State<SeeAllScreen> {
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
       appBar: commonAppbar(context),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                widget.title,
-                style: TextStyle(fontSize: 30, color: ColorRes.textColor),
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              widget.title,
+              style: TextStyle(fontSize: 30, color: ColorRes.textColor),
             ),
-            SizedBox(height: 20),
-            widget.cat ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal:20),
-              child: Container(
-                height: 100,
-                child: ListView.builder(
-                          itemCount: model.subCatModel==null ? 0 : model.subCatModel.categories.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => InkWell(
-                            onTap: (){
-                              model.newProductData(id: model.subCatModel.categories[index].subcatId);
-                            },
-                            child: Card(
-                              elevation: 3,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal:8.0),
-                                child: Column(
-                                  children: [
-                                    model.subCatModel.categories[index].subcategoryImage.isNotEmpty ? Image.network(model.subCatModel.categories[index].subcategoryImage,height: 60,width: 100,) : Image.asset(App.defaultImage,height: 60,width: 100,fit: BoxFit.cover,),
-                                    SizedBox(height: 10,),
-                                    Text(model.subCatModel.categories[index].subcategoryName,style: TextStyle(color: ColorRes.redColor),),
-                                  ],
-                                ),
+          ),
+          SizedBox(height: 20),
+          widget.cat ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal:20),
+            child: Container(
+              height: 100,
+              child: ListView.builder(
+                        itemCount: model.subCatModel==null ? 0 : model.subCatModel.categories.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: (){
+                            gotoSubCategoryProducts(context,widget.id,model.subCatModel.categories[index].subcatId,widget.title,model.subCatModel.categories[index].subcategoryName);
+                          },
+                          child: Card(
+                            elevation: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal:8.0),
+                              child: Column(
+                                children: [
+                                  model.subCatModel.categories[index].subcategoryImage.isNotEmpty ? Image.network(model.subCatModel.categories[index].subcategoryImage,height: 60,width: 100,) : Image.asset(App.defaultImage,height: 60,width: 100,fit: BoxFit.cover,),
+                                  SizedBox(height: 10,),
+                                  Text(model.subCatModel.categories[index].subcategoryName,style: TextStyle(color: ColorRes.redColor),),
+                                ],
                               ),
                             ),
                           ),
                         ),
-              ),
-            ) : Container(),
-            widget.cat ? SizedBox(height: 20) : Container() ,
-            model.productListModel!=null && model.productListModel.productList!=null&& model.productListModel.productList.isNotEmpty
-                ? GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,mainAxisSpacing: 15,childAspectRatio: 0.7),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: model.productListModel.productList.length,
-              itemBuilder: (context, index) {
+                      ),
+            ),
+          ) : Container(),
+          widget.cat ? SizedBox(height: 20) : Container() ,
+          model.productListModel!=null && model.productListModel.productList!=null&& model.productListModel.productList.isNotEmpty
+              ? Expanded(
+                child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,mainAxisSpacing: 5,crossAxisSpacing: 5,childAspectRatio: 0.74),
+            shrinkWrap: true,
+            controller: controller,
+            // physics: NeverScrollableScrollPhysics(),
+            itemCount: model.productListModel.productList.length,
+            itemBuilder: (context, index) {
                 ProductList product = model.productListModel.productList[index];
 
                 return GestureDetector(
@@ -91,10 +120,14 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                     gotoProductDetailScreen(context,Product(itemdetId: product.itemdetId));
                   },
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 2,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-                      margin: EdgeInsets.symmetric(horizontal: 7),
-                      child: productView(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: seeAllView(
                           product.productImage,
                           product.productName,
                           product.discountedPrice,
@@ -106,11 +139,19 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                         }
                       },
                           false,
-                              (){
+                              () async {
                                 if (product.itemdetId == null) {
                                   Utils.showToast("Item id is null");
                                 } else {
-                                  model.addToWish(product.itemdetId);
+                                  // if(product.wishlistStatus) {
+                                  //   await model.removeFromCart(product.itemdetId);
+                                  // }else{
+                                  //   await model.addToWish(product.itemdetId);
+                                  // }
+                                  // product.wishlistStatus = !product.wishlistStatus;
+                                  // setState(() {
+                                  //
+                                  // });
                                 }
                           },() async {
                         setState(() {
@@ -125,17 +166,18 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                       },product.count,
                         false,
                         false,
+                        context
                       ),
                     ),
                   ),
                 );
-              },
-            )
-                : Align(
-                alignment: Alignment.center,
-                child: Text("No Product found!"))
-          ],
-        ),
+            },
+          ),
+              )
+              : Align(
+              alignment: Alignment.center,
+              child: Text("No Product found!"))
+        ],
       ),
     );
   }

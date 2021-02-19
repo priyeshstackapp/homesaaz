@@ -178,7 +178,7 @@ Widget productView(
     VoidCallback decrement,
     int count,
     bool wishlistStatus,
-    bool productexistInCart) {
+    bool productexistInCart,context) {
   return Stack(
     children: [
       Column(
@@ -187,79 +187,86 @@ Widget productView(
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(12)),
             child: imageUrl!=null && imageUrl.isNotEmpty
-                ? Image.network(imageUrl,fit: BoxFit.cover,height: 140,)
-                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: 140),
+                ? Image.network(imageUrl,fit: BoxFit.cover,height: MediaQuery.of(context).size.width/3,)
+                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: MediaQuery.of(context).size.width/3),
           ),
           SizedBox(
             height: 5,
           ),
-          Container(
-            width: 200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  productName,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 160,
+                child: Text(
+                  productName +"shbdv jshd hsd shd asjd ksjd asjd hsdhasdha duhsa dh dhsahds".toUpperCase(),
                   style: new TextStyle(
                     color: ColorRes.charcoal,
                     fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),
                   maxLines: 2,
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
-                          style: new TextStyle(
-                            fontSize: 16,
-                            color: ColorRes.charcoal,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
+                        style: new TextStyle(
+                          fontSize: 14,
+                          color: ColorRes.red,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      discount == 0 ? Container() : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '₹ $price',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: ColorRes.red,
                             fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w200,
+                            decoration: TextDecoration.lineThrough,
                           ),
                         ),
-                        discount == 0 ? Container() : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '₹ $price',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: ColorRes.charcoal,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w200,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 7,),
-             !stockOut ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      color: ColorRes.creamColor,
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal:5,vertical: 2),
-                                child: Icon(
-                                  Icons.remove,
-                                  size: 20,
-                                  color: ColorRes.charcoal,
-                                ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 7,),
+           !stockOut ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(border: Border.all(color: ColorRes.dimGray.withOpacity(0.1)),borderRadius: BorderRadius.circular(8)),
+                    padding: EdgeInsets.symmetric(horizontal:5,vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.remove,
+                                size: MediaQuery.of(context).size.width/35,
+                                color: ColorRes.whiteColor,
                               ),
-                              onTap: decrement),
-                          Text(
+                            ),
+                            onTap: decrement),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
                             '$count',
                             style: TextStyle(
                               fontSize: 14,
@@ -268,62 +275,238 @@ Widget productView(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal:5,vertical: 2),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 20,
-                                  color: ColorRes.charcoal,
-                                ),
+                        ),
+                        GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.add,
+                                size: MediaQuery.of(context).size.width/35,
+                                color: ColorRes.whiteColor,
                               ),
-                              onTap: increment),
-                        ],
-                      ),
+                            ),
+                            onTap: increment),
+                      ],
                     ),
-                    productexistInCart ? Container() : InkWell(
-                      onTap: () async {
-                        addToCart.call();
-                      },
-                      child: Container(
-                        color: ColorRes.redColor,
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          "Add to cart",
-                          style: TextStyle(
-                              color: ColorRes.whiteColor,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12
-                          ),
-                        ),),
-                    )
-                  ],
-                ) : Container()
-              ],
-            ),
+                  ),
+                  productexistInCart ? Container() : InkWell(
+                    onTap: () async {
+                      addToCart.call();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                      padding: EdgeInsets.symmetric(horizontal:8,vertical: 5),
+                      child: Text(
+                        "Add to cart",
+                        style: TextStyle(
+                            color: ColorRes.whiteColor,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10
+                        ),
+                      ),),
+                  )
+                ],
+              )
+               : Container()
+            ],
           ),
         ],
       ),
-      wishlistStatus ? Container() : Positioned(
+      wishlistStatus ? Positioned(
         right: 0,
+        top: 10,
         child: InkWell(
           onTap: addToWish,
-          child: Container(
-              decoration: BoxDecoration(
-                  color: ColorRes.redColor,
-                  borderRadius: BorderRadius.circular(30)
-              ),
-              margin: EdgeInsets.only(right: 7,top: 7),
-              padding: EdgeInsets.all(7),
-              child: Image.asset('assets/icon/heart.png',height: 20,width: 20,color: ColorRes.whiteColor,)),
+          child: Image.asset('assets/icon/heart.png',height: 20,width: 20),
+        ),
+      ) : Positioned(
+        right: 0,
+        top: 10,
+        child: InkWell(
+          onTap: addToWish,
+          child: Image.asset('assets/icon/heart_outline.png',height: 20,width: 20),
         ),
       )
     ],
   );
 }
 
-Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallback increment,VoidCallback decrement,) {
+Widget seeAllView(
+    String imageUrl,
+    String productName,
+    int discount,
+    String price,
+    Function addToCart,
+    bool stockOut,
+    VoidCallback addToWish,
+    VoidCallback increment,
+    VoidCallback decrement,
+    int count,
+    bool wishlistStatus,
+    bool productexistInCart,context) {
+  return Stack(
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            child: imageUrl!=null && imageUrl.isNotEmpty
+                ? Image.network(imageUrl,fit: BoxFit.cover,height: MediaQuery.of(context).size.height/5.5,)
+                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: MediaQuery.of(context).size.height/5.5),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 160,
+                child: Text(
+                  productName,
+                  style: new TextStyle(
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 2,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        discount == 0 ? '₹ $price' : "${int.parse(price)-discount}",
+                        style: new TextStyle(
+                          fontSize: 14,
+                          color: ColorRes.red,
+                          fontFamily: 'NeueFrutigerWorld',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      discount == 0 ? Container() : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '₹ $price',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: ColorRes.red,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w200,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 7,),
+              !stockOut ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(border: Border.all(color: ColorRes.dimGray.withOpacity(0.1)),borderRadius: BorderRadius.circular(8)),
+                    padding: EdgeInsets.symmetric(horizontal:5,vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.remove,
+                                size: MediaQuery.of(context).size.width/35,
+                                color: ColorRes.whiteColor,
+                              ),
+                            ),
+                            onTap: decrement),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            '$count',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: ColorRes.charcoal,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                            child: Container(
+                              decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.add,
+                                size: MediaQuery.of(context).size.width/35,
+                                color: ColorRes.whiteColor,
+                              ),
+                            ),
+                            onTap: increment),
+                      ],
+                    ),
+                  ),
+                  productexistInCart ? Container() : InkWell(
+                    onTap: () async {
+                      addToCart.call();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
+                      padding: EdgeInsets.symmetric(horizontal:8,vertical: 5),
+                      child: Text(
+                        "Add to cart",
+                        style: TextStyle(
+                            color: ColorRes.whiteColor,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10
+                        ),
+                      ),),
+                  )
+                ],
+              )
+                  : Container()
+            ],
+          ),
+        ],
+      ),
+      wishlistStatus ? Positioned(
+        right: 0,
+        top: 10,
+        child: InkWell(
+          onTap: addToWish,
+          child: Image.asset('assets/icon/heart.png',height: 20,width: 20),
+        ),
+      ) : Positioned(
+        right: 0,
+        top: 10,
+        child: InkWell(
+          onTap: addToWish,
+          child: Image.asset('assets/icon/heart_outline.png',height: 20,width: 20),
+        ),
+      )
+    ],
+  );
+}
+
+Widget cartProductView(
+  CartProduct cartItem,
+  VoidCallback removeButton,
+  VoidCallback increment,
+  VoidCallback decrement,
+    context
+) {
   return Stack(
     alignment: Alignment.topRight,
     children: [
@@ -390,17 +573,24 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
-                      color: ColorRes.creamColor,
+                      width: 100,
+                      decoration: BoxDecoration(border: Border.all(color: ColorRes.dimGray.withOpacity(0.1)),borderRadius: BorderRadius.circular(8)),
+                      padding: EdgeInsets.symmetric(horizontal:5,vertical: 3),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                              child: Padding(
+                              child: Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
                                 padding: const EdgeInsets.all(5),
                                 child: Icon(
                                   Icons.remove,
-                                  size: 20,
-                                  color: ColorRes.charcoal,
+                                  size: MediaQuery.of(context).size.width/25,
+                                  color: ColorRes.whiteColor,
                                 ),
                               ),
                               onTap: decrement),
@@ -409,7 +599,7 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
                             child: Text(
                               '${cartItem.itemqty}',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 color: ColorRes.charcoal,
                                 fontFamily: 'NeueFrutigerWorld',
                                 fontWeight: FontWeight.w500,
@@ -417,12 +607,13 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
                             ),
                           ),
                           GestureDetector(
-                              child: Padding(
+                              child: Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
                                 padding: const EdgeInsets.all(5),
                                 child: Icon(
                                   Icons.add,
-                                  size: 20,
-                                  color: ColorRes.charcoal,
+                                  size: MediaQuery.of(context).size.width/25,
+                                  color: ColorRes.whiteColor,
                                 ),
                               ),
                               onTap: increment),
@@ -451,7 +642,14 @@ Widget cartProductView(CartProduct cartItem,VoidCallback removeButton,VoidCallba
   );
 }
 
-Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallback addToCard,VoidCallback increment,VoidCallback decrement,) {
+Widget wishProductView(
+  WishProduct cartItem,
+  VoidCallback removeButton,
+  VoidCallback addToCard,
+  VoidCallback increment,
+  VoidCallback decrement,
+    context
+) {
   return Stack(
     alignment: Alignment.topRight,
     children: [
@@ -519,21 +717,23 @@ Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallba
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     Container(
-                      color: ColorRes.creamColor,
                       width: 100,
+                      decoration: BoxDecoration(border: Border.all(color: ColorRes.dimGray.withOpacity(0.1)),borderRadius: BorderRadius.circular(8)),
+                      padding: EdgeInsets.symmetric(horizontal:5,vertical: 3),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                              child: Padding(
+                              child: Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
                                 padding: const EdgeInsets.all(5),
                                 child: Icon(
                                   Icons.remove,
-                                  size: 20,
-                                  color: ColorRes.charcoal,
+                                  size: MediaQuery.of(context).size.width/25,
+                                  color: ColorRes.whiteColor,
                                 ),
                               ),
                               onTap: decrement),
@@ -542,7 +742,7 @@ Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallba
                             child: Text(
                               '${cartItem.count}',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 color: ColorRes.charcoal,
                                 fontFamily: 'NeueFrutigerWorld',
                                 fontWeight: FontWeight.w500,
@@ -550,12 +750,13 @@ Widget wishProductView(WishProduct cartItem,VoidCallback removeButton,VoidCallba
                             ),
                           ),
                           GestureDetector(
-                              child: Padding(
+                              child: Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.circular(8)),
                                 padding: const EdgeInsets.all(5),
                                 child: Icon(
                                   Icons.add,
-                                  size: 20,
-                                  color: ColorRes.charcoal,
+                                  size: MediaQuery.of(context).size.width/25,
+                                  color: ColorRes.whiteColor,
                                 ),
                               ),
                               onTap: increment),

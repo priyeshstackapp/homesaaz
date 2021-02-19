@@ -32,9 +32,6 @@ class AddressScreenState extends State<AddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size media = MediaQuery.of(context).size;
-    double width = media.width;
-    double height = media.height;
     print("Current page --> $runtimeType");
     model ?? (model = AddressScreenViewModel(this));
     return WillPopScope(
@@ -51,29 +48,26 @@ class AddressScreenState extends State<AddressScreen> {
             alignment: Alignment.bottomCenter,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 19),
-                child: Container(
-                  height: MediaQuery.of(context).size.height -150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10),
-                      commonTitle('Address'),
-                      SizedBox(height: 20),
+                padding: const EdgeInsets.only(left: 19,bottom: 120),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    commonTitle('Address'),
+                    SizedBox(height: 20),
 
-                      //Show List of Address
-                      model.addressModel != null ? Expanded(
-                        child: ListView.builder(
-                          itemCount: model.addressModel.data.length == null ? null :model.addressModel.data.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return addressData(index);
-                          },
-                        ),
-                      ) : Container(),
-                    ],
-                  ),
+                    //Show List of Address
+                    model.addressModel != null ? Expanded(
+                      child: ListView.builder(
+                        itemCount: model.addressModel.data.length == null ? null :model.addressModel.data.length,
+                        // physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return addressData(index);
+                        },
+                      ),
+                    ) : Container(),
+                  ],
                 ),
               ),
               widget.cartModel!=null ? addAddressAndContinueButton() : Container(),
@@ -191,66 +185,68 @@ class AddressScreenState extends State<AddressScreen> {
 
   //Bottom Add Address and continue payment button
   Widget addAddressAndContinueButton() {
-    Size media = MediaQuery.of(context).size;
-    double width = media.width;
-    double height = media.height;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        InkWell(
-          onTap: () async {
-           var res = await gotoCreateAddressScreen(context, false, null);
-           if(res!=null){
-             model.addressListApi();
-           }
-          },
-          child: DottedBorder(
-            color: ColorRes.red,
-            dashPattern: [4, 4],
-            strokeWidth: 1,
+    return Container(
+      height: 120,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          InkWell(
+            onTap: () async {
+             var res = await gotoCreateAddressScreen(context, false, null);
+             if(res!=null){
+               model.addressListApi();
+             }
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: DottedBorder(
+                color: ColorRes.red,
+                dashPattern: [4, 4],
+                strokeWidth: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: ColorRes.whiteColor,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Text(
+                    '+ Add Address',
+                    style: new TextStyle(
+                        fontSize: 20,
+                        color: ColorRes.textColor,
+                        fontFamily: 'NeueFrutigerWorld',
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          InkWell(
+            onTap: () {
+              gotoCheckoutScreen(context, model.addressModel.data[isSelectedIndex],widget.cartModel);
+            },
             child: Container(
               alignment: Alignment.center,
-              height: height * 0.07,
-              width: width * 0.9,
+              height: 50,
+              margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                color: ColorRes.whiteColor,
+                color: ColorRes.red,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: Text(
-                '+ Add Address',
+                'Continue To Payment',
                 style: new TextStyle(
                     fontSize: 20,
-                    color: ColorRes.textColor,
+                    color: Colors.white,
                     fontFamily: 'NeueFrutigerWorld',
                     fontWeight: FontWeight.w500),
               ),
             ),
           ),
-        ),
-        SizedBox(height: 10),
-        InkWell(
-          onTap: () {
-            gotoCheckoutScreen(context, model.addressModel.data[isSelectedIndex],widget.cartModel);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            height: height * 0.07,
-            width: width * 0.92,
-            decoration: BoxDecoration(
-              color: ColorRes.red,
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Text(
-              'Continue To Payment',
-              style: new TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontFamily: 'NeueFrutigerWorld',
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

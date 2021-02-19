@@ -62,6 +62,7 @@ class Datum {
     this.sku,
     this.colorName,
     this.description,
+    this.wishlistStatus = false,
   });
 
   String itemdetId;
@@ -79,6 +80,7 @@ class Datum {
   String sku;
   String colorName;
   String description;
+  bool wishlistStatus;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     itemdetId: json["itemdet_id"],

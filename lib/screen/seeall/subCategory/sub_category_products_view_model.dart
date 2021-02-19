@@ -4,41 +4,31 @@ import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
-import 'package:homesaaz/model/home_model.dart';
 import 'package:homesaaz/model/product_list_model.dart';
-import 'package:homesaaz/model/sub_cat_model.dart';
-import 'package:homesaaz/screen/seeall/seeall_screen.dart';
+import 'package:homesaaz/screen/seeall/subCategory/sub_category_products.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
-class SeeAllScreenViewModel{
+class SubCategoryProductsViewModel{
 
-  SeeAllScreenState state;
+  SubCategoryProductsState state;
+
   bool canPaging = true;
 
 
-  SeeAllScreenViewModel(this.state){
-    if(state.widget.cat){
-      subCatData();
-    }else{
+  SubCategoryProductsViewModel(this.state){
       newProductData();
-    }
   }
 
   ProductListModel productListModel;
-  SubCatModel subCatModel;
 
-  newProductData({String id=""}) async {
+  newProductData() async {
     await Future.delayed(const Duration(milliseconds: 200), () {
       showLoader(state.context);
     });
 
-    Map<String,dynamic> body = id =="" ? {
-      'offset': state.offset.toString(),
-      'limit' : '20'
-    } :
-    {
-      "cat_id" : state.widget.id,
-      "subcat_id":id,
+    Map<String,dynamic> body = {
+      "cat_id" : state.widget.catId,
+      "subcat_id":state.widget.subCatId,
       'offset': state.offset.toString(),
       'limit' : '20'
     };
@@ -65,18 +55,12 @@ class SeeAllScreenViewModel{
     });
   }
 
-  newProductDataPaging({String id=""}) async {
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      showLoader(state.context);
-    });
+  newProductDataPaging() async {
+    showLoader(state.context);
 
-    Map<String,dynamic> body = id =="" ? {
-      'offset': state.offset.toString(),
-      'limit' : '20'
-    } :
-    {
-      "cat_id" : state.widget.id,
-      "subcat_id":id,
+    Map<String,dynamic> body = {
+      "cat_id" : state.widget.catId,
+      "subcat_id":state.widget.subCatId,
       'offset': state.offset.toString(),
       'limit' : '20'
     };
@@ -94,9 +78,6 @@ class SeeAllScreenViewModel{
         }else{
           canPaging = false;
         }
-        state.setState(() {
-
-        });
       } else {
         Utils.showToast("Something went wrong");
       }
@@ -107,34 +88,6 @@ class SeeAllScreenViewModel{
 
     });
   }
-
-  subCatData() async {
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      showLoader(state.context);
-    });
-
-    RestApi.subCatListApi(state.widget.id).then((responseData) {
-      hideLoader();
-      Map<String, dynamic> jsonData = json.decode(responseData.body);
-      if (responseData != null && jsonData['status'] == "error") {
-        Utils.showToast(jsonData['error']);
-      } else if(responseData != null) {
-        print(responseData);
-        subCatModel = subCatModelFromJson(responseData.body);
-        state.setState(() {
-
-        });
-      } else {
-        Utils.showToast("Something went wrong");
-      }
-    }).catchError((e) {
-      hideLoader();
-      Utils.showToast(e.toString());
-    }).whenComplete(() => {
-    newProductData()
-    });
-  }
-
 
   addToCart(String id, int count) async {
     showLoader(state.context);

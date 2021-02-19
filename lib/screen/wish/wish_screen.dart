@@ -58,7 +58,7 @@ class WishScreenState extends State<WishScreen> {
                           model.wishModel.data[index].count --;
                         });
                       }
-                    }
+                    },context
                 );
               },),
           ) : Align(

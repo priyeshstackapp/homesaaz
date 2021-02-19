@@ -23,7 +23,7 @@ class DashBoardModel {
   List<Product> trendingProducts;
   List<Product> featuredProducts;
   List<Category> categories;
-  List<StaticBanner> staticBanner;
+  List<Banner> staticBanner;
 
   factory DashBoardModel.fromJson(Map<String, dynamic> json) => DashBoardModel(
     banners: List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
@@ -31,7 +31,7 @@ class DashBoardModel {
     trendingProducts: List<Product>.from(json["trending_products"].map((x) => Product.fromJson(x))),
     featuredProducts: List<Product>.from(json["featured_products"].map((x) => Product.fromJson(x))),
     categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
-    staticBanner: List<StaticBanner>.from(json["static_banner"].map((x) => StaticBanner.fromJson(x))),
+    staticBanner: List<Banner>.from(json["static_banner"].map((x) => Banner.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -47,16 +47,32 @@ class DashBoardModel {
 class Banner {
   Banner({
     this.imageUrl,
+    this.actionType,
+    this.actionId,
+    this.displayStatus,
+    this.bannerImg,
   });
 
   String imageUrl;
+  String actionType;
+  String actionId;
+  String displayStatus;
+  String bannerImg;
 
   factory Banner.fromJson(Map<String, dynamic> json) => Banner(
-    imageUrl: json["image_url"],
+    imageUrl: json["image_url"] == null ? null : json["image_url"],
+    actionType: json["action_type"],
+    actionId: json["action_id"],
+    displayStatus: json["display_status"],
+    bannerImg: json["banner_img"] == null ? null : json["banner_img"],
   );
 
   Map<String, dynamic> toJson() => {
-    "image_url": imageUrl,
+    "image_url": imageUrl == null ? null : imageUrl,
+    "action_type": actionType,
+    "action_id": actionId,
+    "display_status": displayStatus,
+    "banner_img": bannerImg == null ? null : bannerImg,
   };
 }
 
@@ -100,6 +116,7 @@ class Product {
     this.wishlistStatus,
     this.productexistInCart,
     this.count,
+    this.prodqty,
   });
 
   String itemdetId;
@@ -112,6 +129,7 @@ class Product {
   String stockStatus;
   bool wishlistStatus;
   bool productexistInCart;
+  int prodqty;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     itemdetId: json["itemdet_id"],
@@ -123,7 +141,7 @@ class Product {
     stockStatus: json["stock_status"],
     wishlistStatus: json["wishlist_status"],
     productexistInCart: json["productexist_in_cart"],
-    count: json["prodqty"] == 0 ? 1: json["prodqty"],
+    prodqty: json["prodqty"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -136,7 +154,7 @@ class Product {
     "stock_status": stockStatus,
     "wishlist_status": wishlistStatus,
     "productexist_in_cart": productexistInCart,
-    "prodqty": count,
+    "prodqty": prodqty,
   };
 }
 
@@ -145,34 +163,6 @@ enum DiscountAvailable { NO }
 final discountAvailableValues = EnumValues({
   "no": DiscountAvailable.NO
 });
-
-class StaticBanner {
-  StaticBanner({
-    this.bannerImg,
-    this.actionType,
-    this.actionId,
-    this.displayStatus,
-  });
-
-  String bannerImg;
-  String actionType;
-  String actionId;
-  String displayStatus;
-
-  factory StaticBanner.fromJson(Map<String, dynamic> json) => StaticBanner(
-    bannerImg: json["banner_img"],
-    actionType: json["action_type"],
-    actionId: json["action_id"],
-    displayStatus: json["display_status"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "banner_img": bannerImg,
-    "action_type": actionType,
-    "action_id": actionId,
-    "display_status": displayStatus,
-  };
-}
 
 class EnumValues<T> {
   Map<String, T> map;

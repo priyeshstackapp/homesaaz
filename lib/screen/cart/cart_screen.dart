@@ -71,7 +71,7 @@ class CartScreenState extends State<CartScreen> {
                             cartItem.itemqty = quant.toString();
                           });
                         }
-                      });
+                      },context);
                     },),
                 ) : Align(
                     alignment: Alignment.center,

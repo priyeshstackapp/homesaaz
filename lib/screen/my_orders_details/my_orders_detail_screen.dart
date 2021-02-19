@@ -77,7 +77,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                                 BorderRadius.all(Radius.circular(30))),
                         alignment: Alignment.center,
                         child: Text(
-                          model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "0" ? "1": "",
+                          model.orderDetailsModel?.orderData?.currentOrderStatus == "0" ? "1": "",
                           style: TextStyle(color: ColorRes.whiteColor, fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w600),
                         ),
@@ -92,7 +92,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                                 BorderRadius.all(Radius.circular(30))),
                         alignment: Alignment.center,
                         child: Text(
-                          model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "1" ? "2": "",
+                          model.orderDetailsModel?.orderData?.currentOrderStatus == "1" ? "2": "",
                           style: TextStyle(color: ColorRes.whiteColor, fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w600),
                         ),
@@ -107,7 +107,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                                 BorderRadius.all(Radius.circular(30))),
                         alignment: Alignment.center,
                         child: Text(
-                          model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "2" ? "3": "",
+                          model.orderDetailsModel?.orderData?.currentOrderStatus == "2" ? "3": "",
                           style: TextStyle(color: ColorRes.whiteColor, fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w600),
                         ),
@@ -122,7 +122,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                                 BorderRadius.all(Radius.circular(30))),
                         alignment: Alignment.center,
                         child: Text(
-                          model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "3" ? "4": "",
+                          model.orderDetailsModel?.orderData?.currentOrderStatus == "3" ? "4": "",
                           style: TextStyle(color: ColorRes.whiteColor, fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w600),
                         ),
@@ -145,11 +145,11 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
-                                fontWeight: model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "0" ? FontWeight.bold : FontWeight.normal
+                                fontWeight: model.orderDetailsModel?.orderData?.currentOrderStatus == "0" ? FontWeight.bold : FontWeight.normal
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "0" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory?.first?.subStatement}" : "",
+                              model.orderDetailsModel?.orderData?.currentOrderStatus == "0" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
@@ -170,11 +170,11 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "1" ? FontWeight.bold : FontWeight.normal
+                                  fontWeight:  model.orderDetailsModel?.orderData?.currentOrderStatus == "1" ? FontWeight.bold : FontWeight.normal
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "1" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory?.first?.subStatement}" : "",
+                              model.orderDetailsModel?.orderData?.currentOrderStatus == "1" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: 'NeueFrutigerWorld',
@@ -195,11 +195,11 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "2" ? FontWeight.bold : FontWeight.normal
+                                  fontWeight: model.orderDetailsModel?.orderData?.currentOrderStatus == "2" ? FontWeight.bold : FontWeight.normal
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "2" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory?.first?.subStatement}" : "",
+                              model.orderDetailsModel?.orderData?.currentOrderStatus == "2" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: 'NeueFrutigerWorld',
@@ -220,11 +220,11 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "3" ? FontWeight.bold : FontWeight.normal
+                                  fontWeight: model.orderDetailsModel?.orderData?.currentOrderStatus == "3" ? FontWeight.bold : FontWeight.normal
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.orderStatusHistory[0].indicatorStatus.toString() == "3" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory?.first?.subStatement}" : "",
+                              model.orderDetailsModel?.orderData?.currentOrderStatus == "3" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: 'NeueFrutigerWorld',

@@ -309,13 +309,22 @@ class HomeScreenState extends State<HomeScreen> {
                 itemCount: model.dashBoardModel.banners.length,
                 // carouselController: carouselController,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  return Container(
+                  return InkWell(
+                    onTap: (){
+                      if(model.dashBoardModel.staticBanner[1].actionType=="product"){
+                        gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.banners[itemIndex].actionId));
+                      }else{
+                        gotoSeeAllScreen(context, "Category",model.dashBoardModel.banners[itemIndex].actionId,cat: true);
+                      }
+                    },
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      child: CachedNetworkImage(
-                        imageUrl: model.dashBoardModel.banners[itemIndex].imageUrl,
-                        placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
-                        errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        child: CachedNetworkImage(
+                          imageUrl: model.dashBoardModel.banners[itemIndex].imageUrl,
+                          placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                          errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                        ),
                       ),
                     ),
                   );
@@ -577,17 +586,15 @@ class HomeScreenState extends State<HomeScreen> {
         SizedBox(height: 18),
         //New Products Images
         Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 20),
           color: ColorRes.primaryColor,
-          height: 260,
+          height: 245,
           child: ListView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.newProducts.length != 0
                          ? model.dashBoardModel.newProducts.length
                          : 0,
               shrinkWrap: true,
-              // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 1,childAspectRatio: 0.9),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.newProductName[index];
@@ -599,9 +606,14 @@ class HomeScreenState extends State<HomeScreen> {
                         child: Stack(
                           children: [
                             Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 2,
                               child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 7),
-                                margin: EdgeInsets.symmetric(horizontal: 7),
+                                height: model.dashBoardModel.newProducts[index].stockStatus=="outofstock" ? 200 : 245,
+                                padding: EdgeInsets.symmetric(horizontal: 3),
+                                margin: EdgeInsets.symmetric(horizontal: 5),
                                 child: productView(
                                   model.dashBoardModel.newProducts[index].productImage,
                                   model.dashBoardModel.newProducts[index].productName,
@@ -615,11 +627,17 @@ class HomeScreenState extends State<HomeScreen> {
                                 },
                                     model.dashBoardModel.newProducts[index].stockStatus=="outofstock",
                                     () async {
-                                    await model.addToWish(model.dashBoardModel.newProducts[index].itemdetId);
-                                    model.dashBoardModel.newProducts[index].wishlistStatus = true;
-                                    setState(() {
+                                      if(model.dashBoardModel.newProducts[index].wishlistStatus) {
+                                        await model.removeFromCart(model.dashBoardModel
+                                            .newProducts[index].itemdetId);
+                                      }else{
+                                        await model.addToWish(model.dashBoardModel
+                                            .newProducts[index].itemdetId);
+                                      }
+                                      model.dashBoardModel.newProducts[index].wishlistStatus = !model.dashBoardModel.newProducts[index].wishlistStatus;
+                                      setState(() {
 
-                                    });
+                                      });
                                     },() async {
                                   if(model.dashBoardModel.newProducts[index].productexistInCart){
                                     await model.updateQuantity(model.dashBoardModel.newProducts[index].itemdetId, "plus");
@@ -640,17 +658,15 @@ class HomeScreenState extends State<HomeScreen> {
                                 },model.dashBoardModel.newProducts[index].count,
                                   model.dashBoardModel.newProducts[index].wishlistStatus,
                                   model.dashBoardModel.newProducts[index].productexistInCart,
+                                  context
                                 ),
                               ),
                             ),
-                            model.dashBoardModel.newProducts[index].stockStatus=="outofstock" ? RotationTransition(
-                              turns: AlwaysStoppedAnimation( -45 / 360),
-                              child: Container(
-                                  color: ColorRes.redColor,
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.only(top: 30),
-                                  child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
-                            ) : Container()
+                            model.dashBoardModel.newProducts[index].stockStatus=="outofstock" ? Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.only(topRight: Radius.circular(12),bottomRight: Radius.circular(12),)),
+                                padding: EdgeInsets.all(5),
+                                // margin: EdgeInsets.only(top: 30),
+                                child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)) : Container()
                           ],
                         ),
                       )
@@ -710,13 +726,11 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: 260,
-          child: GridView.builder(
+          height: 220,
+          child: ListView.builder(
               itemCount: model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
                   ? model.dashBoardModel.trendingProducts.length : 0,
               shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,childAspectRatio: 0.8),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // HomeScreenModel product = model.trendingProductsName[index];
@@ -729,6 +743,7 @@ class HomeScreenState extends State<HomeScreen> {
                           children: [
                             Card(
                               child: Container(
+                                height: model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock" ? 200 : 245,
                                 padding: EdgeInsets.symmetric(horizontal: 7),
                                 margin: EdgeInsets.symmetric(horizontal: 7),
                                 child: productView(
@@ -745,11 +760,17 @@ class HomeScreenState extends State<HomeScreen> {
                                     },
                                   model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock",
                                         () async {
-                                      await model.addToWish(model.dashBoardModel.trendingProducts[index].itemdetId);
-                                      model.dashBoardModel.trendingProducts[index].wishlistStatus = true;
-                                      setState(() {
+                                          if(model.dashBoardModel.trendingProducts[index].wishlistStatus) {
+                                            await model.removeFromCart(model.dashBoardModel
+                                                .trendingProducts[index].itemdetId);
+                                          }else{
+                                            await model.addToWish(model.dashBoardModel
+                                                .trendingProducts[index].itemdetId);
+                                          }
+                                          model.dashBoardModel.trendingProducts[index].wishlistStatus = !model.dashBoardModel.trendingProducts[index].wishlistStatus;
+                                          setState(() {
 
-                                      });
+                                          });
                                     },() async {
                                   if(model.dashBoardModel.newProducts[index].productexistInCart){
                                     await model.updateQuantity(model.dashBoardModel.newProducts[index].itemdetId, "plus");
@@ -769,6 +790,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 },model.dashBoardModel.trendingProducts[index].count,
                                   model.dashBoardModel.trendingProducts[index].wishlistStatus,
                                   model.dashBoardModel.trendingProducts[index].productexistInCart,
+                                  context
                                 ),
                               ),
                             ),
@@ -840,15 +862,13 @@ class HomeScreenState extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(left: 25),
           color: ColorRes.primaryColor,
-          height: 260,
-          child: GridView.builder(
+          height: 220,
+          child: ListView.builder(
               itemCount: model.dashBoardModel != null &&
                          model.dashBoardModel.featuredProducts.length != 0
                          ? model.dashBoardModel.featuredProducts.length
                          : 0,
               shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,childAspectRatio: 0.8),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 //  HomeScreenModel product = model.featuredProductsName[index];
@@ -862,6 +882,7 @@ class HomeScreenState extends State<HomeScreen> {
                           children: [
                             Card(
                               child: Container(
+                                height: model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock" ? 200 : 245,
                                 padding: EdgeInsets.symmetric(horizontal: 7),
                                 margin: EdgeInsets.symmetric(horizontal: 7),
                                 child: productView(
@@ -878,8 +899,14 @@ class HomeScreenState extends State<HomeScreen> {
                                     },
                                     model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock",
                                         () async {
-                                      await model.addToWish(model.dashBoardModel.featuredProducts[index].itemdetId);
-                                      model.dashBoardModel.featuredProducts[index].wishlistStatus = true;
+                                    if(model.dashBoardModel.featuredProducts[index].wishlistStatus) {
+                                      await model.removeFromCart(model.dashBoardModel
+                                          .featuredProducts[index].itemdetId);
+                                    }else{
+                                      await model.addToWish(model.dashBoardModel
+                                          .featuredProducts[index].itemdetId);
+                                    }
+                                      model.dashBoardModel.featuredProducts[index].wishlistStatus = !model.dashBoardModel.featuredProducts[index].wishlistStatus;
                                       setState(() {
 
                                       });
@@ -902,6 +929,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 },model.dashBoardModel.featuredProducts[index].count,
                                   model.dashBoardModel.featuredProducts[index].wishlistStatus,
                                   model.dashBoardModel.featuredProducts[index].productexistInCart,
+                                  context
                                 ),
                               ),
                             ),

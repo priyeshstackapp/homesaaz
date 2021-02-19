@@ -18,6 +18,7 @@ import 'package:homesaaz/screen/product_detail/product_detail.dart';
 import 'package:homesaaz/screen/profile/profile_screen.dart';
 import 'package:homesaaz/screen/seeall/categories_all.dart';
 import 'package:homesaaz/screen/seeall/seeall_screen.dart';
+import 'package:homesaaz/screen/seeall/subCategory/sub_category_products.dart';
 import 'package:homesaaz/screen/signup/signup_screen.dart';
 import 'package:homesaaz/screen/wish/wish_screen.dart';
 
@@ -86,6 +87,11 @@ replaceWithProductDetailScreen(context,Product product) {
 gotoProductDetailScreen(context, Product product) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product)));
+}
+
+gotoSubCategoryProducts(context, String catId, String subCatId, String catName,String subCatName) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => SubCategoryProducts(catId, subCatId, catName, subCatName)));
 }
 replaceWithProfileScreen(context) {
   Navigator.pushReplacement(

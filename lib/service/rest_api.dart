@@ -114,11 +114,7 @@ class RestApi{
     print(bodyData);
     try {
       http.Response response;
-      if(bodyData==null){
-        response = await http.post(url, headers: {'Authorization': auth});
-      }else{
-        response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
-      }
+      response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
       print(response.statusCode);
       print(response.body);
       if(response.statusCode == 200 || response.statusCode == 201) {
@@ -262,10 +258,7 @@ class RestApi{
         Map<String, dynamic> jsonData = json.decode(response.body);
         if (response != null && jsonData['status'] == "error") {
           Utils.showToast(jsonData['msg']);
-        } else {
-          Utils.showToast("Added to Wish List");
         }
-
       } else if(response.statusCode == 401) {
         Utils.showToast("Unauthorized user");
       } else{

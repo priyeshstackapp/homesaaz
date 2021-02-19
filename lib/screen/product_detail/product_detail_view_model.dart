@@ -104,4 +104,30 @@ class ProductDetailViewModel {
 
   }
 
+
+
+  addToWish(String id) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : id,
+    };
+
+    await RestApi.addToWishListApi(body);
+    hideLoader();
+
+  }
+
+  removeFromCart(String id) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : id,
+    };
+
+    await RestApi.removeWishApi(body);
+    hideLoader();
+  }
+
+
 }

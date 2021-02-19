@@ -97,6 +97,17 @@ class HomeScreenViewModel {
 
   }
 
+  removeFromCart(String id) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : id,
+    };
+
+    await RestApi.removeWishApi(body);
+    hideLoader();
+  }
+
   getCartData() async {
 
     Map<String, dynamic> body = {
