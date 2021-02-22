@@ -138,14 +138,17 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                           product.productImage,
                           product.productName,
                           product.discountedPrice,
-                          product.price, () {
+                          product.price, () async {
                         if(Injector.loginResponse==null){
                           gotoLoginScreen(context,isBack: true);
                         }else {
                           if (product.itemdetId == null) {
                             Utils.showToast("Item id is null");
                           } else {
-                            model.addToCart(product.itemdetId, product.count);
+                            await model.addToCart(product.itemdetId, product.count);
+                            setState(() {
+                              product.productexistInCart = true;
+                            });
                           }
                         }
                       },
@@ -169,14 +172,28 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                                   }
                                 }
                           },() async {
-                        setState(() {
-                          product.count ++;
-                        });
+                        if (product.itemdetId == null) {
+                          Utils.showToast("Item id is null");
+                        }else {
+                          if (product.productexistInCart) {
+                            await model.updateQuantity(product.itemdetId, 'minus');
+                          }
+                          setState(() {
+                            product.count ++;
+                          });
+                        }
                       }, () async {
                         if (product.count != 1) {
-                          setState(() {
-                            product.count --;
-                          });
+                          if (product.itemdetId == null) {
+                            Utils.showToast("Item id is null");
+                          }else {
+                            if (product.productexistInCart) {
+                              await model.updateQuantity(product.itemdetId, 'minus');
+                            }
+                            setState(() {
+                              product.count --;
+                            });
+                          }
                         }
                       },product.count,
                         product.wishlistStatus,
