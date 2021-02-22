@@ -7,21 +7,8 @@ import 'package:homesaaz/screen/signup/signup_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({
-    Key key,
-    this.first_name,
-    this.last_name,
-    this.mobileno,
-    this.email,
-    this.password,
-    this.conf_password,
-  }) : super(key: key);
-  final String first_name;
-  final String last_name;
-  final int mobileno;
-  final String email;
-  final String password;
-  final String conf_password;
+  bool isBack;
+  SignUpScreen({this.isBack});
 
   @override
   SignUpScreenState createState() => SignUpScreenState();
@@ -47,30 +34,6 @@ class SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   bool _passwordVisible = true;
 
-  _validateInputs() async {
-    model.registerApi();
-    /*if (firstNameController.text != '' &&
-        lastNameController.text != '' &&
-        mobileController.text != '' &&
-        emailController.text != '' &&
-        passwordCont.text != '' &&
-        conformPasswordController.text != '') {
-      model.nextButtonGotoSignUpPage(context);
-    } else {
-      setState(() {
-        print('=======================data not found...');
-
-      });
-    }*/
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
-
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
@@ -87,7 +50,7 @@ class SignUpScreenState extends State<SignUpScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: InkWell(
-                onTap: () => gotoLoginScreenUntilRemove(context),
+                onTap: () => Navigator.pop(context),
                 child: Image.asset(
                   App.left_arrow,
                   color: ColorRes.dimGray.withOpacity(0.3),
@@ -112,14 +75,7 @@ class SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: GestureDetector(
                 onTap: () {
-                  _validateInputs();
-                  /*      if (model.validate()) {
-                      setState(() {
-                        isLoading = true;
-                        gotoHomeScreen(context);
-                      });
-                      model.signUp();
-                  }*/
+                  model.registerApi();
                 },
                 child: gradientButton(context, title: "Sign Up"),
               ),

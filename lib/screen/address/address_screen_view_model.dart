@@ -33,7 +33,7 @@ class AddressScreenViewModel {
       if (responseData != null && jsonData['status'] == "error") {
        Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
-        print(responseData);
+
         print(addressModel);
         state.setState(() {
           addressModel = addressModelFromJson(responseData.body);

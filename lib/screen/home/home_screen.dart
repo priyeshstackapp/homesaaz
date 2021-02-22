@@ -131,7 +131,8 @@ class HomeScreenState extends State<HomeScreen> {
           backgroundColor: ColorRes.whisper,
           body: SafeArea(
             child: SingleChildScrollView(
-              child: Column(
+              child: Utils.checkLogin() ?
+              Column(
                 children: [
                   Container(
                     height: height * 0.8,
@@ -259,7 +260,8 @@ class HomeScreenState extends State<HomeScreen> {
                         InkWell(
                           onTap: () {
                             Injector.updateUserData(null);
-                            gotoLoginScreenUntilRemove(context);
+                            setState(() {});
+                            Navigator.pop(context);
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20),
@@ -291,6 +293,66 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ],
+              ) :
+              Column(
+                children: [
+                  Container(
+                    height: height * 0.8,
+                    width: width * width,
+                    color: ColorRes.primaryColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            gotoLoginScreen(context,isBack: false);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "Login",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            gotoSignUpScreen(context,isBack: false);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              "SignUp",
+                              style: new TextStyle(
+                                fontSize: 24,
+                                color: ColorRes.dimGray,
+                                fontFamily: 'NeueFrutigerWorld',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin:
+                    EdgeInsets.only(top: width * 0.08, right: width * 0.1),
+                    alignment: Alignment.bottomRight,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Image.asset(
+                        App.close,
+                        //color: Colors.black,
+                        height: 30,
+                        width: 30,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -310,9 +372,12 @@ class HomeScreenState extends State<HomeScreen> {
                 // carouselController: carouselController,
                 itemBuilder: (BuildContext context, int itemIndex) {
                   return InkWell(
-                    onTap: (){
+                    onTap: () async {
                       if(model.dashBoardModel.staticBanner[1].actionType=="product"){
-                        gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.banners[itemIndex].actionId));
+                        var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.banners[itemIndex].actionId));
+                        if(res!=null){
+                          model.dashBoardApi();
+                        }
                       }else{
                         gotoSeeAllScreen(context, "Category",model.dashBoardModel.banners[itemIndex].actionId,cat: true);
                       }
@@ -348,9 +413,12 @@ class HomeScreenState extends State<HomeScreen> {
               //Center Banner
               model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[0].displayStatus =="show"
                   ? InkWell(
-                  onTap: (){
+                  onTap: () async {
                     if(model.dashBoardModel.staticBanner[0].actionType=="product"){
-                      gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[0].actionId));
+                      var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[0].actionId));
+                      if(res!=null){
+                        model.dashBoardApi();
+                      }
                     }else{
                       gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[0].actionId,cat: true);
                     }
@@ -370,9 +438,12 @@ class HomeScreenState extends State<HomeScreen> {
               //Bottom Banner
               model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[1].displayStatus =="show"
                   ? InkWell(
-                  onTap: (){
+                  onTap: () async {
                     if(model.dashBoardModel.staticBanner[1].actionType=="product"){
-                      gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[1].actionId));
+                      var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[1].actionId));
+                      if(res!=null){
+                        model.dashBoardApi();
+                      }
                     }else{
                       gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[1].actionId,cat: true);
                     }
@@ -388,9 +459,12 @@ class HomeScreenState extends State<HomeScreen> {
               featuredProducts(),
               model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[2].displayStatus =="show"
                   ? InkWell(
-                  onTap: (){
+                  onTap: () async {
                     if(model.dashBoardModel.staticBanner[2].actionType=="product"){
-                      gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[2].actionId));
+                      var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[2].actionId));
+                      if(res!=null){
+                        model.dashBoardApi();
+                      }
                     }else{
                       gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[2].actionId,cat: true);
                     }
@@ -600,8 +674,11 @@ class HomeScreenState extends State<HomeScreen> {
                 // HomeScreenModel product = model.newProductName[index];
                 return model.dashBoardModel != null && model.dashBoardModel.newProducts.length != 0
                     ? GestureDetector(
-                        onTap: () {
-                          gotoProductDetailScreen(context,model.dashBoardModel.newProducts[index]);
+                        onTap: () async {
+                          var res = await gotoProductDetailScreen(context, model.dashBoardModel.newProducts[index]);
+                          if(res!=null){
+                            model.dashBoardApi();
+                          }
                         },
                         child: Stack(
                           children: [
@@ -736,8 +813,11 @@ class HomeScreenState extends State<HomeScreen> {
                 // HomeScreenModel product = model.trendingProductsName[index];
                 return model.dashBoardModel != null && model.dashBoardModel.trendingProducts.length != 0
                     ? GestureDetector(
-                        onTap: () {
-                          gotoProductDetailScreen(context,model.dashBoardModel.trendingProducts[index]);
+                        onTap: () async {
+                          var res = await gotoProductDetailScreen(context, model.dashBoardModel.trendingProducts[index]);
+                          if(res!=null){
+                            model.dashBoardApi();
+                          }
                         },
                         child: Stack(
                           children: [
@@ -875,8 +955,11 @@ class HomeScreenState extends State<HomeScreen> {
                 return model.dashBoardModel != null &&
                         model.dashBoardModel.featuredProducts.length != 0
                     ? GestureDetector(
-                        onTap: () {
-                          gotoProductDetailScreen(context,model.dashBoardModel.featuredProducts[index]);
+                        onTap: () async {
+                          var res = await gotoProductDetailScreen(context, model.dashBoardModel.featuredProducts[index]);
+                          if(res!=null){
+                            model.dashBoardApi();
+                          }
                         },
                         child: Stack(
                           children: [

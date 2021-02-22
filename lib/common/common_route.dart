@@ -50,13 +50,8 @@ replaceWithForgotPassword(context) {
       context, MaterialPageRoute(builder: (context) => ForgotPassword()));
 }
 
-gotoSignUpScreen(context) {
+gotoSignUpScreen(context,{bool isBack = false}) {
   Navigator.push(
-      context, MaterialPageRoute(builder: (context) => SignUpScreen()));
-}
-
-replaceWithSignUpScreen(context) {
-  Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => SignUpScreen()));
 }
 
@@ -79,14 +74,8 @@ gotoSeeAllScreen(context,title, String id,{bool cat = false}) {
       context, MaterialPageRoute(builder: (context) => SeeAllScreen(title,id,cat)));
 }
 
-replaceWithProductDetailScreen(context,Product product) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product)));
-}
-
-gotoProductDetailScreen(context, Product product) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product)));
+gotoProductDetailScreen(context, Product product) async {
+  return await Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product)));
 }
 
 gotoSubCategoryProducts(context, String catId, String subCatId, String catName,String subCatName) {

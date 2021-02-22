@@ -77,10 +77,11 @@ class SignUpViewModel {
       // Overlay.of(state.context).insert(loader);
       showLoader(state.context);
       RestApi.signUp(body).then((responseData) {
-        // hideLoader();
+        hideLoader();
         Map<String, dynamic> jsonData = json.decode(responseData.body);
         if (responseData != null && jsonData['status'] == "success") {
-          Navigator.pushAndRemoveUntil(state.context,MaterialPageRoute(builder: (context) => LoginScreen(),),(_)=> false);
+          showSnackBar(state.loginKey, "Successfully Signup", isError: false);
+          Future.delayed(Duration(milliseconds: 3000)).then((value) => gotoLoginScreen(state.context,isBack: state.widget.isBack));
         } else if(responseData != null && jsonData['status'] == "error") {
           showSnackBar(state.loginKey, jsonData['error'], isError: true);
         } else {
@@ -90,7 +91,7 @@ class SignUpViewModel {
         hideLoader();
         showSnackBar(state.loginKey, e.toString(), isError: true);
       }).whenComplete(() {
-        hideLoader();
+
       });
     } else {
       hideLoader();

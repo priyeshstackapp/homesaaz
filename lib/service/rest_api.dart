@@ -417,14 +417,15 @@ class RestApi{
 
 
   // Get Product details
-  static Future<Response> getProductDetails(String productId, Map<String, dynamic> bodyData) async {
+  static Future<Response> getProductDetails(Map<String, dynamic> bodyData) async {
     final String auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    String url = baseUrl + "products/product_detail?pid=$productId";
+    String url = baseUrl + "products/product_detail";
     print(url);
     print(bodyData);
 
     try {
       Response response = await http.post(url, headers: {'Authorization': auth},body: bodyData);
+      // Response response = await http.get(url, headers: {'Authorization': auth});
       if(response.statusCode == 200 || response.statusCode == 201) {
         print(response.statusCode);
         print(response.body);

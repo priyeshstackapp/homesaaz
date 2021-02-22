@@ -29,7 +29,7 @@ class LoginScreenViewModel {
         Map<String, dynamic> jsonData = json.decode(responseData.body);
         if (responseData != null && jsonData['status'] == "success") {
          // gotoHomeScreen(state.context);
-          print(responseData);
+
           LoginResponseModel loginResponse = LoginResponseModel.fromJson(jsonData);
           await Injector.updateUserData(loginResponse);
           // await Injector.setLoginRequest(loginRequest);

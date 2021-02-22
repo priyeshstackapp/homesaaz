@@ -87,7 +87,7 @@ class Datum {
     description: json["description"],
     wishlistStatus: json["wishlist_status"],
     productexistInCart: json["productexist_in_cart"],
-    prodqty: json["prodqty"],
+    prodqty: int.parse(json["prodqty"].toString()) ==0 ? 1 : int.parse(json["prodqty"].toString()),
   );
 
   Map<String, dynamic> toJson() => {

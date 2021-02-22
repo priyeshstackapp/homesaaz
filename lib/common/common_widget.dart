@@ -56,10 +56,14 @@ showSnackBar(_scaffoldKey, String message, {bool isError = false}) {
   ));
 }
 
-Widget backButton(context) {
+Widget backButton(context,{bool isBack}) {
   return InkWell(
     onTap: () {
-      Navigator.pop(context);
+      if(isBack){
+        Navigator.pop(context,"--");
+      }else {
+        Navigator.pop(context);
+      }
     },
     child: Padding(
       padding: const EdgeInsets.all(15.0),
@@ -941,9 +945,9 @@ Widget myOrdersView(MyOrderData myOrdersItem) {
   );
 }
 
-Widget commonAppbar(context) {
+Widget commonAppbar(context,{bool isBack = false}) {
   return AppBar(
-    leading: backButton(context),
+    leading: backButton(context,isBack: isBack),
     elevation: 0,
     backgroundColor: ColorRes.primaryColor,
     actions: [

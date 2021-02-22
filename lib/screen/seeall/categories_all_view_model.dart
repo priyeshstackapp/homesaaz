@@ -25,7 +25,7 @@ class CategoriesAllViewModel{
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
-        print(responseData);
+
         categories = allCategoriesModelFromJson(responseData.body);
         state.setState(() {
 

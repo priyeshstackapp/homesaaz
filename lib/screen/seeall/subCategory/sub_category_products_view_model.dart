@@ -39,7 +39,7 @@ class SubCategoryProductsViewModel{
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
-        print(responseData);
+
         productListModel = productListModelFromJson(responseData.body);
         state.setState(() {
 
@@ -71,10 +71,10 @@ class SubCategoryProductsViewModel{
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
-        print(responseData);
         var prod = productListModelFromJson(responseData.body);
         if(prod.productList.isNotEmpty){
           productListModel.productList.addAll(prod.productList);
+          state.isPaging = false;
         }else{
           canPaging = false;
         }

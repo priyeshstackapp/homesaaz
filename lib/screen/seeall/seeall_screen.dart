@@ -26,7 +26,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
   SeeAllScreenViewModel model;
 
   ScrollController controller;
-  bool isPaging = true;
+  bool isPaging = false;
   int offset = 0;
 
   @override
@@ -43,7 +43,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
 
   void _scrollListener() {
     if (controller.position.extentAfter < 100) {
-      if(model.canPaging){
+      if(model.canPaging && !isPaging){
         setState(() {
           isPaging = true;
         });
@@ -115,9 +115,16 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                 ProductList product = model.productListModel.productList[index];
 
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     print(product.itemdetId);
-                    gotoProductDetailScreen(context,Product(itemdetId: product.itemdetId));
+                    var res = await gotoProductDetailScreen(context, Product(itemdetId: product.itemdetId));
+                    if(res!=null){
+                      if(widget.cat){
+                        model.subCatData();
+                      }else{
+                        model.newProductData();
+                      }
+                    }
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(

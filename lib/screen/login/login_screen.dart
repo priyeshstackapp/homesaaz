@@ -26,15 +26,6 @@ class LoginScreenState extends State<LoginScreen> {
   TextEditingController emailCont = new TextEditingController(text: "abhishek.k@doorsstudio.com");
   TextEditingController passwordCont = new TextEditingController(text: "123456");
 
-  _validateInputs() async {
-    model.loginApi();
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
@@ -51,29 +42,9 @@ class LoginScreenState extends State<LoginScreen> {
               padding:
                   const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: InkWell(
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (context) => new AlertDialog(
-                    title: new Text('Are you sure?'),
-                    content: new Text('Do you want to exit an App'),
-                    actions: <Widget>[
-                      new FlatButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: new Text('No'),
-                      ),
-                      new FlatButton(
-                        onPressed: () {
-                          if (Platform.isAndroid) {
-                            SystemNavigator.pop();
-                          } else if (Platform.isIOS) {
-                            exit(0);
-                          }
-                        },
-                        child: new Text('Yes'),
-                      ),
-                    ],
-                  ),
-                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Image.asset(
                   App.left_arrow,
                   color: ColorRes.dimGray.withOpacity(0.3),
@@ -182,23 +153,7 @@ class LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: GestureDetector(
                 onTap: () {
-                  _validateInputs();
-                  /*if (model.validate()) {
-                      setState(() {
-                        isLoading = true;
-                        gotoHomeScreenUntilRemove(context);
-                      });
-                      model.login();
-                  }
-                  if (!isLoading) {
-                    if (model.validate()) {
-                      setState(() {
-                        isLoading = true;
-                       gotoHomeScreen(context);
-                      });
-                      model.login();
-                    }
-                  }*/
+                  model.loginApi();
                 },
                 child: gradientButton(context, title: 'Log in'),
               ),

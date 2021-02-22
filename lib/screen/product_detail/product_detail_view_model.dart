@@ -22,15 +22,18 @@ class ProductDetailViewModel {
 
   ProductDetailModel product;
 
+  bool reloadStatus = false;
+
   void getProduct() async {
     await Future.delayed(Duration(milliseconds: 200));
     showLoader(state.context);
 
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse==null ? "": Injector.loginResponse.uid,
+      'pid' :state.widget.product.itemdetId
     };
 
-    var responseData = await RestApi.getProductDetails(state.widget.product.itemdetId,body);
+    var responseData = await RestApi.getProductDetails(body);
 
     hideLoader();
     Map<String, dynamic> jsonData = json.decode(responseData.body);
@@ -62,7 +65,7 @@ class ProductDetailViewModel {
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : state.widget.product.itemdetId.toString(),
-      "qnty" : "${state.quantity}"
+      "qnty" : "${product.data[0].prodqty}"
     };
 
     var responseData = await RestApi.addToCartApi(body);
@@ -72,7 +75,7 @@ class ProductDetailViewModel {
     if (responseData != null && jsonData['status'] == "error") {
       Utils.showToast(jsonData['error']);
     } else if (responseData != null) {
-
+      reloadStatus = true;
       if(show)
         Utils.showToast("Added to cart");
 
@@ -108,6 +111,30 @@ class ProductDetailViewModel {
 
   }
 
+  updateQuantity(String productId,String action) async {
+    showLoader(state.context);
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "item_id" : productId,
+      "action" : action
+    };
+
+    RestApi.updateProductQuantity(body).then((responseData) {
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        reloadStatus = true;
+      } else {
+        //Utils.showToast("Something went wrong");
+      }
+    }).catchError((e) {
+      hideLoader();
+      // Utils.showToast(e.toString());
+    }).whenComplete(() {});
+  }
+
 
 
   addToWish(String id) async {
@@ -118,17 +145,18 @@ class ProductDetailViewModel {
     };
 
     await RestApi.addToWishListApi(body);
+    reloadStatus = true;
     hideLoader();
 
   }
 
-  removeFromCart(String id) async {
+  removeWishList(String id) async {
     showLoader(state.context);
     Map<String, dynamic> body = {
       "uid": Injector.loginResponse.uid,
       "item_id" : id,
     };
-
+    reloadStatus = true;
     await RestApi.removeWishApi(body);
     hideLoader();
   }

@@ -31,7 +31,7 @@ class ProfileScreenViewModel {
       if (responseData != null && jsonData['status'] == "error") {
         Utils.showToast(jsonData['error']);
       } else if(responseData != null) {
-        print(responseData);
+
         profileModel = profileModelFromJson(responseData.body);
         print(profileModel);
         state.setState(() {});

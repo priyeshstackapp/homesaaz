@@ -56,7 +56,7 @@ class ProductList {
     discountAvailable: json["discount_available"],
     wishlistStatus: json["wishlist_status"],
     productexistInCart: json["productexist_in_cart"],
-    count: json["prodqty"] == 0 ? 1: json["prodqty"],
+    count: int.parse(json["prodqty"].toString()) == 0 ? 1: int.parse(json["prodqty"].toString()),
   );
 
   Map<String, dynamic> toJson() => {
