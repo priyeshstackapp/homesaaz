@@ -259,6 +259,8 @@ class RestApi{
         Map<String, dynamic> jsonData = json.decode(response.body);
         if (response != null && jsonData['status'] == "error") {
           Utils.showToast(jsonData['msg']);
+        }else{
+          Utils.showToast("Added to wishlist");
         }
       } else if(response.statusCode == 401) {
         Utils.showToast("Unauthorized user");
@@ -283,6 +285,7 @@ class RestApi{
       print(response.statusCode);
       print(response.body);
       if(response.statusCode == 200 || response.statusCode == 201) {
+        Utils.showToast("Removed from wishlist");
         return response;
       } else if(response.statusCode == 401) {
         Utils.showToast("Unauthorized user");

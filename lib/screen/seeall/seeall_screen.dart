@@ -176,7 +176,7 @@ class SeeAllScreenState extends State<SeeAllScreen> {
                           Utils.showToast("Item id is null");
                         }else {
                           if (product.productexistInCart) {
-                            await model.updateQuantity(product.itemdetId, 'minus');
+                            await model.updateQuantity(product.itemdetId, 'plus');
                           }
                           setState(() {
                             product.count ++;

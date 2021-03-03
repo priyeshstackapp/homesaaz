@@ -141,7 +141,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Your order has been placed successfully",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 0 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[0].statement}" : "Your order has been placed successfully",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
@@ -149,7 +149,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.currentOrderStatus == "0" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 0 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[0].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
@@ -166,7 +166,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Your order is being processed",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 1 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[1].statement}" : "Your order has been placed successfully",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
@@ -174,7 +174,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.currentOrderStatus == "1" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 1 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[1].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: 'NeueFrutigerWorld',
@@ -191,7 +191,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Your order is out for delivery",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 2 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[2].statement}" :"Your order is out for delivery",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
@@ -199,7 +199,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.currentOrderStatus == "2" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 2 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[2].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: 'NeueFrutigerWorld',
@@ -216,7 +216,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Your order has been delivered successfully",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 3 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[3].statement}" :"Your order has been delivered successfully",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: 'NeueFrutigerWorld',
@@ -224,7 +224,7 @@ class MyOrdersDetailScreenState extends State<MyOrdersDetailScreen> {
                               ),
                             ),
                             Text(
-                              model.orderDetailsModel?.orderData?.currentOrderStatus == "3" ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus)].subStatement}" : "",
+                              int.parse(model.orderDetailsModel?.orderData?.currentOrderStatus) >= 3 ? "${model.orderDetailsModel?.orderData?.orderStatusHistory[3].subStatement}" : "",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontFamily: 'NeueFrutigerWorld',

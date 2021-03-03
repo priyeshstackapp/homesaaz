@@ -476,6 +476,17 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                     ) : Container() ,
+                    model.product.data[0].productexistInCart ?
+                    Container(
+                      color: ColorRes.red,
+                      width: model.product.data[0].productexistInCart ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width/2,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "added to cart".toUpperCase(),
+                        style: TextStyle(fontSize: 18,color: ColorRes.whiteColor),
+                      ),
+                    ):
                     InkWell(
                       onTap: () async {
                         if(Injector.loginResponse==null){

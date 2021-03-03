@@ -65,6 +65,7 @@ class HomeScreenState extends State<HomeScreen> {
           actions: [
             InkWell(
               onTap: () {
+                FocusScope.of(context).unfocus();
                 if(Utils.checkLogin()) {
                   gotoProfileScreen(context);
                 }else{
@@ -86,6 +87,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
+                FocusScope.of(context).unfocus();
                 if(Utils.checkLogin()) {
                   gotoCartScreen(context);
                 }else{
@@ -144,6 +146,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //Home
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             replaceWithHomeScreen(context);
                           },
                           child: Padding(
@@ -161,6 +164,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //Profile
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoProfileScreen(context);
                           },
                           child: Padding(
@@ -178,6 +182,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //My Cart
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoCartScreen(context);
                           },
                           child: Padding(
@@ -195,6 +200,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //Favorite
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoWishScreen(context);
                           },
                           child: Padding(
@@ -211,6 +217,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoAddressScreen(context, null);
                           },
                           child: Padding(
@@ -228,6 +235,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //My Orders
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoMyOrdersScreen(context);
                           },
                           child: Padding(
@@ -259,6 +267,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //LogOut
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             Injector.updateUserData(null);
                             setState(() {});
                             Navigator.pop(context);
@@ -305,6 +314,7 @@ class HomeScreenState extends State<HomeScreen> {
                       children: [
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoLoginScreen(context,isBack: false);
                           },
                           child: Padding(
@@ -321,6 +331,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
+                FocusScope.of(context).unfocus();
                             gotoSignUpScreen(context,isBack: false);
                           },
                           child: Padding(
@@ -565,6 +576,7 @@ class HomeScreenState extends State<HomeScreen> {
               return model.dashBoardModel != null && model.dashBoardModel.categories.length != 0
                   ? InkWell(
                       onTap: () {
+                FocusScope.of(context).unfocus();
                         gotoSeeAllScreen(
                             context,
                             model.dashBoardModel.categories[index].categoryName,model.dashBoardModel.categories[index].categoryId,cat: true);
@@ -641,6 +653,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
+                FocusScope.of(context).unfocus();
                 gotoSeeAllScreen(context, "New Products",null);
               },
               child: Container(
@@ -782,6 +795,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
+                FocusScope.of(context).unfocus();
                 gotoSeeAllScreen(context, "Trending Products",null);
               },
               child: Container(
@@ -822,6 +836,10 @@ class HomeScreenState extends State<HomeScreen> {
                         child: Stack(
                           children: [
                             Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 2,
                               child: Container(
                                 height: model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock" ? 200 : 245,
                                 padding: EdgeInsets.symmetric(horizontal: 7),
@@ -874,14 +892,11 @@ class HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock" ? RotationTransition(
-                              turns: AlwaysStoppedAnimation( -45 / 360),
-                              child: Container(
-                                  color: ColorRes.redColor,
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.only(top: 30),
-                                  child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
-                            ) : Container()
+                            model.dashBoardModel.trendingProducts[index].stockStatus=="outofstock" ? Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.only(topRight: Radius.circular(12),bottomRight: Radius.circular(12),)),
+                                padding: EdgeInsets.all(5),
+                                // margin: EdgeInsets.only(top: 30),
+                                child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)) : Container()
                           ],
                         ),
                       )
@@ -921,6 +936,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
+                FocusScope.of(context).unfocus();
                 gotoSeeAllScreen(context, "Featured Products",null);
               },
               child: Container(
@@ -964,6 +980,9 @@ class HomeScreenState extends State<HomeScreen> {
                         child: Stack(
                           children: [
                             Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
                               child: Container(
                                 height: model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock" ? 200 : 245,
                                 padding: EdgeInsets.symmetric(horizontal: 7),
@@ -1016,14 +1035,11 @@ class HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock" ? RotationTransition(
-                              turns: AlwaysStoppedAnimation( -45 / 360),
-                              child: Container(
-                                  color: ColorRes.redColor,
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.only(top: 30),
-                                  child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)),
-                            ) : Container(),
+                            model.dashBoardModel.featuredProducts[index].stockStatus=="outofstock" ? Container(
+                                decoration: BoxDecoration(color: ColorRes.redColor,borderRadius: BorderRadius.only(topRight: Radius.circular(12),bottomRight: Radius.circular(12),)),
+                                padding: EdgeInsets.all(5),
+                                // margin: EdgeInsets.only(top: 30),
+                                child: Text("Out of stock",style: TextStyle(color: ColorRes.whiteColor,fontSize: 12),)) : Container(),
                           ],
                         ),
                       )

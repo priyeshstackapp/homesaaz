@@ -161,6 +161,7 @@ class CustomTextFieldShadow extends StatelessWidget {
             borderSide: BorderSide(color: ColorRes.transparent),
           ),
         ),
+        onSaved: name=="Search" ? (s) => FocusScope.of(context).unfocus() : (s){} ,
         obscureText: obscureText,
         keyboardType: _keyboartType,
         minLines: 1,
