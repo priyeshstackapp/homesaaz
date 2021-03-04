@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
@@ -18,10 +20,22 @@ class LoginScreenViewModel {
   void loginApi() async {
     FocusScope.of(state.context).unfocus();
 
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    var device;
+
+    if(!Platform.isIOS){
+      device = await deviceInfo.androidInfo;
+    }else{
+      device = await deviceInfo.iosInfo;
+    }
+
     Map<String, dynamic> body = {
       "login_username": state.emailCont.text,
       "login_password": state.passwordCont.text,
       "login_using" :'email',
+      "token" : "token",
+      "device_type" : Platform.isIOS ? "iOS" : "android",
+      "device_model": "${device.model}"
     };
     if (validate()) {
       showLoader(state.context);

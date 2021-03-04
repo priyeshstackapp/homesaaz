@@ -6,6 +6,7 @@ import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/cart_model.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
+import 'package:homesaaz/model/search_model.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/service/rest_api.dart';
 
@@ -13,6 +14,7 @@ class HomeScreenViewModel {
   HomeScreenState state;
 
   DashBoardModel dashBoardModel;
+  SearchModel searchModel;
   List<Category> categories;
   HomeScreenViewModel(HomeScreenState state) {
     this.state = state;
@@ -125,6 +127,36 @@ class HomeScreenViewModel {
       } else if (responseData != null) {
         Injector.updateCartData(cartModelFromJson(responseData.body));
         return cartModelFromJson(responseData.body);
+      } else {
+        return null;
+      }
+    }catch(e){
+      print(e);
+      hideLoader();
+      Utils.showToast(e.toString());
+      return null;
+    }
+
+  }
+
+  getSearchData(String keyword) async {
+
+    Map<String, dynamic> body = {
+      "uid": Injector.loginResponse.uid,
+      "searchkey": keyword,
+    };
+    showLoader(state.context);
+    try{
+      var responseData = await RestApi.getSearchData(body);
+      hideLoader();
+      Map<String, dynamic> jsonData = json.decode(responseData.body);
+      if (responseData != null && jsonData['status'] == "error") {
+        Utils.showToast(jsonData['error']);
+      } else if (responseData != null) {
+        searchModel = searchModelFromJson(responseData.body);
+        state.setState(() {
+
+        });
       } else {
         return null;
       }

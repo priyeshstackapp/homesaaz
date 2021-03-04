@@ -97,12 +97,14 @@ class CustomTextFieldShadow extends StatelessWidget {
   final Size media;
   final BuildContext context;
   final int mxline;
+  Function(String) searchCall;
 
   CustomTextFieldShadow(
       {Key key,
       this.text,
       this.fieldController,
       this.name,
+      this.searchCall,
       this.obscureText,
       this.keyboartType,
       this.context,
@@ -161,7 +163,8 @@ class CustomTextFieldShadow extends StatelessWidget {
             borderSide: BorderSide(color: ColorRes.transparent),
           ),
         ),
-        onSaved: name=="Search" ? (s) => FocusScope.of(context).unfocus() : (s){} ,
+        onFieldSubmitted: name=="Search" ? searchCall : (s){} ,
+        onSaved: name=="Search" ? searchCall : (s){} ,
         obscureText: obscureText,
         keyboardType: _keyboartType,
         minLines: 1,
@@ -204,7 +207,7 @@ Widget productView(
               Container(
                 width: 160,
                 child: Text(
-                  productName +"shbdv jshd hsd shd asjd ksjd asjd hsdhasdha duhsa dh dhsahds".toUpperCase(),
+                  productName,
                   style: new TextStyle(
                     color: ColorRes.charcoal,
                     fontFamily: 'NeueFrutigerWorld',
@@ -334,6 +337,53 @@ Widget productView(
           child: Image.asset('assets/icon/heart_outline.png',height: 20,width: 20),
         ),
       )
+    ],
+  );
+}
+
+Widget searchProductView(
+    String imageUrl,
+    String productName,
+    context) {
+  return Stack(
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            child: imageUrl!=null && imageUrl.isNotEmpty
+                ? Image.network(imageUrl,fit: BoxFit.cover,height: MediaQuery.of(context).size.width/3,)
+                : Image.asset(App.defaultImage, fit: BoxFit.cover,height: MediaQuery.of(context).size.width/3),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 160,
+                height: 30,
+                child: Text(
+                  productName,
+                  overflow: TextOverflow.ellipsis,
+                  style: new TextStyle(
+                    color: ColorRes.charcoal,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 2,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+            ],
+          ),
+        ],
+      ),
     ],
   );
 }

@@ -10,6 +10,7 @@ import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
 import 'package:homesaaz/common/util.dart';
 import 'package:homesaaz/model/dashboard_model.dart';
+import 'package:homesaaz/model/search_model.dart';
 import 'package:homesaaz/screen/home/home_screen_view_model.dart';
 import 'package:homesaaz/service/profile_bloc.dart';
 
@@ -20,26 +21,37 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   HomeScreenViewModel model;
+
+  bool isSearching = false;
+
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
+    if(isSearching){
+      setState(() {
+        isSearching = false;
+      });
+      return false;
+    }else {
+      return (await showDialog(
+        context: context,
+        builder: (context) =>
+        new AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit an App'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: new Text('Yes'),
+            ),
+          ],
+        ),
+      )) ??
+          false;
+    }
   }
 
   @override
@@ -132,25 +144,26 @@ class HomeScreenState extends State<HomeScreen> {
         drawer: Scaffold(
           backgroundColor: ColorRes.whisper,
           body: SafeArea(
-            child: SingleChildScrollView(
-              child: Utils.checkLogin() ?
-              Column(
-                children: [
-                  Container(
-                    height: height * 0.8,
-                    width: width * width,
-                    color: ColorRes.primaryColor,
+            child: Utils.checkLogin() ?
+            Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  height: height * 0.8,
+                  width: width * width,
+                  color: ColorRes.primaryColor,
+                  child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //Home
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             replaceWithHomeScreen(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "Home",
                               style: new TextStyle(
@@ -164,11 +177,11 @@ class HomeScreenState extends State<HomeScreen> {
                         //Profile
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             gotoProfileScreen(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "Profile",
                               style: new TextStyle(
@@ -182,11 +195,11 @@ class HomeScreenState extends State<HomeScreen> {
                         //My Cart
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             gotoCartScreen(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "My Cart",
                               style: new TextStyle(
@@ -200,11 +213,11 @@ class HomeScreenState extends State<HomeScreen> {
                         //Favorite
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             gotoWishScreen(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "My Wish List",
                               style: new TextStyle(
@@ -217,11 +230,11 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             gotoAddressScreen(context, null);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "Manage Address",
                               style: new TextStyle(
@@ -235,11 +248,11 @@ class HomeScreenState extends State<HomeScreen> {
                         //My Orders
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             gotoMyOrdersScreen(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "My Orders",
                               style: new TextStyle(
@@ -253,7 +266,7 @@ class HomeScreenState extends State<HomeScreen> {
                         //Help
                         InkWell(
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "Help",
                               style: new TextStyle(
@@ -267,13 +280,13 @@ class HomeScreenState extends State<HomeScreen> {
                         //LogOut
                         InkWell(
                           onTap: () {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
                             Injector.updateUserData(null);
                             setState(() {});
                             Navigator.pop(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(
                               "LogOut",
                               style: new TextStyle(
@@ -287,84 +300,84 @@ class HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(top: width * 0.08, right: width * 0.1),
-                    alignment: Alignment.bottomRight,
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: Image.asset(
-                        App.close,
-                        //color: Colors.black,
-                        height: 30,
-                        width: 30,
-                      ),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(top: width * 0.08, right: width * 0.1),
+                  alignment: Alignment.bottomRight,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Image.asset(
+                      App.close,
+                      //color: Colors.black,
+                      height: 30,
+                      width: 30,
                     ),
                   ),
-                ],
-              ) :
-              Column(
-                children: [
-                  Container(
-                    height: height * 0.8,
-                    width: width * width,
-                    color: ColorRes.primaryColor,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                FocusScope.of(context).unfocus();
-                            gotoLoginScreen(context,isBack: false);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Text(
-                              "Login",
-                              style: new TextStyle(
-                                fontSize: 24,
-                                color: ColorRes.dimGray,
-                                fontFamily: 'NeueFrutigerWorld',
-                              ),
+                ),
+              ],
+            ) :
+            Column(
+              children: [
+                Container(
+                  height: height * 0.8,
+                  width: width * width,
+                  color: ColorRes.primaryColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+              FocusScope.of(context).unfocus();
+                          gotoLoginScreen(context,isBack: false);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            "Login",
+                            style: new TextStyle(
+                              fontSize: 24,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                FocusScope.of(context).unfocus();
-                            gotoSignUpScreen(context,isBack: false);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Text(
-                              "SignUp",
-                              style: new TextStyle(
-                                fontSize: 24,
-                                color: ColorRes.dimGray,
-                                fontFamily: 'NeueFrutigerWorld',
-                              ),
+                      ),
+                      InkWell(
+                        onTap: () {
+              FocusScope.of(context).unfocus();
+                          gotoSignUpScreen(context,isBack: false);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            "SignUp",
+                            style: new TextStyle(
+                              fontSize: 24,
+                              color: ColorRes.dimGray,
+                              fontFamily: 'NeueFrutigerWorld',
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin:
-                    EdgeInsets.only(top: width * 0.08, right: width * 0.1),
-                    alignment: Alignment.bottomRight,
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: Image.asset(
-                        App.close,
-                        //color: Colors.black,
-                        height: 30,
-                        width: 30,
                       ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin:
+                  EdgeInsets.only(top: width * 0.08, right: width * 0.1),
+                  alignment: Alignment.bottomRight,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Image.asset(
+                      App.close,
+                      //color: Colors.black,
+                      height: 30,
+                      width: 30,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -376,116 +389,122 @@ class HomeScreenState extends State<HomeScreen> {
               search(),
               SizedBox(height: 20),
 
-              //Top Banner --  imageApp.banner_top
-              model.dashBoardModel != null && model.dashBoardModel.banners.length != 0
-                  ? CarouselSlider.builder(
-                itemCount: model.dashBoardModel.banners.length,
-                // carouselController: carouselController,
-                itemBuilder: (BuildContext context, int itemIndex) {
-                  return InkWell(
-                    onTap: () async {
-                      if(model.dashBoardModel.staticBanner[1].actionType=="product"){
-                        var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.banners[itemIndex].actionId));
-                        if(res!=null){
-                          model.dashBoardApi();
-                        }
-                      }else{
-                        gotoSeeAllScreen(context, "Category",model.dashBoardModel.banners[itemIndex].actionId,cat: true);
-                      }
-                    },
-                    child: Container(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        child: CachedNetworkImage(
-                          imageUrl: model.dashBoardModel.banners[itemIndex].imageUrl,
-                          placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
-                          errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+              isSearching ?
+              searchProduct() :
+              Column(
+                children: [
+                  //Top Banner --  imageApp.banner_top
+                  model.dashBoardModel != null && model.dashBoardModel.banners.length != 0
+                      ? CarouselSlider.builder(
+                    itemCount: model.dashBoardModel.banners.length,
+                    // carouselController: carouselController,
+                    itemBuilder: (BuildContext context, int itemIndex) {
+                      return InkWell(
+                        onTap: () async {
+                          if(model.dashBoardModel.staticBanner[1].actionType=="product"){
+                            var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.banners[itemIndex].actionId));
+                            if(res!=null){
+                              model.dashBoardApi();
+                            }
+                          }else{
+                            gotoSeeAllScreen(context, "Category",model.dashBoardModel.banners[itemIndex].actionId,cat: true);
+                          }
+                        },
+                        child: Container(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 5),
+                            child: CachedNetworkImage(
+                              imageUrl: model.dashBoardModel.banners[itemIndex].imageUrl,
+                              placeholder: (context, url) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                              errorWidget: (context, url, error) => Image.asset(App.defaultImage,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+                            ),
+                          ),
                         ),
-                      ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      viewportFraction: 1.0,
+                      enlargeCenterPage: false,
                     ),
-                  );
-                },
-                options: CarouselOptions(
-                  autoPlay: true,
-                  viewportFraction: 1.0,
-                  enlargeCenterPage: false,
-                ),
+                  )
+                      : Container(),
+
+                  SizedBox(height: 14),
+
+                  categories(),
+                  SizedBox(height: 50),
+
+                  //New Products
+                  newProduct(),
+
+                  //Center Banner
+                  model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[0].displayStatus =="show"
+                      ? InkWell(
+                      onTap: () async {
+                        if(model.dashBoardModel.staticBanner[0].actionType=="product"){
+                          var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[0].actionId));
+                          if(res!=null){
+                            model.dashBoardApi();
+                          }
+                        }else{
+                          gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[0].actionId,cat: true);
+                        }
+                      },
+                      child: Image.network(model.dashBoardModel.staticBanner[0].bannerImg,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width))
+                      : Container(),
+                  model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
+                      ? SizedBox(height: 50) : Container(),
+
+                  SizedBox(height: height * 0.05),
+
+                  //Trending Products
+                  trendingProducts(),
+
+                  //Bottom Banner
+                  model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[1].displayStatus =="show"
+                      ? InkWell(
+                      onTap: () async {
+                        if(model.dashBoardModel.staticBanner[1].actionType=="product"){
+                          var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[1].actionId));
+                          if(res!=null){
+                            model.dashBoardApi();
+                          }
+                        }else{
+                          gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[1].actionId,cat: true);
+                        }
+                      },
+                      child: Image.network(model.dashBoardModel.staticBanner[1].bannerImg,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width))
+                      : Container(),
+                  model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
+                      ? SizedBox(height: 50) : Container(),
+
+                  //Featured Products
+                  featuredProducts(),
+                  model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[2].displayStatus =="show"
+                      ? InkWell(
+                      onTap: () async {
+                        if(model.dashBoardModel.staticBanner[2].actionType=="product"){
+                          var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[2].actionId));
+                          if(res!=null){
+                            model.dashBoardApi();
+                          }
+                        }else{
+                          gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[2].actionId,cat: true);
+                        }
+                      },
+                      child: Image.network(model.dashBoardModel.staticBanner[2].bannerImg,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width))
+                      : Container(),
+                  model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
+                      ? SizedBox(height: 50) : Container(),
+                ],
               )
-                  : Container(),
-
-              SizedBox(height: 14),
-
-              categories(),
-              SizedBox(height: 50),
-
-              //New Products
-              newProduct(),
-
-              //Center Banner
-              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[0].displayStatus =="show"
-                  ? InkWell(
-                  onTap: () async {
-                    if(model.dashBoardModel.staticBanner[0].actionType=="product"){
-                      var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[0].actionId));
-                      if(res!=null){
-                        model.dashBoardApi();
-                      }
-                    }else{
-                      gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[0].actionId,cat: true);
-                    }
-                  },
-                  child: Image.network(model.dashBoardModel.staticBanner[0].bannerImg,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width))
-                  : Container(),
-              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
-                  ? SizedBox(height: 50) : Container(),
-
-              SizedBox(height: height * 0.05),
-
-              //Trending Products
-              trendingProducts(),
-
-              //Bottom Banner
-              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[1].displayStatus =="show"
-                  ? InkWell(
-                  onTap: () async {
-                    if(model.dashBoardModel.staticBanner[1].actionType=="product"){
-                      var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[1].actionId));
-                      if(res!=null){
-                        model.dashBoardApi();
-                      }
-                    }else{
-                      gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[1].actionId,cat: true);
-                    }
-                  },
-                  child: Image.network(model.dashBoardModel.staticBanner[1].bannerImg,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width))
-                  : Container(),
-              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
-                  ? SizedBox(height: 50) : Container(),
-
-              //Featured Products
-              featuredProducts(),
-              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty && model.dashBoardModel.staticBanner[2].displayStatus =="show"
-                  ? InkWell(
-                  onTap: () async {
-                    if(model.dashBoardModel.staticBanner[2].actionType=="product"){
-                      var res = await gotoProductDetailScreen(context, Product(itemdetId: model.dashBoardModel.staticBanner[2].actionId));
-                      if(res!=null){
-                        model.dashBoardApi();
-                      }
-                    }else{
-                      gotoSeeAllScreen(context, "Category",model.dashBoardModel.staticBanner[2].actionId,cat: true);
-                    }
-                  },
-                  child: Image.network(model.dashBoardModel.staticBanner[2].bannerImg,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width))
-                  : Container(),
-              model.dashBoardModel != null && model.dashBoardModel.staticBanner.isNotEmpty
-                  ? SizedBox(height: 50) : Container(),
             ],
           ),
         ),
@@ -504,6 +523,16 @@ class HomeScreenState extends State<HomeScreen> {
           text: "Search Your Product",
           fieldController: null,
           name: "Search",
+          searchCall: (s) {
+            FocusScope.of(context).unfocus();
+            if(s.isNotEmpty){
+              print(s);
+              setState(() {
+                isSearching = true;
+              });
+              model.getSearchData(s);
+            }
+          },
           obscureText: false,
           keyboartType: TextInputType.text,
           media: media),
@@ -1053,6 +1082,49 @@ class HomeScreenState extends State<HomeScreen> {
 
         SizedBox(height: 18),
       ],
+    );
+  }
+
+  //Featured Products
+  Widget searchProduct() {
+    return Container(
+      padding: EdgeInsets.only(left: 25),
+      color: ColorRes.primaryColor,
+      child: GridView.builder(
+          itemCount: model.searchModel != null &&
+                     model.searchModel.searchItem != null
+                     ? model.searchModel.searchItem.length
+                     : 0,
+          shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,mainAxisSpacing: 5,crossAxisSpacing: 5,childAspectRatio: 0.95),
+          itemBuilder: (context, index) {
+             SearchItem product = model.searchModel.searchItem[index];
+            return GestureDetector(
+              onTap: () async {
+                var res = await gotoProductDetailScreen(context, Product(itemdetId: model.searchModel.searchItem[index].itemdetId));
+                if(res!=null){
+                  model.dashBoardApi();
+                }
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 7),
+                  margin: EdgeInsets.symmetric(horizontal: 7),
+                  child: searchProductView(
+                      null,
+                      product.productName,
+                      context
+                  ),
+                ),
+              ),
+            );
+          },
+      ),
     );
   }
 }

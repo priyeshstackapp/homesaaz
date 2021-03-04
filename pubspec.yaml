@@ -44,6 +44,8 @@ dependencies:
 
   rxdart: ^0.25.0
 
+  device_info: ^2.0.0
+
   # paytm
   paytm: ^2.0.0
 
