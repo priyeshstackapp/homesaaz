@@ -46,6 +46,12 @@ dependencies:
 
   device_info: ^2.0.0
 
+  # local notification
+  flutter_local_notifications: ^3.0.2
+  # firebase
+  firebase_core: ^0.5.3
+  firebase_messaging: ^7.0.3
+
   # paytm
   paytm: ^2.0.0
 

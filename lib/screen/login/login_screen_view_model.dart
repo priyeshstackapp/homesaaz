@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:homesaaz/common/common_route.dart';
 import 'package:homesaaz/common/common_widget.dart';
 import 'package:homesaaz/common/dependency_injection.dart';
+import 'package:homesaaz/main.dart';
 import 'package:homesaaz/model/login_ref_model.dart';
 import 'package:homesaaz/screen/home/home_screen.dart';
 import 'package:homesaaz/screen/login/login_screen.dart';
@@ -33,7 +34,7 @@ class LoginScreenViewModel {
       "login_username": state.emailCont.text,
       "login_password": state.passwordCont.text,
       "login_using" :'email',
-      "token" : "token",
+      "token" : deviceToken,
       "device_type" : Platform.isIOS ? "iOS" : "android",
       "device_model": "${device.model}"
     };
